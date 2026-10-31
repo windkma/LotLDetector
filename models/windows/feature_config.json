@@ -1,113 +1,20 @@
 {
   "platform": "windows",
-  "total_features": 277,
   "n_estimators": 100,
-  "val_metrics": {
-    "f1": 0.7561,
-    "precision": 0.9394,
-    "recall": 0.6327,
-    "accuracy": 0.9057
+  "class_weight": "balanced",
+  "feature_version": "backup-merged-adobe-windows-views-v2",
+  "minimum_labels": 1,
+  "random_state": 42,
+  "threshold": 0.35,
+  "split": {
+    "train": 0.9,
+    "test": 0.1,
+    "method": "stratified_shuffle"
   },
-  "top_20_features": [
-    {
-      "feature_id": 132,
-      "name": "exe",
-      "importance_score": 0.133789
-    },
-    {
-      "feature_id": 141,
-      "name": "ip_private",
-      "importance_score": 0.067291
-    },
-    {
-      "feature_id": 26,
-      "name": "command_cmd",
-      "importance_score": 0.048955
-    },
-    {
-      "feature_id": 76,
-      "name": "command_powershell",
-      "importance_score": 0.044204
-    },
-    {
-      "feature_id": 164,
-      "name": "keyword_shell",
-      "importance_score": 0.038066
-    },
-    {
-      "feature_id": 87,
-      "name": "command_rundll32",
-      "importance_score": 0.030629
-    },
-    {
-      "feature_id": 152,
-      "name": "keyword_http",
-      "importance_score": 0.021539
-    },
-    {
-      "feature_id": 254,
-      "name": "system32",
-      "importance_score": 0.020655
-    },
-    {
-      "feature_id": 142,
-      "name": "ip_public",
-      "importance_score": 0.019556
-    },
-    {
-      "feature_id": 265,
-      "name": "windows",
-      "importance_score": 0.017147
-    },
-    {
-      "feature_id": 89,
-      "name": "command_sc",
-      "importance_score": 0.016311
-    },
-    {
-      "feature_id": 230,
-      "name": "procdump_process",
-      "importance_score": 0.014912
-    },
-    {
-      "feature_id": 198,
-      "name": "path_c",
-      "importance_score": 0.014176
-    },
-    {
-      "feature_id": 253,
-      "name": "svchost",
-      "importance_score": 0.013344
-    },
-    {
-      "feature_id": 270,
-      "name": "wmic_create",
-      "importance_score": 0.01087
-    },
-    {
-      "feature_id": 247,
-      "name": "schtasks_s",
-      "importance_score": 0.010719
-    },
-    {
-      "feature_id": 245,
-      "name": "sc_remote",
-      "importance_score": 0.009946
-    },
-    {
-      "feature_id": 184,
-      "name": "mshta_http",
-      "importance_score": 0.00881
-    },
-    {
-      "feature_id": 65,
-      "name": "command_mshta",
-      "importance_score": 0.008774
-    },
-    {
-      "feature_id": 46,
-      "name": "command_extrac32",
-      "importance_score": 0.008754
-    }
-  ]
+  "dataset_sha256": "426593096854b3ed937943ba4a5a38d565ef40522799e82415ac18fec81f8218",
+  "training_dataset_sha256": "6d7f564cf86696ba4034ac98a645c16a197bef35bbebb0b6cddf6d36a8cbfe7f",
+  "corpus_sha256": "d1781e6e8042e7460573ce1702a446b56c1b31b02aa6b05b09744a2721235a82",
+  "total_features": 472,
+  "training_samples": 1905,
+  "skipped_bad": 3
 }

@@ -1,113 +1,20 @@
 {
   "platform": "linux",
-  "total_features": 276,
   "n_estimators": 100,
-  "val_metrics": {
-    "f1": 0.6164,
-    "precision": 0.5269,
-    "recall": 0.7424,
-    "accuracy": 0.9186
+  "class_weight": "balanced",
+  "feature_version": "backup-merged-adobe-windows-views-v2",
+  "minimum_labels": 1,
+  "random_state": 42,
+  "threshold": 0.6,
+  "split": {
+    "train": 0.9,
+    "test": 0.1,
+    "method": "stratified_shuffle"
   },
-  "top_20_features": [
-    {
-      "feature_id": 45,
-      "name": "command_find",
-      "importance_score": 0.220496
-    },
-    {
-      "feature_id": 217,
-      "name": "path_",
-      "importance_score": 0.081667
-    },
-    {
-      "feature_id": 8,
-      "name": "bin",
-      "importance_score": 0.078625
-    },
-    {
-      "feature_id": 248,
-      "name": "sh",
-      "importance_score": 0.069355
-    },
-    {
-      "feature_id": 44,
-      "name": "command_export",
-      "importance_score": 0.051975
-    },
-    {
-      "feature_id": 54,
-      "name": "command_grep",
-      "importance_score": 0.025334
-    },
-    {
-      "feature_id": 187,
-      "name": "keyword_sh",
-      "importance_score": 0.024224
-    },
-    {
-      "feature_id": 158,
-      "name": "http_con",
-      "importance_score": 0.020419
-    },
-    {
-      "feature_id": 170,
-      "name": "keyword_",
-      "importance_score": 0.019726
-    },
-    {
-      "feature_id": 119,
-      "name": "command_w",
-      "importance_score": 0.015797
-    },
-    {
-      "feature_id": 39,
-      "name": "command_echo",
-      "importance_score": 0.014977
-    },
-    {
-      "feature_id": 124,
-      "name": "command_xargs",
-      "importance_score": 0.014793
-    },
-    {
-      "feature_id": 179,
-      "name": "keyword_lua",
-      "importance_score": 0.012677
-    },
-    {
-      "feature_id": 24,
-      "name": "command_cat",
-      "importance_score": 0.01135
-    },
-    {
-      "feature_id": 190,
-      "name": "keyword_socket",
-      "importance_score": 0.009402
-    },
-    {
-      "feature_id": 34,
-      "name": "command_cut",
-      "importance_score": 0.009387
-    },
-    {
-      "feature_id": 65,
-      "name": "command_ls",
-      "importance_score": 0.009239
-    },
-    {
-      "feature_id": 74,
-      "name": "command_nmap",
-      "importance_score": 0.00877
-    },
-    {
-      "feature_id": 131,
-      "name": "dev",
-      "importance_score": 0.00795
-    },
-    {
-      "feature_id": 43,
-      "name": "command_exec",
-      "importance_score": 0.00788
-    }
-  ]
+  "dataset_sha256": "aa72f0aaa2d4290362747336b0e1f8b556129b517f80010486e3ac4348a59685",
+  "training_dataset_sha256": "a404b45244e1231e897982e039e0066eea2faf4e04b9e19526044d49459e7181",
+  "corpus_sha256": "bcac3e5df78ad311a1db4cceafb95e3913ca5ba5e185694ea27250067f7b3d55",
+  "total_features": 363,
+  "training_samples": 6664,
+  "skipped_bad": 81
 }

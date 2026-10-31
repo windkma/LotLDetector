@@ -1,737 +1,1892 @@
-"""
-rules_constants.py
-------------------
-Cybersecurity domain knowledge bases used for Living-off-the-Land (LotL)
-attack feature extraction.
+# Copyright (c) 2022 Adobe Systems Incorporated. All rights reserved.
+# Licensed under the Apache License, Version 2.0; see README.md.
+# Modified: retain all Adobe rules and existing LotLDetector backup additions.
+"""Feature inventory: original Adobe lists followed by backup-only entries."""
 
-References:
-- LOLBAS Project   : https://lolbas-project.github.io
-- GTFOBins Project : https://gtfobins.github.io
-- MITRE ATT&CK     : https://attack.mitre.org
-- Adobe libLOL     : https://github.com/adobe/libLOL (Apache-2.0)
-"""
+LINUX_COMMANDS = [
+    'cat',
+    'chmod',
+    'cp',
+    'curl',
+    'sqlite3',
+    'postgres',
+    'runuser',
+    'ldapsearch',
+    'adduser',
+    'export',
+    'ftp',
+    'history',
+    'ping',
+    'egrep',
+    'bzip',
+    'ifconfig',
+    'kill',
+    'last',
+    'mkdir',
+    'mv',
+    'passwd',
+    'lsof',
+    'nkf',
+    'ps',
+    'rm',
+    'sshd',
+    'tar',
+    'node',
+    'uname',
+    'unzip',
+    'nc',
+    'useradd',
+    'userdel',
+    'vi',
+    'vim',
+    'wget',
+    'whoami',
+    'w',
+    'socat',
+    'telnet',
+    'pip',
+    'easy_install',
+    'nmap',
+    'scp',
+    'sftp',
+    'smbclient',
+    'tftp',
+    'whois',
+    'finger',
+    'crontab',
+    'cpan',
+    'apt-get',
+    'byebug',
+    'cobc',
+    'cpulimit',
+    'rvim',
+    'ltrace',
+    'nohup',
+    'top',
+    'nice',
+    'netstat',
+    'find',
+    'pwd',
+    'ls',
+    'ssh',
+    'gdb',
+    'sudo',
+    'netdiscover',
+    'chroot',
+    'lsbrelease',
+    'cut',
+    'awk',
+    'gawk',
+    'chowm',
+    'chkconfig',
+    'selinux',
+    'visudo',
+    'runlevel',
+    'slapd',
+    'openssl',
+    'auditctl',
+    'usermod',
+    'groups',
+    'chgrp',
+    'emacs',
+    'journalctl',
+    'rsync',
+    'strace',
+    'mkfifo',
+    'perl',
+    'lpstat',
+    'python',
+    'arp',
+    'php',
+    'ruby',
+    'jrunscript',
+    'tcpdump',
+    'echo',
+    'strings',
+    'mono',
+    'mknod',
+    'backpipe',
+    'tee',
+    'busybox',
+    'exec',
+    'route',
+    'rlogin',
+    'xxd',
+    'view',
+    'rpcclient',
+    'dnsdomainname',
+    'aria2c',
+    'mysql',
+    'debugfs',
+    'iptables',
+    'masscan',
+    'bash',
+    'tmux',
+    'screen',
+    'gcc',
+    'grep',
+    'for',
+    'while',
+    'gpg',
+    'hostname',
+    'sleep',
+    'dpkg',
+    'which',
+    'fstab',
+    'env',
+    'set',
+    'base64',
+    'sed',
+    'dd',
+    'ssh-keyscan',
+    'locate',
+    'unset',
+    'printenv',
+    'crash',
+    'miner',
+    'minerd',
+    'dirb',
+    'mount',
+    'ldconfig',
+    'lld',
+    'proxytunel',
+    'yum',
+    'mailcap',
+    'openvpn',
+    'valgrind',
+    'rpm',
+    'xargs',
+    'java',
+    '/usr/bin/ssh',
+    '/bin/ssh',
+    './nc',
+    './ncat',
+    './socat',
+    '/usr/bin/dpkg',
+    'postfix',
+    'ansible',
+    'git',
+    'docker',
+    'slsh',
+    'hexdump',
+    'ghc',
+    'chef',
+    'salt',
+    'showmount',
+    'zsh',
+    'go',
+    'chattr',
+    'sha1sum',
+    'syn.scan',
+    'modprobe',
+    'lsb-release',
+    'du',
+    'df',
+    'timeout',
+    'time',
+    'apt-key',
+    'chown',
+    'javac',
+    'more',
+    'ssldump',
+    'traceroute',
+    'mtr',
+    'ntpdate',
+    'csvtool',
+    'python3',
+]
 
-# ==============================================================================
-# WINDOWS - LOLBins (Living off the Land Binaries)
-# Source: https://lolbas-project.github.io
-# ==============================================================================
+LINUX_PATHS = [
+    '/dev/mem',
+    '/dev/tcp',
+    '/dev/udp',
+    '/dev/kmem',
+    '/dev/null',
+    '/inet/tcp',
+    '/bin/sh',
+    '/inet/udp',
+    '/etc/crontab',
+    '/var/spool/cron',
+    '/bin/bash',
+    '/etc/passwd',
+    '/etc/issue',
+    '/etc/shadow',
+    '/proc/version',
+    '/etc/ssh/sshd_config',
+    '/etc/services',
+    '/etc/network/interfaces',
+    '/etc/sysconfig/network',
+    '/etc/resolv.conf',
+    '/etc/fstab',
+    '/etc/group',
+    '/etc/hostname',
+    '/etc/hosts',
+    '/etc/inetd.conf',
+    '/boot',
+    '.ssh/',
+    '/etc/profile',
+    '/tmp/bash',
+    '/etc/sudoers',
+    '/etc/vncpasswd',
+    '/proc/',
+    '/var/tmp/',
+    '/dev/tty',
+    '/bin/ssh',
+    '/tmp/',
+    'csvtool',
+    '/usr/bin/yum',
+]
+
+LINUX_KEYWORDS = [
+    'pty',
+    'spawn',
+    'pty.spawn',
+    'password',
+    'shadow',
+    'passwd',
+    'username',
+    'pass',
+    'ctypes',
+    'cdll',
+    'LoadLibrary',
+    'fiddle',
+    'dlopen',
+    'http',
+    'install',
+    'ProxyCommand',
+    'null',
+    'lua',
+    'eval',
+    'os',
+    'exec',
+    'execute',
+    'function',
+    '-i',
+    '-e',
+    '-p',
+    '-t',
+    '-r',
+    '-R',
+    '-L',
+    '-l',
+    '-c',
+    '-C',
+    '-n',
+    'fsockopen',
+    'socket',
+    'subprocess',
+    '-nlvp',
+    '-nvlp',
+    '-pnlv',
+    '-vlnp',
+    '-lvnp',
+    '-user',
+    '-perm',
+    '-group',
+    '-exec',
+    'shell',
+    'vim.command',
+    'os.execute',
+    '-qc',
+    '-sV',
+    '-sC',
+    '-O',
+    '-T4',
+    '-Pn',
+    '-p-',
+    '-oA',
+    '--list-keys',
+    '+x',
+    'TCP-LISTEN',
+    '-net',
+    '-N',
+    '-ivh',
+    '-nx',
+    '-ex',
+    '777',
+    '677',
+    '--allow-overwrite',
+    '--on-download-complete',
+    'os.getppid',
+    'os.getpid',
+    '-F',
+    'nfs',
+    'smb',
+    'sh',
+    'bash',
+    '-b',
+    'sudoers',
+    'shell_exec',
+    'system',
+    'passthru',
+    'popen',
+    'proc_open',
+    'ztcp',
+    'bash_history',
+    '-u',
+    'lsb-release',
+    'gpgsetup',
+    'createWriteStream',
+    'AF_INET',
+    'SOCK_STREAM',
+    'SOL_TCP',
+    'TCPSocket',
+    'kinsing',
+    'passwordauth',
+]
+
+LINUX_REGEX_LIST = [
+    (
+        '(?P<pip_install_shell>echo.*import.*pip.*install)'
+        '|(?P<python_spawn>python.*import.*spawn)'
+        '|(?P<iptables_input>iptables.*\\-A.*INPUT)'
+        '|(?P<ghc_process>ghc.*\\-e.*Process)'
+        '|(?P<find_for_perm>find.*\\-perm[^\\w])'
+        '|(?P<atobm_awk>atobm.*awk)'
+        '|(?P<comm>comm.*dev.*)'
+        '|(?P<rlwrap_remote_file_sent>rlwrap.*\\-l)'
+        '|(?P<python_import_os>python.*\\-c.*import.*[\\s\\,\\;]{1,10}os)'
+        '|(?P<lua_socket>lua.*socket)'
+        '|(?P<gcc_E>gcc.*\\-E)'
+        '|(?P<http_con>http\\:\\/\\/)'
+        '|(?P<apt_invoke_sh>apt.*update.*Invoke.*sh)'
+        '|(?P<openssl_passwd>openssl.*passwd)'
+        '|(?P<crash_sh>crash.*\\!.{0,10}[^\\.^\\w][ba]{0,2}sh)'
+        '|(?P<mysql_execute>mysql.*\\-e)'
+        '|(?P<ssh_N>ssh.*\\-N)'
+        '|(?P<sh_dev_tcp_i>sh.*\\-i.*dev.*tcp)'
+        '|(?P<php_get_env>php.*\\-r.*getenv)'
+        '|(?P<node_file_manipulation>node.*\\-e.*fs)'
+        '|(?P<nmap_p>nmap.*-p)'
+        '|(?P<dirb>dirb\\s)'
+        '|(?P<ruby_rsocket>ruby.*\\-rsocket)'
+        '|(?P<ksshell_shell>ksshell.*-i[^\\w])'
+        '|(?P<jar_script>\\.jar[\\s\\;\\|\\>\\<]{1}|\\.jar$)'
+        '|(?P<tar_tcp>tar.*dev.*tcp)'
+        '|(?P<busybox_sh>busybox\\s+sh)'
+        '|(?P<netstat_flags>netstat\\s+\\-[punta]+)'
+        '|(?P<watch_exec_shell>watch.*\\-x.*exec.*sh)'
+        '|(?P<bash_script>\\.bash[\\s\\;\\|\\>\\<]{1}|\\.bash"|\\.bash$)'
+        '|(?P<socat_TCP_LISTEN>socat.*TCP\\-LISTEN)'
+        '|(?P<emacs_shell>emacs.*eval.*sh)'
+        '|(?P<unshare_sh>unshare.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<gpg_file>\\.gpg[\\s\\;\\|\\>\\<]{1}|\\.gpg$)'
+        '|(?P<path_etc>\\s+\\/etc\\/)'
+        '|(?P<tcp_connect>tcp\\-connect)'
+        '|(?P<tcp_listen>tcp\\-listen)'
+        '|(?P<unix_connect>unix\\-connect)'
+    ),
+    (
+        '(?P<nc_e_sh>[^\\w]nc\\s.*\\-e.*[^\\.]sh[^\\w])'
+        '|(?P<cat_passwd>cat\\s.*\\/etc\\/passwd)'
+        '|(?P<finger_file_base64>finger.*base64)'
+        '|(?P<tcpdump_manipulation>tcpdump.*\\-[\\-lnw\\s]{1,10})'
+        '|(?P<rb_script>\\.rb[\\s\\;\\|\\>\\<]{1}|\\.rb$)'
+        '|(?P<vim_execute>vim.*\\-c.*execute)'
+        '|(?P<socat_tcp_simple>socat.*tcp)'
+        '|(?P<import_pty>import\\s+.*pty)'
+        '|(?P<docker_chroot>docker.*run.*chroot.*sh)'
+        '|(?P<jrunscript_execute>jrunscript.*\\-e)'
+        '|(?P<proxytunnel_p>proxytunnel.*\\-p)'
+        '|(?P<nmap_O>nmap.*-O)'
+        '|(?P<nc_listener_to_shell>[^\\w]nc\\s+\\-[lnpv]+.*\\-e.*sh[^\\w])'
+        '|(?P<arp_a>arp.*\\-a)'
+        '|(?P<nmap_sU>nmap.*-sU)'
+        '|(?P<rview_execute_shell>rview.*\\-c.*execute.*sh)'
+        '|(?P<cpan_Fetch>cpan.*\\!.*Fetch)'
+        '|(?P<ln_shell>[^\\w]ln\\s.*\\-s.*[^\\.^\\w][ba]{0,2}sh[^\\w])'
+        '|(?P<rsync_a_H>rsync.*\\-[aH]{2})'
+        '|(?P<ssh_proxy_command>ssh.*\\-o.*ProxyCommand)'
+        '|(?P<crontab_remove>crontab\\s+\\-r)'
+        '|(?P<perl_shell>perl.{0,200}\\-e.{1,200}sh)'
+        '|(?P<node_shell>node.*\\-e.*\\/bin\\/[ba]{0,2}sh[^\\w])'
+        '|(?P<xargs_exec_shell>xargs.*[\\-Ix].*\\-c.*exec.*sh)'
+        '|(?P<boot_manipulation>boot.*vmlinuz)'
+        '|(?P<slsh_shell>slsh.*\\-e.*sh)'
+        '|(?P<gdb_python>gdb.*python)'
+        '|(?P<python_pty>python.*pty)'
+        '|(?P<openssl_shell>mkfifo.*sh.*openssl)'
+        '|(?P<gimp_python_import>gimp.*python.*import)'
+        '|(?P<base32_decode>base32.*decode)'
+        '|(?P<grep_user>grep.*\\-i.*user)'
+        '|(?P<exec_bin_sh>[^\\w]exec[^\\w].*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<man_sh>man.*\\!.*sh)'
+        '|(?P<php_remote_shell>php.*\\-r.*sock.*sh)'
+        '|(?P<irb_download>irb.*download)'
+    ),
+    (
+        '(?P<whois_remote>whois.*\\-h.*\\-p)'
+        '|(?P<ssh_R>ssh.*\\-R)'
+        '|(?P<java_shell>java.*\\/bin\\/[ba]{0,2}sh.*Socket)'
+        '|(?P<nmap_sC>nmap.*-sC)'
+        '|(?P<gpg_setup>gpgsetup)'
+        '|(?P<python_install_exec>import\\s+os.*execl.*sh)'
+        '|(?P<socat_tcp_connect>socat.*\\-u.*tcp\\-connect)'
+        '|(?P<python_system_shell>python.*\\-c.*system.*sh)'
+        '|(?P<find_for_user>find.*\\-user[^\\w])'
+        '|(?P<tar_udp>tar.*dev.*udp)'
+        '|(?P<composer_script>composer.*run\\-script)'
+        '|(?P<gcc_shell_wrapper>gcc.*\\-wrapper.*sh)'
+        '|(?P<bftrace_bin_sh>bpftrace.*sh.*\\-e)'
+        '|(?P<mysql_shell>mysql.*\\-e.*\\!.*sh)'
+        '|(?P<ld_so_sh>ld.so.*\\/bin\\/sh)'
+        '|(?P<crontab_edit>crontab\\s+\\-e)'
+        '|(?P<awk_inet_tcp>awk.*inet.*tcp)'
+        '|(?P<mail_shell>mail\\(\\).*sh)'
+        '|(?P<ruby_shell>ruby.*\\-e[^\\w].*exec.*sh[^\\w])'
+        '|(?P<valgrind_shell>valgrind.{0,10}[^\\.^\\w][ba]{0,2}sh)'
+        '|(?P<route_add>route.*add.*net)'
+        '|(?P<byebug_sh>system.*\\/bin\\/sh.*byebug)'
+        '|(?P<path_home>\\s+\\~\\/)'
+        '|(?P<node_fs_stream>fs\\.createWriteStream)'
+        '|(?P<openssl_salt>openssl.*passwd.*salt)'
+        '|(?P<dirsearch>dirsearch)'
+        '|(?P<ghc_shell>ghc.*\\-e.*Process.*sh[^\\w])'
+        '|(?P<proxytunnel_a>proxytunnel.*\\-a)'
+        '|(?P<https_con>https\\:\\/\\/)'
+        '|(?P<env_shell>env.*\\/bin\\/sh)'
+        '|(?P<iptables_list>iptables.*\\-L)'
+        '|(?P<nice_shell>nice.*sh)'
+        '|(?P<php_listener>php.*\\-S)'
+        '|(?P<ar_r>ar\\s+r)'
+        '|(?P<pipe_sh>\\|\\s{0,5}\\w{0,3}sh)'
+        '|(?P<pipe_bin_sh>\\|\\s{0,5}\\/bin\\/\\w{0,3}sh)'
+        '|(?P<kinsing>kinsing)'
+        '|(?P<kinsing_tmp>\\/tmp\\/kdevtmp)'
+    ),
+    (
+        '(?P<vimdsh_i_shelliff_execute_shell>vimdiff.*\\-c.*execute.*sh)'
+        '|(?P<history_r>history.*\\-r)'
+        '|(?P<apt_get_bin_sh>apt-get.*\\!\\/bin\\/[ba]{0,2}sh.*)'
+        '|(?P<smbclient_shell>smbclient.*\\!.*sh)'
+        '|(?P<zsh_script>\\.zsh[\\s\\;\\|\\>\\<]{1}|\\.zsh"|\\.zsh$)'
+        '|(?P<ssh_D>ssh.*\\-D)'
+        '|(?P<php_system_shell>php\\s+\\-r.*system)'
+        '|(?P<ftp_put>ftp.*[^\\w]put[^\\w])'
+        '|(?P<ruby_file_manipulatiom>ruby.*\\-e.*File)'
+        '|(?P<nohup_shell>nohup.*sh.*\\-c.*\\<.*\\>)'
+        '|(?P<iptables_MASQUERADE>iptables.*MASQUERADE)'
+        '|(?P<cupsfilter_stream>cupsfilter.*\\-i.*stream)'
+        '|(?P<parameter_e_sh_call>\\-e[^\\w].{1,200}\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<chroot_sh>chroot.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<gem_shell>gem.*\\-e.*sh)'
+        '|(?P<arp_v>arp.*?\\-v)'
+        '|(?P<echo_shell_top>echo.*\\-e.*sh.*>.*top)'
+        '|(?P<bundler_shell>bundler.*\\!.*sh)'
+        '|(?P<nmap_shell>nmap.*\\!.*sh[^\\w])'
+        '|(?P<python_shell>python.*\\/bin\\/.{0,2}sh)'
+        '|(?P<bash_history>bash\\_history)'
+        '|(?P<ksh_tcp>ksh.*-c.*dev.*tcp)'
+        '|(?P<nmap_X>nmap.*-X)'
+        '|(?P<netcat_listener>nc\\s+\\-l[npv]+)'
+        '|(?P<rlogin_p>rlogin.*\\-p)'
+        '|(?P<irb_shell>irb.*exec.*sh)'
+        '|(?P<more_sh>more.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<logsave_shell>logsave.*sh.*\\-i)'
+        '|(?P<githubusercontent>githubusercontent)'
+        '|(?P<cpio_shell>cpio.*sh.*\\-F)'
+        '|(?P<php_file_manipulation_put>php.*\\-r.*file\\_put\\_contents)'
+        '|(?P<sftp_shell>sftp.*\\!.*[^\\w]{1}b{0,1}a{0,1}sh)'
+        '|(?P<python_crypt>import.*crypt)'
+        '|(?P<find_bash>find.*bin\\/[ba]{0,2}sh)'
+        '|(?P<time_sh>time\\s.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<tar_curl_file>tar.*curl.*\\-F)'
+    ),
+    (
+        '(?P<restic_backup>restic.*backup)'
+        '|(?P<nmap_Pn>nmap.*-Pn)'
+        '|(?P<node_spawn_process>node.*\\-e.*spawn)'
+        '|(?P<gdb_python_ctypes>gdb.*python.*ctypes)'
+        '|(?P<git_command>git\\s+)'
+        '|(?P<smbclient_get_file>smbclient.*\\-c.*getå)'
+        '|(?P<irb_exec>irb.*exec)'
+        '|(?P<js_script>\\.js[\\s\\;\\|\\>\\<]{1}|\\.js$)'
+        '|(?P<xxd_c_p>xxd.*-p.*-c)'
+        '|(?P<base64_decode>base64.*decode)'
+        '|(?P<flock_sh>flock.*\\-u.*sh)'
+        '|(?P<nc_pipe_to_listener>[^\\w^\\d^\\-^\\_]nc[^\\w^\\d^\\-^\\_].*\\-l.*\\<)'
+        '|(?P<rsync_shell>rsync.*\\-e.*sh.*\\<.*\\>)'
+        '|(?P<php_script>\\.php[\\s\\;\\|\\>\\<]{1}|\\.php$)'
+        '|(?P<masscan_port>masscan.*\\-p)'
+        '|(?P<cat_shadow>cat\\s.*\\/etc\\/shadow)'
+        '|(?P<vim_execute_shell>vim.*\\-c.*execute.*sh)'
+        '|(?P<perl_socket>perl.*\\-e.*socket)'
+        '|(?P<rvim_execute>rvim.*\\-c.*execute)'
+        '|(?P<bridge_b>bridge\\s+\\-b)'
+        '|(?P<openvpn_shell>openvpn.*sh.*\\-c)'
+        '|(?P<socat_u>socat.*\\-u)'
+        '|(?P<sshuttle_r>sshuttle.*\\-r)'
+        '|(?P<hexdumo_c>hexdump\\s+\\-C)'
+        '|(?P<csh_script>\\.csh[\\s\\;\\|\\>\\<]{1}|\\.csh"|\\.csh$)'
+        '|(?P<dpkg_sh>dpkg.*\\!.*sh)'
+        '|(?P<import_socket>import\\s+.*socket)'
+        '|(?P<localhost_reference>localhost)'
+        '|(?P<telnet_sh>telnet.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<arp_e>arp.*\\-e)'
+        '|(?P<pry_shell>pry.*\\/bin\\/sh)'
+        '|(?P<exec_tcp>exec.*dev.*tcp)'
+        '|(?P<cpan_server>cpan.*HTTP.*Server)'
+        '|(?P<nmap_sV>nmap.*-sV)'
+        '|(?P<python_pty_c>python.*\\-c.*pty)'
+        '|(?P<bin_bash_i_shell>\\/bin\\/[ba]{0,2}sh.{1,10}\\-i[^\\w])'
+        '|(?P<tcp_connect>TCP\\-CONNECT)'
+        '|(?P<tcp_listen>TCP\\-LISTEN)'
+        '|(?P<unix_connect>UNIX\\-CONNECT)'
+    ),
+    (
+        '(?P<gdb_shell>gdb\\s+[\\-\\snxe]+.*\\!.*sh)'
+        '|(?P<ncat_download>http.*ncat)'
+        '|(?P<amazon>amazonaws\\.com)'
+        '|(?P<bundler_install_shell>\\/bin\\/[ba]{0,2}sh.*bundler.*install)'
+        '|(?P<sqlite3_shell>sqlite3.*shell.*sh)'
+        '|(?P<nmap_script>nmap.*\\-\\-script)'
+        '|(?P<python__import>python.*\\-c.*\\_\\_import)'
+        '|(?P<cpan_shell>cpan.*\\!.*exec.*sh)'
+        '|(?P<mkfifo_shell>mkfifo.*sh)'
+        '|(?P<history_c>history.*\\-c)'
+        '|(?P<ctypes_load_library>import.*ctypes.*Load)'
+        '|(?P<tftp_file_manipulation>tftp.*put)'
+        '|(?P<nmap_T4>nmap.*-T4)'
+        '|(?P<openvt_shell>openvt.*sh.*\\-c)'
+        '|(?P<php_file_manipulation_get>php.*\\-r.*file\\_get\\_contents)'
+        '|(?P<sudo_permissions>sudo\\s+\\-l)'
+        '|(?P<vimdiff_execute>vimdiff.*\\-c.*execute)'
+        '|(?P<python_reverse_shell>python.*\\-c.*socket.*\\/bin\\/[ba]{0,2}sh[^\\w])'
+        '|(?P<bash_enable_library>.*sh.*\\-c.*enable.*\\-f)'
+        '|(?P<irb_load_library>irb.*dlopen)'
+        '|(?P<chkconfig_list>chkconfig.*[^\\w]list[^\\w])'
+        '|(?P<php_socket>php.*\\-r.*sock)'
+        '|(?P<github>github\\.com)'
+        '|(?P<import_sys>import\\s+.*sys)'
+        '|(?P<jsx_script>\\.jsx[\\s\\;\\|\\>\\<]{1}|\\.jsx$)'
+        '|(?P<ruby_execute>ruby.*\\-e)'
+        '|(?P<locate_recon>locate.*grep)'
+        '|(?P<dropbox>dropbox\\.com)'
+        '|(?P<arp_f>arp.*\\-f)'
+        '|(?P<expect_shell>expect.*\\-c.*sh)'
+        '|(?P<node_stream>node.*Stream)'
+        '|(?P<xz_execute>xz.*\\-c.*-d)'
+        '|(?P<rlogin_l>rlogin.*\\-l)'
+        '|(?P<smbclient_put_file>smbclient.*\\-c.*put)'
+        '|(?P<ftp_get>ftp.*get)'
+        '|(?P<rvim_execute_shell>rvim.*\\-c.*execute.*sh)'
+    ),
+    (
+        '(?P<ping_p>ping.*\\-p)'
+        '|(?P<sh_dev_tcp_c>sh.*\\-c.*dev.*tcp)'
+        '|(?P<rlogin_remote_file_push>rlogin.*\\-l.*\\-p)'
+        '|(?P<curl_authotized_keys>curl.*authotized_keys)'
+        '|(?P<python_file_manipulation>python.*\\-c\\s.*open)'
+        '|(?P<iptables_POSTROUTING>iptables.*POSTROUTING)'
+        '|(?P<netcat_listener_extra>nc\\s+\\-l.*\\-[npv]+)'
+        '|(?P<ksh_udp>ksh.*-c.*dev.*udp)'
+        '|(?P<find_for_exec>find.*\\-exec)'
+        '|(?P<watch_exec>watch.*\\-x.*exec)'
+        '|(?P<busctl_shell>busctl.*\\!.*sh)'
+        '|(?P<python_socket>python.*\\-c.*socket)'
+        '|(?P<socat_TCP4_LISTEN>socat.*TCP4\\-LISTEN)'
+        '|(?P<tar_shell>tar.*[xf]+.*\\-I.*sh)'
+        '|(?P<ltrace_shell>ltrace.*sh)'
+        '|(?P<mount_sh>mount.*bin.*sh)'
+        '|(?P<cobc>cobc\\s+\\-[xFj]{1,10})'
+        '|(?P<ruby_library_load>ruby.*\\-e.*dlopen)'
+        '|(?P<timeout_sh>timeout.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<apt_invoke>apt.*update.*Invoke)'
+        '|(?P<emacs_eval>emacs.*eval)'
+        '|(?P<irb_socket>[^\\.^\\w]irb.*socket)'
+        '|(?P<bash_p>bash\\s+\\-p)'
+        '|(?P<pastebin>pastebin\\.com)'
+        '|(?P<at_now>at\\s+now)'
+        '|(?P<ssh_L>ssh\\s.{0,39}\\-L[^\\w])'
+        '|(?P<od_execute>[\\s\\;\\|]{1,10}od[\\s\\-Acnw]+)'
+        '|(?P<gobuster>gobuster)'
+        '|(?P<getfacl_recon>getfacl\\s+[\\-tsRp\\s]+)'
+        '|(?P<hping3_sh>hping3.*sh)'
+        '|(?P<nmap_list>nmap.*\\-i)'
+        '|(?P<node_e>node\\s+\\-e)'
+        '|(?P<php_file_namipulation>php.*\\-r.*\\@popen)'
+        '|(?P<cpu_limit_sh>cpulimit.*\\-f.*sh)'
+        '|(?P<ftp_shell>[^\\w]ftp\\s.*\\!.*[^\\w]{1}b{0,1}a{0,1}sh)'
+    ),
+    (
+        '(?P<journal_ctl_shell>journalctl.*\\!.*sh)'
+        '|(?P<iftop_sh>iftop.*sh)'
+        '|(?P<composer_shell>sh*.*\\-i.*composer)'
+        '|(?P<php_pipe_manipulation>php.*\\-r.*pipe)'
+        '|(?P<nc_listener_to_file>nc[^\\w\\d\\-\\_].*\\-l.*\\>)'
+        '|(?P<find_shell>find.*\\-exec.*sh)'
+        '|(?P<rpm_shell>rpm.*eval.*sh)'
+        '|(?P<crontab_list>crontab\\s+\\-l)'
+        '|(?P<python_load_libraries>python.*\\-c.*ctypes.*Load)'
+        '|(?P<nmap_A>nmap.*-A)'
+        '|(?P<cancel_h>cancel.*\\-u.*\\-h)'
+        '|(?P<ghci_sh>ghci.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<xargs_exec>xargs.*[\\-Ix].*\\-c.*exec)'
+        '|(?P<grep_pass>grep.*\\-i.*\\spass[^\\w])'
+        '|(?P<irb_File>irb.*File)'
+        '|(?P<socat_tcp_listen>socat.*tcp\\-listen)'
+        '|(?P<make_eval>make.*eval.*)'
+        '|(?P<bin_sh_invokation>\\#\\!\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<dmesg_shell>dmesg.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<perl_rever_shell>perl.*\\-e.*socket.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<vi_shell>vi.*shell.*sh)'
+        '|(?P<rview_execute>rview.*\\-c.*execute)'
+        '|(?P<linpeas>linpeas\\.sh)'
+        '|(?P<tcpdump_eth>tcpdump.*[^\\w]eth[0-9]{1})'
+        '|(?P<gcc_x>gcc.*\\-x)'
+        '|(?P<ariac_bash>aria2c.*\\-\\-on-download-complete.*bash)'
+        '|(?P<awk_system_sh>awk.*system.*sh)'
+        '|(?P<ex_shell>ex.*\\!.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<nmap_sP>nmap.*-sP)'
+        '|(?P<rake_shell>rake.*\\-p.*sh)'
+        '|(?P<sh_script>\\.sh[\\s\\;\\|\\>\\<]{1}|\\.sh"|\\.sh$)'
+        '|(?P<openssl_salt_shadow>openssl.*passwd.*shadow)'
+        '|(?P<node_http>node.*\\-e.*http)'
+        '|(?P<proxytunnel_d>proxytunnel.*\\-d)'
+        '|(?P<sh_i_shell>[^\\.^\\w][ba]{0,2}sh\\s+.{0,5}\\-i[^\\w])'
+    ),
+    (
+        '(?P<pip_install_shell>echo.*import.*pip.*install)'
+        '|(?P<python_spawn>python.*import.*spawn)'
+        '|(?P<iptables_input>iptables.*\\-A.*INPUT)'
+        '|(?P<ghc_process>ghc.*\\-e.*Process)'
+        '|(?P<find_for_perm>find.*\\-perm[^\\w])'
+        '|(?P<atobm_awk>atobm.*awk)'
+        '|(?P<comm>comm.*dev.*)'
+        '|(?P<rlwrap_remote>rlwrap.*\\-l)'
+        '|(?P<python_import_os>python.*\\-c.*import.*[\\s\\,\\;]{1,10}os)'
+        '|(?P<lua_socket>lua.*socket)'
+        '|(?P<gcc_E>gcc.*\\-E)'
+        '|(?P<http_con>http:\\/\\/)'
+        '|(?P<https_con>https:\\/\\/)'
+        '|(?P<apt_invoke_sh>apt.*update.*Invoke.*sh)'
+        '|(?P<openssl_passwd>openssl.*passwd)'
+        '|(?P<crash_sh>crash.*\\!.{0,10}[^\\.\\w][ba]{0,2}sh)'
+        '|(?P<mysql_execute>mysql.*\\-e)'
+        '|(?P<ssh_N>ssh.*\\-N)'
+        '|(?P<sh_dev_tcp_i>sh.*\\-i.*dev.*tcp)'
+        '|(?P<php_get_env>php.*\\-r.*getenv)'
+        '|(?P<node_file_manipulation>node.*\\-e.*fs)'
+        '|(?P<nmap_p>nmap.*-p)'
+        '|(?P<ruby_rsocket>ruby.*\\-rsocket)'
+        '|(?P<jar_script>\\.jar[\\s\\;\\|\\>\\<]{1}|\\.jar$)'
+        '|(?P<tar_tcp>tar.*dev.*tcp)'
+        '|(?P<busybox_sh>busybox\\s+sh)'
+        '|(?P<netstat_flags>netstat\\s+\\-[punta]+)'
+        '|(?P<socat_tcp_listen>socat.*TCP\\-LISTEN)'
+        '|(?P<socat_tcp4_listen>socat.*TCP4\\-LISTEN)'
+        '|(?P<bash_script>\\.bash[\\s\\;\\|\\>\\<]{1}|\\.bash\\"|\\.bash$)'
+        '|(?P<emacs_shell>emacs.*eval.*sh)'
+        '|(?P<unshare_sh>unshare.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<gpg_file>\\.gpg[\\s\\;\\|\\>\\<]{1}|\\.gpg$)'
+        '|(?P<path_etc>\\s+\\/etc\\/)'
+        '|(?P<tcp_connect>tcp\\-connect)'
+        '|(?P<tcp_listen>tcp\\-listen)'
+        '|(?P<unix_connect>unix\\-connect)'
+    ),
+    (
+        '(?P<nc_e_sh>[^\\w]nc\\s.*\\-e.*[^\\.]sh[^\\w])'
+        '|(?P<cat_passwd>cat\\s.*\\/etc\\/passwd)'
+        '|(?P<finger_file_base64>finger.*base64)'
+        '|(?P<tcpdump_manipulation>tcpdump.*\\-[\\-lnw\\s]{1,10})'
+        '|(?P<rb_script>\\.rb[\\s\\;\\|\\>\\<]{1}|\\.rb$)'
+        '|(?P<vim_execute>vim.*\\-c.*execute)'
+        '|(?P<socat_tcp>socat.*tcp)'
+        '|(?P<import_pty>import\\s+.*pty)'
+        '|(?P<docker_chroot>docker.*run.*chroot.*sh)'
+        '|(?P<jrunscript_execute>jrunscript.*\\-e)'
+        '|(?P<proxytunnel_p>proxytunnel.*\\-p)'
+        '|(?P<nmap_O>nmap.*-O)'
+        '|(?P<nc_listener_to_shell>[^\\w]nc\\s+\\-[lnpv]+.*\\-e.*sh[^\\w])'
+        '|(?P<arp_a>arp.*\\-a)'
+        '|(?P<nmap_sU>nmap.*-sU)'
+        '|(?P<rview_execute_shell>rview.*\\-c.*execute.*sh)'
+        '|(?P<cpan_Fetch>cpan.*\\!.*Fetch)'
+        '|(?P<ln_shell>[^\\w]ln\\s.*\\-s.*[^\\.\\w][ba]{0,2}sh[^\\w])'
+        '|(?P<rsync_aH>rsync.*\\-[aH]{2})'
+        '|(?P<ssh_proxy_command>ssh.*\\-o.*ProxyCommand)'
+        '|(?P<crontab_remove>crontab\\s+\\-r)'
+        '|(?P<perl_shell>perl.{0,200}\\-e.{1,200}sh)'
+        '|(?P<node_shell>node.*\\-e.*\\/bin\\/[ba]{0,2}sh[^\\w])'
+        '|(?P<xargs_exec_shell>xargs.*[\\-Ix].*\\-c.*exec.*sh)'
+        '|(?P<boot_manipulation>boot.*vmlinuz)'
+        '|(?P<gdb_python>gdb.*python)'
+        '|(?P<python_pty>python.*pty)'
+        '|(?P<openssl_shell>mkfifo.*sh.*openssl)'
+        '|(?P<base32_decode>base32.*decode)'
+        '|(?P<grep_user>grep.*\\-i.*user)'
+        '|(?P<exec_bin_sh>[^\\w]exec[^\\w].*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<man_sh>man.*\\!.*sh)'
+        '|(?P<php_remote_shell>php.*\\-r.*sock.*sh)'
+        '|(?P<irb_download>irb.*download)'
+        '|(?P<python_spawn2>python.*import.*spawn)'
+    ),
+    (
+        '(?P<whois_remote>whois.*\\-h.*\\-p)'
+        '|(?P<ssh_R>ssh.*\\-R)'
+        '|(?P<java_shell>java.*\\/bin\\/[ba]{0,2}sh.*Socket)'
+        '|(?P<nmap_sC>nmap.*-sC)'
+        '|(?P<python_install_exec>import\\s+os.*execl.*sh)'
+        '|(?P<socat_tcp_connect>socat.*\\-u.*tcp\\-connect)'
+        '|(?P<python_system_shell>python.*\\-c.*system.*sh)'
+        '|(?P<find_for_user>find.*\\-user[^\\w])'
+        '|(?P<tar_udp>tar.*dev.*udp)'
+        '|(?P<composer_script>composer.*run\\-script)'
+        '|(?P<gcc_shell_wrapper>gcc.*\\-wrapper.*sh)'
+        '|(?P<mysql_shell>mysql.*\\-e.*\\!.*sh)'
+        '|(?P<ld_so_sh>ld.so.*\\/bin\\/sh)'
+        '|(?P<crontab_edit>crontab\\s+\\-e)'
+        '|(?P<awk_inet_tcp>awk.*inet.*tcp)'
+        '|(?P<mail_shell>mail\\(\\).*sh)'
+        '|(?P<ruby_shell>ruby.*\\-e[^\\w].*exec.*sh[^\\w])'
+        '|(?P<valgrind_shell>valgrind.{0,10}[^\\.\\w][ba]{0,2}sh)'
+        '|(?P<route_add>route.*add.*net)'
+        '|(?P<byebug_sh>system.*\\/bin\\/sh.*byebug)'
+        '|(?P<node_fs_stream>fs\\.createWriteStream)'
+        '|(?P<openssl_salt>openssl.*passwd.*salt)'
+        '|(?P<env_shell>env.*\\/bin\\/sh)'
+        '|(?P<iptables_list>iptables.*\\-L)'
+        '|(?P<nice_sh>nice.*sh)'
+        '|(?P<php_listener>php.*\\-S)'
+        '|(?P<ar_r>ar\\s+r)'
+        '|(?P<pipe_sh>\\|\\s{0,5}\\w{0,3}sh)'
+        '|(?P<pipe_bin_sh>\\|\\s{0,5}\\/bin\\/\\w{0,3}sh)'
+        '|(?P<kinsing>kinsing)'
+        '|(?P<kinsing_tmp>\\/tmp\\/kdevtmp)'
+    ),
+    (
+        '(?P<history_r>history.*\\-r)'
+        '|(?P<apt_get_bin_sh>apt-get.*\\!\\/bin\\/[ba]{0,2}sh.*)'
+        '|(?P<smbclient_shell>smbclient.*\\!.*sh)'
+        '|(?P<zsh_script>\\.zsh[\\s\\;\\|\\>\\<]{1}|\\.zsh\\"|\\.zsh$)'
+        '|(?P<ssh_D>ssh.*\\-D)'
+        '|(?P<php_system_shell>php\\s+\\-r.*system)'
+        '|(?P<ftp_put>ftp.*[^\\w]put[^\\w])'
+        '|(?P<ruby_file_manipulation>ruby.*\\-e.*File)'
+        '|(?P<nohup_shell>nohup.*sh.*\\-c.*\\<.*\\>)'
+        '|(?P<iptables_masquerade>iptables.*MASQUERADE)'
+        '|(?P<cupsfilter_stream>cupsfilter.*\\-i.*stream)'
+        '|(?P<chroot_sh>chroot.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<gem_shell>gem.*\\-e.*sh)'
+        '|(?P<echo_shell_top>echo.*\\-e.*sh.*>.*top)'
+        '|(?P<bundler_shell>bundler.*\\!.*sh)'
+        '|(?P<nmap_shell>nmap.*\\!.*sh[^\\w])'
+        '|(?P<python_shell>python.*\\/bin\\/.{0,2}sh)'
+        '|(?P<bash_history>bash\\_history)'
+        '|(?P<ksh_tcp>ksh.*-c.*dev.*tcp)'
+        '|(?P<netcat_listener>nc\\s+\\-l[npv]+)'
+        '|(?P<rlogin_p>rlogin.*\\-p)'
+        '|(?P<irb_shell>irb.*exec.*sh)'
+        '|(?P<more_sh>more.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<logsave_shell>logsave.*sh.*\\-i)'
+        '|(?P<cpio_shell>cpio.*sh.*\\-F)'
+        '|(?P<php_file_put>php.*\\-r.*file\\_put\\_contents)'
+        '|(?P<sftp_shell>sftp.*\\!.*[^\\w]{1}b{0,1}a{0,1}sh)'
+        '|(?P<python_crypt>import.*crypt)'
+        '|(?P<find_bash>find.*bin\\/[ba]{0,2}sh)'
+        '|(?P<time_sh>time\\s.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<tar_curl_file>tar.*curl.*\\-F)'
+    ),
+    (
+        '(?P<restic_backup>restic.*backup)'
+        '|(?P<nmap_Pn>nmap.*-Pn)'
+        '|(?P<node_spawn_process>node.*\\-e.*spawn)'
+        '|(?P<gdb_python_ctypes>gdb.*python.*ctypes)'
+        '|(?P<irb_exec>irb.*exec)'
+        '|(?P<js_script>\\.js[\\s\\;\\|\\>\\<]{1}|\\.js$)'
+        '|(?P<xxd_c_p>xxd.*-p.*-c)'
+        '|(?P<base64_decode>base64.*decode)'
+        '|(?P<flock_sh>flock.*\\-u.*sh)'
+        '|(?P<nc_pipe_to_listener>[^\\w^\\d^\\-^\\_]nc[^\\w^\\d^\\-^\\_].*\\-l.*\\<)'
+        '|(?P<rsync_shell>rsync.*\\-e.*sh.*\\<.*\\>)'
+        '|(?P<php_script>\\.php[\\s\\;\\|\\>\\<]{1}|\\.php$)'
+        '|(?P<masscan_port>masscan.*\\-p)'
+        '|(?P<cat_shadow>cat\\s.*\\/etc\\/shadow)'
+        '|(?P<vim_execute_shell>vim.*\\-c.*execute.*sh)'
+        '|(?P<perl_socket>perl.*\\-e.*socket)'
+        '|(?P<rvim_execute>rvim.*\\-c.*execute)'
+        '|(?P<bridge_b>bridge\\s+\\-b)'
+        '|(?P<openvpn_shell>openvpn.*sh.*\\-c)'
+        '|(?P<socat_u>socat.*\\-u)'
+        '|(?P<sshuttle_r>sshuttle.*\\-r)'
+        '|(?P<hexdump_c>hexdump\\s+\\-C)'
+        '|(?P<csh_script>\\.csh[\\s\\;\\|\\>\\<]{1}|\\.csh\\"|\\.csh$)'
+        '|(?P<dpkg_sh>dpkg.*\\!.*sh)'
+        '|(?P<import_socket>import\\s+.*socket)'
+        '|(?P<localhost_ref>localhost)'
+        '|(?P<telnet_sh>telnet.*\\/bin\\/[ba]{0,2}sh)'
+        '|(?P<arp_e>arp.*\\-e)'
+        '|(?P<exec_tcp>exec.*dev.*tcp)'
+        '|(?P<cpan_server>cpan.*HTTP.*Server)'
+        '|(?P<nmap_sV>nmap.*-sV)'
+        '|(?P<python_pty_c>python.*\\-c.*pty)'
+        '|(?P<bin_bash_i_shell>\\/bin\\/[ba]{0,2}sh.{1,10}\\-i[^\\w])'
+    ),
+    (
+        '(?P<openssl_reverse_shell>openssl.*s_client.*-connect)'
+        '|(?P<socat_reverse_shell>socat.*exec.*bash.*tcp)'
+        '|(?P<container_chroot_escape>docker.*-v\\s+\\/:\\/host.*chroot)'
+        '|(?P<nsenter_host_escape>nsenter.*-t\\s+1.*\\/bin\\/bash)'
+        '|(?P<pipeline_exfil_shadow>(cat|tar).*(\\/etc\\/shadow|\\/etc\\/passwd).*curl)'
+        '|(?P<awk_tcp_reverse>awk.*inet\\/tcp\\/.*getline)'
+    ),
+]
 
 WINDOWS_COMMANDS = [
-    # Download & Remote Execution
-    "appinstaller", "appinstaller.exe",
-    "bitsadmin", "bitsadmin.exe",
-    "certreq", "certreq.exe",
-    "certutil", "certutil.exe",
-    "curl", "curl.exe",
-    "tar", "tar.exe",
-    "winget", "winget.exe",
-    "desktopimgdownldr", "desktopimgdownldr.exe",
-    "dfsvc", "dfsvc.exe",
-    "ieexec", "ieexec.exe",
-    "mpcmdrun", "mpcmdrun.exe",
-    "squirrel", "squirrel.exe",
-    "update", "update.exe",
-    "wuauclt", "wuauclt.exe",
-    "hh", "hh.exe",
-
-    # Arbitrary Code Execution
-    "at", "at.exe",
-    "atbroker", "atbroker.exe",
-    "bash", "bash.exe",
-    "cmd", "cmd.exe",
-    "csc", "csc.exe",
-    "cscript", "cscript.exe",
-    "control", "control.exe",
-    "dllhost", "dllhost.exe",
-    "forfiles", "forfiles.exe",
-    "ilasm", "ilasm.exe",
-    "infdefaultinstall", "infdefaultinstall.exe",
-    "installutil", "installutil.exe",
-    "jsc", "jsc.exe",
-    "makecab", "makecab.exe",
-    "mavinject", "mavinject.exe",
-    "mmc", "mmc.exe",
-    "msbuild", "msbuild.exe",
-    "mshta", "mshta.exe",
-    "msiexec", "msiexec.exe",
-    "odbcconf", "odbcconf.exe",
-    "pcalua", "pcalua.exe",
-    "powershell", "powershell.exe",
-    "regasm", "regasm.exe",
-    "regsvcs", "regsvcs.exe",
-    "regsvr32", "regsvr32.exe",
-    "rundll32", "rundll32.exe",
-    "runonce", "runonce.exe",
-    "runscripthelper", "runscripthelper.exe",
-    "scriptrunner", "scriptrunner.exe",
-    "schtasks", "schtasks.exe",
-    "verclsid", "verclsid.exe",
-    "wab", "wab.exe",
-    "wmic", "wmic.exe",
-    "wscript", "wscript.exe",
-    "wsreset", "wsreset.exe",
-    "xwizard", "xwizard.exe",
-    "microsoft.workflow.compiler", "microsoft.workflow.compiler.exe",
-    "python", "python.exe",
-
-    # File Manipulation & Tunneling
-    "diantz", "diantz.exe",
-    "diskshadow", "diskshadow.exe",
-    "esentutl", "esentutl.exe",
-    "expand", "expand.exe",
-    "extexport", "extexport.exe",
-    "extrac32", "extrac32.exe",
-    "ftp", "ftp.exe",
-    "replace", "replace.exe",
-    "wusa", "wusa.exe",
-    "xcopy", "xcopy.exe",
-
-    # Reconnaissance & Discovery
-    "arp", "arp.exe",
-    "chcp", "chcp.exe",
-    "cmdkey", "cmdkey.exe",
-    "dnscmd", "dnscmd.exe",
-    "eventvwr", "eventvwr.exe",
-    "findstr", "findstr.exe",
-    "gpresult", "gpresult.exe",
-    "net", "net.exe",
-    "netsh", "netsh.exe",
-    "nltest", "nltest.exe",
-    "qwinsta", "qwinsta.exe",
-    "reg", "reg.exe",
-    "regedit", "regedit.exe",
-    "sc", "sc.exe",
-    "systeminfo", "systeminfo.exe",
-    "tasklist", "tasklist.exe",
-    "wevtutil", "wevtutil.exe",
-
-    # Lateral Movement & Remote Execution
-    "psexec", "psexec.exe",
-    "telnet", "telnet.exe",
-    "winrm", "winrm.exe",
-    "winrs", "winrs.exe",
-    "wsl", "wsl.exe",
-    "ssh", "ssh.exe",
-    "conhost", "conhost.exe",
-    "vssadmin", "vssadmin.exe",
-    "wbadmin", "wbadmin.exe",
-    "bcdedit", "bcdedit.exe",
-
-    # Credential Dumping & Post-Exploitation
-    "gsecdump", "gsecdump.exe",
-    "mimikatz", "mimikatz.exe",
-    "procdump", "procdump.exe",
-    "rubeus", "rubeus.exe",
-    "sdelete", "sdelete.exe",
-    "sharphound", "sharphound.exe",
-    "sharpgpoabuse", "sharpgpoabuse.exe",
-    "wce", "wce.exe",
-
-    # Privilege Escalation
-    "juicypotato", "juicypotato.exe",
-    "roguepotato", "roguepotato.exe",
-
-    # DLL Execution & Proxy Execution
-    "advpack", "advpack.exe",
-    "comsvcs", "comsvcs.exe",
-    "ieadvpack", "ieadvpack.exe",
-    "ieaframe", "ieaframe.exe",
-    "mshtml", "mshtml.exe",
-    "pcwutl", "pcwutl.exe",
-    "setupapi", "setupapi.exe",
-    "shell32", "shell32.exe",
-    "syssetup", "syssetup.exe",
-    "url", "url.exe",
-    "zipfldr", "zipfldr.exe",
-
-    # Developer Tools
-    "adplus", "adplus.exe",
-    "agentexecutor", "agentexecutor.exe",
-    "bginfo", "bginfo.exe",
-    "cdb", "cdb.exe",
-    "devtoolslauncher", "devtoolslauncher.exe",
-    "dnx", "dnx.exe",
-    "dotnet", "dotnet.exe",
-    "dxcap", "dxcap.exe",
-    "excel", "excel.exe",
-    "msdeploy", "msdeploy.exe",
-    "msxsl", "msxsl.exe",
-    "ntdsutil", "ntdsutil.exe",
-    "powerpnt", "powerpnt.exe",
-    "remote", "remote.exe",
-    "sqldumper", "sqldumper.exe",
-    "sqlps", "sqlps.exe",
-    "te", "te.exe",
-    "tracker", "tracker.exe",
-    "vsjitdebugger", "vsjitdebugger.exe",
-    "winword", "winword.exe",
-
-    # Network Tools
-    "nc", "nc.exe",
-    "nmap", "nmap.exe",
+    'appinstaller',
+    'appinstaller.exe',
+    'at',
+    'at.exe',
+    'atbroker',
+    'atbroker.exe',
+    'bash',
+    'bash.exe',
+    'bitsadmin',
+    'bitsadmin.exe',
+    'certreq',
+    'certreq.exe',
+    'certutil',
+    'certutil.exe',
+    'cmd',
+    'cmd.exe',
+    'cmdkey',
+    'cmdkey.exe',
+    'cmstp',
+    'cmstp.exe',
+    'configsecuritypolicy',
+    'configsecuritypolicy.exe',
+    'control',
+    'control.exe',
+    'csc',
+    'csc.exe',
+    'cscript',
+    'cscript.exe',
+    'datasvcutil',
+    'datasvcutil.exe',
+    'desktopimgdownldr',
+    'desktopimgdownldr.exe',
+    'dfsvc',
+    'dfsvc.exe',
+    'diantz',
+    'diantz.exe',
+    'diskshadow',
+    'diskshadow.exe',
+    'dllhost',
+    'dllhost.exe',
+    'dnscmd',
+    'dnscmd.exe',
+    'esentutl',
+    'esentutl.exe',
+    'eventvwr',
+    'eventvwr.exe',
+    'expand',
+    'expand.exe',
+    'explorer',
+    'explorer.exe',
+    'extexport',
+    'extexport.exe',
+    'extrac32',
+    'extrac32.exe',
+    'findstr',
+    'findstr.exe',
+    'forfiles',
+    'forfiles.exe',
+    'ftp',
+    'ftp.exe',
+    'gfxdownloadwrapper',
+    'gfxdownloadwrapper.exe',
+    'gpscript',
+    'gpscript.exe',
+    'hh',
+    'hh.exe',
+    'ie4uinit',
+    'ie4uinit.exe',
+    'ieexec',
+    'ieexec.exe',
+    'ilasm',
+    'ilasm.exe',
+    'infdefaultinstall',
+    'infdefaultinstall.exe',
+    'installutil',
+    'installutil.exe',
+    'jsc',
+    'jsc.exe',
+    'makecab',
+    'makecab.exe',
+    'mavinject',
+    'mavinject.exe',
+    'microsoft',
+    'microsoft.exe',
+    'mmc',
+    'mmc.exe',
+    'mpcmdrun',
+    'mpcmdrun.exe',
+    'msbuild',
+    'msbuild.exe',
+    'msconfig',
+    'msconfig.exe',
+    'msdt',
+    'msdt.exe',
+    'mshta',
+    'mshta.exe',
+    'msiexec',
+    'msiexec.exe',
+    'netsh',
+    'netsh.exe',
+    'odbcconf',
+    'odbcconf.exe',
+    'pcalua',
+    'pcalua.exe',
+    'pcwrun',
+    'pcwrun.exe',
+    'pktmon',
+    'pktmon.exe',
+    'pnputil',
+    'pnputil.exe',
+    'presentationhost',
+    'presentationhost.exe',
+    'print',
+    'print.exe',
+    'psr',
+    'psr.exe',
+    'rasautou',
+    'rasautou.exe',
+    'reg',
+    'reg.exe',
+    'regasm',
+    'regasm.exe',
+    'regedit',
+    'regedit.exe',
+    'regini',
+    'regini.exe',
+    'register-cimprovider',
+    'register-cimprovider.exe',
+    'regsvcs',
+    'regsvcs.exe',
+    'regsvr32',
+    'regsvr32.exe',
+    'replace',
+    'replace.exe',
+    'rpcping',
+    'rpcping.exe',
+    'rundll32',
+    'rundll32.exe',
+    'runonce',
+    'runonce.exe',
+    'runscripthelper',
+    'runscripthelper.exe',
+    'sc',
+    'sc.exe',
+    'schtasks',
+    'schtasks.exe',
+    'scriptrunner',
+    'scriptrunner.exe',
+    'syncappvpublishingserver',
+    'syncappvpublishingserver.exe',
+    'ttdinject',
+    'ttdinject.exe',
+    'tttracer',
+    'tttracer.exe',
+    'vbc',
+    'vbc.exe',
+    'verclsid',
+    'verclsid.exe',
+    'wab',
+    'wab.exe',
+    'wmic',
+    'wmic.exe',
+    'wscript',
+    'wscript.exe',
+    'wsreset',
+    'wsreset.exe',
+    'wuauclt',
+    'wuauclt.exe',
+    'xwizard',
+    'xwizard.exe',
+    'advpack',
+    'advpack.exe',
+    'comsvcs',
+    'comsvcs.exe',
+    'ieadvpack',
+    'ieadvpack.exe',
+    'ieaframe',
+    'ieaframe.exe',
+    'mshtml',
+    'mshtml.exe',
+    'pcwutl',
+    'pcwutl.exe',
+    'setupapi',
+    'setupapi.exe',
+    'shdocvw',
+    'shdocvw.exe',
+    'shell32',
+    'shell32.exe',
+    'syssetup',
+    'syssetup.exe',
+    'url',
+    'url.exe',
+    'zipfldr',
+    'zipfldr.exe',
+    'adplus',
+    'adplus.exe',
+    'agentexecutor',
+    'agentexecutor.exe',
+    'appvlp',
+    'appvlp.exe',
+    'bginfo',
+    'bginfo.exe',
+    'cdb',
+    'cdb.exe',
+    'coregen',
+    'coregen.exe',
+    'csi',
+    'csi.exe',
+    'defaultpack',
+    'defaultpack.exe',
+    'devtoolslauncher',
+    'devtoolslauncher.exe',
+    'dnx',
+    'dnx.exe',
+    'dotnet',
+    'dotnet.exe',
+    'dxcap',
+    'dxcap.exe',
+    'excel',
+    'excel.exe',
+    'mftrace',
+    'mftrace.exe',
+    'msdeploy',
+    'msdeploy.exe',
+    'msxsl',
+    'msxsl.exe',
+    'ntdsutil',
+    'ntdsutil.exe',
+    'powerpnt',
+    'powerpnt.exe',
+    'rcsi',
+    'rcsi.exe',
+    'remote',
+    'remote.exe',
+    'sqldumper',
+    'sqldumper.exe',
+    'sqlps',
+    'sqlps.exe',
+    'sqltoolsps',
+    'sqltoolsps.exe',
+    'squirrel',
+    'squirrel.exe',
+    'te',
+    'te.exe',
+    'tracker',
+    'tracker.exe',
+    'update',
+    'update.exe',
+    'vsjitdebugger',
+    'vsjitdebugger.exe',
+    'winword',
+    'winword.exe',
+    'wsl',
+    'wsl.exe',
+    'cl_mutexverifiers',
+    'cl_mutexverifiers.exe',
+    'cl_invocation',
+    'cl_invocation.exe',
+    'manage-bde',
+    'manage-bde.exe',
+    'pubprn',
+    'pubprn.exe',
+    'slmgr',
+    'slmgr.exe',
+    'winrm',
+    'winrm.exe',
+    'pester',
+    'pester.exe',
+    'ms-appinstaller',
+    'ms-appinstaller.exe',
+    'powershell',
+    'powershell.exe',
+    'copy',
+    'copy.exe',
+    'echo',
+    'echo.exe',
+    'microsoft.workflow.compiler',
+    'microsoft.workflow.compiler.exe',
+    'python',
+    'python.exe',
+    'psexec',
+    'psexec.exe',
+    'SharpHound',
+    'SharpHound.exe',
+    'shadowcopy',
+    'shadowcopy.exe',
+    'vssadmin',
+    'vssadmin.exe',
+    'rubeus',
+    'rubeus.exe',
+    'juicypotato',
+    'juicypotato.exe',
+    'roguepotato',
+    'roguepotato.exe',
+    'watson',
+    'watson.exe',
+    'sharpgpoabuse',
+    'sharpgpoabuse.exe',
+    'ms-rprn',
+    'ms-rprn.exe',
+    'telnet',
+    'telnet.exe',
+    'nc',
+    'nc.exe',
+    'git',
+    'git.exe',
+    'net',
+    'net.exe',
+    'wusa',
+    'wusa.exe',
+    'wevtutil',
+    'wevtutil.exe',
+    'nltest',
+    'nltest.exe',
+    'systeminfo',
+    'systeminfo.exe',
+    'chcp',
+    'chcp.exe',
+    'tasklist',
+    'tasklist.exe',
+    'qwinsta',
+    'qwinsta.exe',
+    'gsecdump',
+    'gsecdump.exe',
+    'wce',
+    'wce.exe',
+    'sdelete',
+    'sdelete.exe',
+    'gpresult',
+    'gpresult.exe',
+    'ver',
+    'ver.exe',
+    'wc',
+    'curl',
+    'curl.exe',
+    'tar',
+    'tar.exe',
+    'winget',
+    'winget.exe',
+    'xcopy',
+    'xcopy.exe',
+    'arp',
+    'arp.exe',
+    'winrs',
+    'winrs.exe',
+    'ssh',
+    'ssh.exe',
+    'conhost',
+    'conhost.exe',
+    'wbadmin',
+    'wbadmin.exe',
+    'bcdedit',
+    'bcdedit.exe',
+    'mimikatz',
+    'mimikatz.exe',
+    'procdump',
+    'procdump.exe',
+    'sharphound',
+    'sharphound.exe',
+    'nmap',
+    'nmap.exe',
 ]
-
-
-# ==============================================================================
-# WINDOWS - Sensitive System Paths
-# ==============================================================================
 
 WINDOWS_PATHS = [
-    "C:\\Windows\\Microsoft.NET\\Framework64",
-    "C:\\Windows\\Temp",
-    "C:\\Windows\\System32",
-    "C:\\Windows\\SysWOW64",
-    "C:\\Windows\\System32\\svchost.exe",
-    "C:\\Windows\\System32\\WScript.exe",
-    "C:\\Windows\\System32\\cmd.exe",
-    "C:\\Windows\\System32\\Rundll32.exe",
-    "C:\\Windows\\System32\\mshta.exe",
-    "C:\\Windows\\System32\\WindowsPowerShell",
-    "C:\\ProgramData\\Microsoft",
-    "C:\\Users\\Public",
-    "ADMIN$",
-    "C$",
-    "IPC$",
+    'C:\\Windows\\Microsoft.NET\\Framework64',
+    'C:\\Windows\\Temp',
+    'C:\\Windows\\System32',
+    'C:\\Windows\\SysWOW64',
+    'C:\\Windows\\System32\\svchost.exe',
+    'C:\\Windows\\System32\\WScript.exe',
+    'C:\\Windows\\System32\\cmd.exe',
+    'C:\\Windows\\System32\\Rundll32.exe',
+    'C:\\Windows\\System32\\mshta.exe',
+    'C:\\Windows\\System32\\WindowsPowerShell',
+    'C:\\ProgramData\\Microsoft',
+    'C:\\Users\\Public',
+    'ADMIN$',
+    'C$',
+    'IPC$',
 ]
-
-
-# ==============================================================================
-# WINDOWS - Sensitive Keywords
-# Preserved empty list convention matching Adobe libLOL.
-# Contextual keyword patterns are captured via WINDOWS_REGEX_LIST below.
-# ==============================================================================
 
 WINDOWS_KEYWORDS = [
 ]
 
-
-# ==============================================================================
-# WINDOWS - Regex Pattern Groups for Attack Behaviors
-# ==============================================================================
-
 WINDOWS_REGEX_LIST = [
-    # Group 1: Download & Remote Execution
     (
-        r"(?P<desktopimgdownldr_conn>desktopimgdownldr.*http)"
-        r"|(?P<powershell_tcp_socket>New-Object.*Sockets.*TCPClient)"
-        r"|(?P<certutil_downloader>certutil.*urlcache.*http)"
-        r"|(?P<certutil_downloader_execute>certutil.*urlcache.*http.*InstallUtil)"
-        r"|(?P<certutil_download_decode>certutil.*urlcache.*http.*decode)"
-        r"|(?P<msbuild_get_execute>MSBuil.*\!MB.*autoresponse)"
-        r"|(?P<msbuild_get_execute_lc>msbuil.*\!mb.*autoresponse)"
-        r"|(?P<odbconf_regsvr>odbcconf[\s\w]+.*regsvr)"
-        r"|(?P<regsvr32_download>regsvr32[\s\w\/]+.*http)"
-        r"|(?P<regasm_download>regasm.*[\s\w\/]+)"
-        r"|(?P<wmic_download>wmic.*os.*get.*http)"
-        r"|(?P<rundll32_js_http>rundll32.*javascript.*http)"
-        r"|(?P<mshta_http>mshta.*http)"
-        r"|(?P<mshta_vbscript>mshta.*vbscript)"
-        r"|(?P<cscript_jscript>cscript.*jscript)"
-        r"|(?P<mshta_hta_script>mshta.*\.hta)"
-        r"|(?P<cmd_k>cmd.*/k)"
-        r"|(?P<exec_bypass>exec\s+bypass)"
-        r"|(?P<powershell_execute_script>powershell.*\-c)"
-        r"|(?P<powershell_net_client>Object.*Net.*WebClient)"
-        r"|(?P<powershell_net_client_credentials>Object.*Net.*WebClient.*Credentials)"
-        r"|(?P<powershell_write_bytes>io\.file.*WriteAllBytes)"
-        r"|(?P<powershell_http_client>Object.*Net.*Http)"
-        r"|(?P<bitsadmin_transfer_http>bitsadmin.*transfer.*http)"
-        r"|(?P<bitsadmin_download_http>bitsadmin.*download.*http)"
-        r"|(?P<powershell_iwr_http>iwr.*http)"
-        r"|(?P<powershell_iwr_http_up>IWR.*http)"
-        r"|(?P<powershell_invoke_web_request>Invoke\-WebRequest.*http)"
-        r"|(?P<powershell_web_client_download>ystem.*eb.*lient.*ownload)"
-        r"|(?P<powershell_http_requests_open>in.*ttp.*equest.*open)"
-        r"|(?P<powershell_http_requests_get>in.*ttp.*equest.*GET)"
-        r"|(?P<powershell_http_requests_post>in.*ttp.*equest.*POST)"
-        r"|(?P<pubprn_http>pubprn.*http)"
-        r"|(?P<pubprn_script>pubprn.*script)"
-        r"|(?P<hh_http>HH.*http)"
-        r"|(?P<ieexec_http>ieexec.*http)"
-        r"|(?P<mpcmdrun_http>MpCmdRun.*http)"
-        r"|(?P<mpcmdrun_downloadfile>MpCmdRun.*DownloadFile)"
-        r"|(?P<ms_appinstaller_http>start.*appinstaller.*http)"
-        r"|(?P<winword_http>winword.*http)"
-        r"|(?P<squirrel_http>squirrel.*http)"
-        r"|(?P<update_http>Update.*http)"
-        r"|(?P<squirrel_download>squirrel.*download)"
-        r"|(?P<powerpoint_http>owerpnt.*http)"
-        r"|(?P<excel_http>excel.*http)"
-        r"|(?P<DataSvcUtil_http>DataSvcUtil.*/uri)"
-        r"|(?P<ConfigSecurityPolicy_http>onfig.*ecurity.*olicy.*http)"
-        r"|(?P<cmstp_http>cmstp.*http)"
-        r"|(?P<winrm_http>winrm.*http)"
-        r"|(?P<wsl_exec>wsl.*exec)"
-        r"|(?P<wsl_dev_tcp>wsl.*dev.*tcp)"
-        r"|(?P<wsl_e>wsl.*\-e)"
-        r"|(?P<tftp_I>tftp.*\-I)"
-        r"|(?P<KEYWORD_http>http.{0,1}:\/\/)"
-    ),
-
-    # Group 2: Privilege Escalation & Credential Access
-    (
-        r"(?P<powershell_sherlock>powershell.*herlock)"
-        r"|(?P<juicy_potato>uicy.*otato.*\-t\s+\*\s+\-p)"
-        r"|(?P<rogue_potato>ogue.*otato.*\-r)"
-        r"|(?P<mimikatz_piece>imikatz)"
-        r"|(?P<mimikatz_kerberos>imikatz.*kerberos)"
-        r"|(?P<mimikatz_dump>imikatz.*dump)"
-        r"|(?P<mimikatz_sekurlsa>imikatz.*sekurlsa)"
-        r"|(?P<kerberoasting>erberoast)"
-        r"|(?P<kerberos_golden>kerberos.*golden)"
-        r"|(?P<kerberos_rc4>kerberos.*rc4)"
-        r"|(?P<kerberos_krbtgt>kerberos.*krbtgt)"
-        r"|(?P<rubeus_kerberoast>ubeus.*kerberoast)"
-        r"|(?P<rubeus_domain>ubeus.*domain)"
-        r"|(?P<rubeus_creduser>ubeus.*creduser)"
-        r"|(?P<rubeus_credpassword>ubeus.*credpassword)"
-        r"|(?P<rubeus_asktgt>ubeus.*asktgt)"
-        r"|(?P<rubeus_rc4>ubeus.*rc4)"
-        r"|(?P<rubeus_aes>ubeus.*aes)"
-        r"|(?P<NTLMHASH>NTLMHASH)"
-        r"|(?P<tgsrepcrack>tgsrepcrack)"
-        r"|(?P<python_tgsrepcrack>ython.*tgsrepcrack)"
-        r"|(?P<KerberosRequestorSecurityToken>KerberosRequestorSecurityToken)"
-        r"|(?P<DomainSPNTicket>DomainSPNTicket)"
-        r"|(?P<bloodhound_invoke>lood.*ound)"
-        r"|(?P<sharphound_invoke>harp.*ound)"
-        r"|(?P<procdump_process>rocdump.*\-[\-\s\w]+)"
-        r"|(?P<reg_save_hklm>reg.*save.*hklm)"
-        r"|(?P<powershell_invoke_command_credentials>nvoke.*ommand.*redential)"
-        r"|(?P<invoke_command_credential>nvoke.*ommand.*dential)"
-        r"|(?P<powershell_system_credentials>bject.*ystem.*edential)"
-        r"|(?P<powershell_new_ps_session_creds>ew\-.*s.*ession.*dential)"
-        r"|(?P<powershell_enter_ps_session_creds>nter\-.*s.*ession.*dential)"
-        r"|(?P<powershell_token_manipulation>nvoke.*oken.*pulation)"
-        r"|(?P<powershell_token_impersonate>nvoke.*oken.*pulation.*mpersonate)"
-        r"|(?P<powershell_token_create_process>nvoke.*oken.*pulation.*reate.*rocess)"
-        r"|(?P<MS_RPRN_invoke>RPRN)"
-        r"|(?P<chisel_client>chisel.*client)"
-        r"|(?P<psexec_user>psexec.*\-u)"
-        r"|(?P<psexec_password>psexec.*\-p)"
-    ),
-
-    # Group 3: Domain Reconnaissance (PowerView / BloodHound / WMI)
-    (
-        r"(?P<powershell_sql_query>powershell.*SQL.*uery)"
-        r"|(?P<get_netuser_spn>Get-NetUser.*[\-\w]{3,10})"
-        r"|(?P<powershell_get_domain_info>Get\-Domain)"
-        r"|(?P<powershell_get_domain_computer>Get\-DomainComputer)"
-        r"|(?P<powershell_get_domain_user>Get\-DomainUser)"
-        r"|(?P<powershell_interesting_domain_acl>InterestingDomainAcl)"
-        r"|(?P<powershell_spn>\-SPN)"
-        r"|(?P<powershell_find_domain_user_location>ind\-DomainUserLocation)"
-        r"|(?P<powershell_find_local_admin_access>ind\-LocalAdminAccess)"
-        r"|(?P<powershell_applocker_policy>AppLockerPolicy)"
-        r"|(?P<powershell_domain_object_acl>DomainObjectAcl)"
-        r"|(?P<powershell_domain_gpo_local_group>DomainGPOLocalGroup)"
-        r"|(?P<powershell_domain_gpo>Get\-DomainGPO)"
-        r"|(?P<powershell_get_domain_ou>Get\-DomainOU)"
-        r"|(?P<powershell_find_domain_share>Find\-DomainShare)"
-        r"|(?P<powershell_get_domain_group>Get\-DomainGroup)"
-        r"|(?P<powershell_forest_trust>Get\-ForestTrust)"
-        r"|(?P<powershell_domain_trust>Get\-DomainTrust)"
-        r"|(?P<powershell_add_object_acl>owershell.*Add\-ObjectACL)"
-        r"|(?P<sharp_gpo_abuse>harp.*buse.*ommand)"
-        r"|(?P<powershell_convert_to_base64>onvert.*64.*tring)"
-        r"|(?P<powershell_encoding_get_bytes>ystem.*ncoding.*ytes)"
-        r"|(?P<powershell_assembly_get_type>Assembly\.GetType)"
-        r"|(?P<powershell_invoke_wmimethod>nvoke.*mi.*ethod)"
-        r"|(?P<powershell_wmi_execute_encoded>nvoke.*mi.*ethod.*\-e)"
-        r"|(?P<wmic_create>wmic.*create)"
-        r"|(?P<wmic_shadowcopy>wmic.*shadowcopy)"
-        r"|(?P<wmic_node>wmic.*node)"
-        r"|(?P<wmic_process>wmic.*process)"
-        r"|(?P<wmic_call>wmic.*call)"
-        r"|(?P<wmic_user>wmic.*user)"
-        r"|(?P<wmic_password>wmic.*password)"
-        r"|(?P<wmic_list>wmic.*list)"
-        r"|(?P<mklink_shadowcopy>mklink.*shadowcopy)"
-        r"|(?P<diskshadow_list>diskshadow.*list)"
-        r"|(?P<vssadmin_list>vssadmin.*list)"
-        r"|(?P<powershell_backdoor>owershell.*ackdoor)"
-        r"|(?P<powershell_select>owershell.*select)"
-        r"|(?P<powershell_invoke_execution>IEX)"
-        r"|(?P<powershell_invoke_execution_lc>iex)"
-        r"|(?P<powershell_create_instance>CreateInstance)"
-        r"|(?P<powershell_create_instance_mmc20>CreateInstance.*MMC20)"
-        r"|(?P<powershell_create_instance_shell>CreateInstance.*ExecuteShellCommand)"
-    ),
-
-    # Group 4: Task Scheduling, Lateral Movement, Persistence
-    (
-        r"(?P<schtasks_s>schtasks.*/s)"
-        r"|(?P<schtasks_schedule>schtasks.*/sc)"
-        r"|(?P<schtasks_create>schtasks.*/create)"
-        r"|(?P<schtasks_run>schtasks.*/run)"
-        r"|(?P<schtasks_once>schtasks.*once)"
-        r"|(?P<sc_start>sc.*start)"
-        r"|(?P<sc_start_remote>sc.*\\\\.*start)"
-        r"|(?P<sc_remote>sc.*\\\\)"
-        r"|(?P<msbuild_remote>MSBuild.*\\\\)"
-        r"|(?P<msbuild_remote_lc>msbuild.*\\\\)"
-        r"|(?P<winrs_remote>winrs.*\-r)"
-        r"|(?P<winrs_user>winrs.*\-u)"
-        r"|(?P<winrs_password>winrs.*\-p)"
-        r"|(?P<diantz_remote>diantz.*\\\\)"
-        r"|(?P<dnscmd_remote>dnscmd.*\\\\)"
-        r"|(?P<dnscmd_config>dnscmd.*config)"
-        r"|(?P<makecab_remote>makecab.*\\\\)"
-        r"|(?P<c_share>C\$)"
-        r"|(?P<admin_share>ADMIN\$)"
-        r"|(?P<ipc_share>IPC\$)"
-        r"|(?P<netsh_advfirewall>netsh.*advfirewall)"
-        r"|(?P<netsh_portproxy>netsh.*portproxy)"
-        r"|(?P<netsh_v4tov4>netsh.*v4tov4)"
-        r"|(?P<netsh_add_helper>netsh.*add.*helper)"
-        r"|(?P<netsh_wlan>netsh.*wlan)"
-        r"|(?P<netsh_firewall>netsh.*firewall)"
-        r"|(?P<netsh_interface>netsh.*interface)"
-        r"|(?P<nc_listener>nc.*\-l[npv]+)"
-        r"|(?P<nc_reverse_shell>nc.*\-e.*cmd)"
-        r"|(?P<nc_listener_to_shell>nc.*[\-lnpv]+.*\-e.*sh)"
-        r"|(?P<wevutil_clear>wevtutil.*clear)"
-        r"|(?P<runas_user>runas\s.*\/user)"
-        r"|(?P<powershell_invoke_web_request_output_file>nvoke.*equest.*ut.*ile)"
-        r"|(?P<certutil_decode>certutil.*decode)"
-        r"|(?P<certutil_encode>certutil.*encode)"
-        r"|(?P<bitsadmin_create>bitsadmin.*create)"
-        r"|(?P<bitsadmin_addfile>bitsadmin.*addfile)"
-        r"|(?P<esentutl_y>esentutl.*/y)"
-        r"|(?P<explorer_root>explorer.*/root)"
-        r"|(?P<findstr_v>findstr.*/V)"
-        r"|(?P<ilasm_exe>ilasm.*/exe)"
-        r"|(?P<mavinject_injectrunning>MavInject.*INJECTRUNNING)"
-        r"|(?P<dxcap_c>xcap.*\-c)"
-        r"|(?P<bginfo_popup>bginfo.*popup)"
-        r"|(?P<rundll_open>rundll.*penURL)"
-        r"|(?P<net_user>net\s.*user)"
-        r"|(?P<net_localgroup>net\s.*localgroup)"
-        r"|(?P<net_group>net*\sgroup)"
-        r"|(?P<net_accounts>net\s.*accounts)"
-        r"|(?P<net_computer>net\s.*computer)"
-        r"|(?P<net_add>net\s.*/add)"
-        r"|(?P<net_share>net\s.*share)"
-        r"|(?P<net_use>net\s.*use\s)"
-        r"|(?P<net_view>net\s.*view)"
-        r"|(?P<wusa_kb>wusa.*kb)"
-        r"|(?P<wusa_uninstall>wusa.*/uninstall)"
-        r"|(?P<reg_query>reg\s.*query)"
-        r"|(?P<ipconfig_all>ipconfig.*all)"
-        r"|(?P<tasklist_status>tasklist.*STATUS)"
-        r"|(?P<tasklist_fi>tasklist.*/fi)"
-        r"|(?P<qwinsta_server>qwinsta.*/server)"
-        r"|(?P<gpresult_s>gpresult.*/s)"
-        r"|(?P<systeminfo_s>systeminfo.*/S)"
-        r"|(?P<KEYWORD_New_Object>New\-Object)"
-        r"|(?P<KEYWORD_WebClient>WebClient)"
-        r"|(?P<KEYWORD_DownloadFile>DownloadFile)"
-        r"|(?P<KEYWORD_DownloadString>DownloadString)"
-        r"|(?P<KEYWORD_WinHttp>WinHttp)"
-        r"|(?P<KEYWORD_WinHttpRequest>WinHttpRequest)"
-        r"|(?P<KEYWORD_TCPClient>TCPClient)"
-        r"|(?P<KEYWORD_GetStream>GetStream)"
-        r"|(?P<KEYWORD_WriteAllBytes>WriteAllBytes)"
-        r"|(?P<KEYWORD_ToBase64String>ToBase64String)"
-        r"|(?P<KEYWORD_javascript>javascript)"
-        r"|(?P<KEYWORD_mimikatz>mimikatz)"
-        r"|(?P<KEYWORD_sekurlsa>sekurlsa)"
-        r"|(?P<KEYWORD_shadowcopy>shadowcopy)"
-        r"|(?P<KEYWORD_krbtgt>krbtgt)"
-        r"|(?P<KEYWORD_Rubeus>Rubeus)"
-        r"|(?P<KEYWORD_SharpHound>SharpHound)"
-        r"|(?P<KEYWORD_vssadmin>vssadmin)"
-        r"|(?P<KEYWORD_JuicyPotato>JuicyPotato)"
-        r"|(?P<KEYWORD_RoguePotato>RoguePotato)"
-        r"|(?P<KEYWORD_shell>shell)"
-        r"|(?P<KEYWORD_invoke>invoke)"
-        r"|(?P<KEYWORD_socket>socket)"
-        r"|(?P<KEYWORD_bash>bash)"
-        r"|(?P<dll_extension>\.dll$)"
-        r"|(?P<hta_extension>\.hta)"
-        r"|(?P<ps1_file>\.ps1)"
-        r"|(?P<vbs_file>\.vbs)"
-        r"|(?P<js_file>\.js)"
-    ),
-
-    # Group 5: Modern LOLBAS Techniques
-    (
-        r"(?P<curl_download_execute>curl.*(-o|-O).*http)"
-        r"|(?P<curl_exfiltration>curl.*(-F|-d|--data).*http)"
-        r"|(?P<tar_unc_extract>tar.*(-xf|-xvf).*\\\\)"
-        r"|(?P<conhost_headless>conhost.*--headless)"
-        r"|(?P<comsvcs_lsass_dump>rundll32.*comsvcs.*(MiniDump|#24))"
-        r"|(?P<shadowcopy_delete>vssadmin.*delete\s+shadows)"
-        r"|(?P<wbadmin_delete_catalog>wbadmin.*delete\s+catalog)"
-        r"|(?P<bcdedit_recovery_disable>bcdedit.*recoveryenabled\s+no)"
-        r"|(?P<mpcmdrun_remove_defs>mpcmdrun.*-RemoveDefinitions)"
-        r"|(?P<ssh_reverse_tunnel>ssh.*-R.*(\d+:localhost|\d+:127\.0\.0\.1))"
-        r"|(?P<winget_manifest_download>winget.*install.*--manifest.*http)"
-    ),
-]
-
-
-# ==============================================================================
-# LINUX - GTFOBins Commands
-# Source: https://gtfobins.github.io
-# ==============================================================================
-
-LINUX_COMMANDS = [
-    "cat", "chmod", "cp", "curl", "sqlite3", "postgres", "runuser",
-    "ldapsearch", "adduser", "export", "ftp", "history", "ping",
-    "egrep", "bzip", "ifconfig", "kill", "last", "mkdir", "mv",
-    "passwd", "lsof", "ps", "rm", "sshd", "tar", "node", "uname",
-    "unzip", "nc", "useradd", "userdel", "vi", "vim", "wget",
-    "whoami", "w", "socat", "telnet", "pip", "easy_install",
-    "nmap", "scp", "sftp", "smbclient", "tftp", "whois", "finger",
-    "crontab", "cpan", "apt-get", "byebug", "cobc", "cpulimit",
-    "rvim", "ltrace", "nohup", "top", "nice", "netstat", "find",
-    "pwd", "ls", "ssh", "gdb", "sudo", "netdiscover", "chroot",
-    "cut", "awk", "gawk", "openssl", "auditctl", "usermod",
-    "groups", "chgrp", "emacs", "journalctl", "rsync", "strace",
-    "mkfifo", "perl", "python", "python3", "arp", "php", "ruby",
-    "jrunscript", "tcpdump", "echo", "strings", "mono", "mknod",
-    "tee", "busybox", "exec", "route", "rlogin", "xxd", "view",
-    "rpcclient", "dnsdomainname", "aria2c", "mysql", "debugfs",
-    "iptables", "masscan", "bash", "tmux", "screen", "gcc", "grep",
-    "gpg", "hostname", "sleep", "dpkg", "which", "env", "set",
-    "base64", "sed", "dd", "ssh-keyscan", "locate", "unset",
-    "printenv", "crash", "mount", "ldconfig", "ftp", "openvpn",
-    "valgrind", "rpm", "xargs", "java", "ansible", "git", "docker",
-    "slsh", "hexdump", "ghc", "showmount", "zsh", "go", "chattr",
-    "sha1sum", "modprobe", "more", "traceroute", "mtr", "dirb",
-]
-
-
-# ==============================================================================
-# LINUX - Sensitive System Paths
-# ==============================================================================
-
-LINUX_PATHS = [
-    "/dev/mem", "/dev/tcp", "/dev/udp", "/dev/kmem", "/dev/null",
-    "/inet/tcp", "/bin/sh", "/inet/udp", "/etc/crontab",
-    "/var/spool/cron", "/bin/bash", "/etc/passwd", "/etc/issue",
-    "/etc/shadow", "/proc/version", "/etc/ssh/sshd_config",
-    "/etc/services", "/etc/network/interfaces", "/etc/resolv.conf",
-    "/etc/fstab", "/etc/group", "/etc/hostname", "/etc/hosts",
-    "/etc/inetd.conf", "/boot", ".ssh/", "/etc/profile",
-    "/tmp/bash", "/etc/sudoers", "/etc/vncpasswd", "/proc/",
-    "/var/tmp/", "/dev/tty", "/bin/ssh", "/tmp/",
-    "/usr/bin/yum",
-]
-
-
-# ==============================================================================
-# LINUX - Sensitive Keywords
-# ==============================================================================
-
-LINUX_KEYWORDS = [
-    "pty", "spawn", "pty.spawn", "password", "shadow", "passwd",
-    "username", "pass", "ctypes", "cdll", "LoadLibrary", "fiddle",
-    "dlopen", "http", "install", "ProxyCommand", "lua", "eval",
-    "exec", "execute", "function", "-i", "-e", "-p", "-t", "-r",
-    "-R", "-L", "-l", "-c", "-C", "-n", "fsockopen", "socket",
-    "subprocess", "-nlvp", "-nvlp", "-user", "-perm", "-group",
-    "shell", "os.execute", "-qc", "-sV", "-sC", "-O", "-T4",
-    "-Pn", "-p-", "-oA", "+x", "TCP-LISTEN", "-N", "-ivh",
-    "777", "677", "--allow-overwrite", "--on-download-complete",
-    "os.getppid", "os.getpid", "nfs", "smb", "sh", "bash",
-    "sudoers", "shell_exec", "system", "passthru", "popen",
-    "proc_open", "ztcp", "bash_history", "kinsing", "passwordauth",
-    "AF_INET", "SOCK_STREAM", "SOL_TCP", "TCPSocket",
-]
-
-
-# ==============================================================================
-# LINUX - Regex Pattern Groups for Attack Behaviors
-# ==============================================================================
-
-LINUX_REGEX_LIST = [
-    (
-        r"(?P<pip_install_shell>echo.*import.*pip.*install)"
-        r"|(?P<python_spawn>python.*import.*spawn)"
-        r"|(?P<iptables_input>iptables.*\-A.*INPUT)"
-        r"|(?P<ghc_process>ghc.*\-e.*Process)"
-        r"|(?P<find_for_perm>find.*\-perm[^\w])"
-        r"|(?P<atobm_awk>atobm.*awk)"
-        r"|(?P<comm>comm.*dev.*)"
-        r"|(?P<rlwrap_remote>rlwrap.*\-l)"
-        r"|(?P<python_import_os>python.*\-c.*import.*[\s\,\;]{1,10}os)"
-        r"|(?P<lua_socket>lua.*socket)"
-        r"|(?P<gcc_E>gcc.*\-E)"
-        r"|(?P<http_con>http:\/\/)"
-        r"|(?P<https_con>https:\/\/)"
-        r"|(?P<apt_invoke_sh>apt.*update.*Invoke.*sh)"
-        r"|(?P<openssl_passwd>openssl.*passwd)"
-        r"|(?P<crash_sh>crash.*\!.{0,10}[^\.\w][ba]{0,2}sh)"
-        r"|(?P<mysql_execute>mysql.*\-e)"
-        r"|(?P<ssh_N>ssh.*\-N)"
-        r"|(?P<sh_dev_tcp_i>sh.*\-i.*dev.*tcp)"
-        r"|(?P<php_get_env>php.*\-r.*getenv)"
-        r"|(?P<node_file_manipulation>node.*\-e.*fs)"
-        r"|(?P<nmap_p>nmap.*-p)"
-        r"|(?P<ruby_rsocket>ruby.*\-rsocket)"
-        r"|(?P<jar_script>\.jar[\s\;\|\>\<]{1}|\.jar$)"
-        r"|(?P<tar_tcp>tar.*dev.*tcp)"
-        r"|(?P<busybox_sh>busybox\s+sh)"
-        r"|(?P<netstat_flags>netstat\s+\-[punta]+)"
-        r"|(?P<socat_tcp_listen>socat.*TCP\-LISTEN)"
-        r"|(?P<socat_tcp4_listen>socat.*TCP4\-LISTEN)"
-        r"|(?P<bash_script>\.bash[\s\;\|\>\<]{1}|\.bash\"|\.bash$)"
-        r"|(?P<emacs_shell>emacs.*eval.*sh)"
-        r"|(?P<unshare_sh>unshare.*\/bin\/[ba]{0,2}sh)"
-        r"|(?P<gpg_file>\.gpg[\s\;\|\>\<]{1}|\.gpg$)"
-        r"|(?P<path_etc>\s+\/etc\/)"
-        r"|(?P<tcp_connect>tcp\-connect)"
-        r"|(?P<tcp_listen>tcp\-listen)"
-        r"|(?P<unix_connect>unix\-connect)"
+        '(?P<dnscmd_remote>dnscmd.*\\\\)'
+        '|(?P<DataSvcUtil_http>DataSvcUtil.*\\/uri)'
+        '|(?P<ConfigSecurityPolicy_http>onfig.*ecurity.*olicy.*http)'
+        '|(?P<cmstp_http>cmstp.*http)'
+        '|(?P<certutil_decode>certutil.*decode)'
+        '|(?P<certutil_encode>certutil.*encode)'
+        '|(?P<CertReq_config_post>ert.*eq.*\\-.*ost.*\\-config)'
+        '|(?P<bitsadmin_create>bitsadmin.*create)'
+        '|(?P<bitsadmin_addfile>bitsadmin.*addfile)'
+        '|(?P<ATBroker_start>ATBroker.*start)'
+        '|(?P<ms_appinstaller_http>start.*appinstaller.*http)'
+        '|(?P<esentutl_y>esentutl.*\\/y)'
+        '|(?P<cab_file>\\.cab)'
+        '|(?P<explorer_root>explorer.*\\/root)'
+        '|(?P<findstr_V>findstr.*\\/V)'
+        '|(?P<findstr_S>findstr.*\\/S)'
+        '|(?P<findstr_L>findstr.*\\/L)'
+        '|(?P<findstr_I>findstr.*\\/I)'
+        '|(?P<hh_http>HH.*http)'
+        '|(?P<ieexec_http>ieexec.*http)'
+        '|(?P<ilasm_exe>ilasm.*\\/exe)'
+        '|(?P<makecab_remote>makecab.*\\\\\\\\)'
+        '|(?P<MavInject_INJECTRUNNING>MavInject.*INJECTRUNNING)'
+        '|(?P<MpCmdRun_http>MpCmdRun.*http)'
+        '|(?P<MpCmdRun_DownloadFile>MpCmdRun.*DownloadFile)'
+        '|(?P<netsh_add_helper>netsh.*add.*helper)'
+        '|(?P<nc_listener>[^\\w^\\d^\\-^\\_]nc[^\\w^\\d^\\-^\\_].*\\-l[npv]+)'
+        '|(?P<nc_listener_extra>[^\\w^\\d^\\-^\\_]nc[^\\w^\\d^\\-^\\_]\\s+\\-l.*\\-[npv]+)'
+        '|(?P<nc_listener_to_shell>[^\\w^\\d^\\-^\\_]nc[^\\w^\\d^\\-^\\_].*[\\-lnpv]+.*\\-e.*sh[^\\w])'
+        '|(?P<nc_reverse_shell>[^\\w^\\d^\\-^\\_]nc[^\\w^\\d^\\-^\\_].*\\-e.*cmd)'
+        '|(?P<net_dot_exe>net\\.exe)'
+        '|(?P<net_user>net\\s.*user)'
+        '|(?P<net_localgroup>net\\s.*localgroup)'
+        '|(?P<net_group>net*\\sgroup)'
+        '|(?P<net_accounts>net\\s.*accounts)'
+        '|(?P<net_computer>net\\s.*computer)'
+        '|(?P<net_add>net\\s.*\\/add)'
+        '|(?P<net_del>net\\s.*\\/del)'
+        '|(?P<net_domain>net\\s.*\\/domain)'
+        '|(?P<net_share>net\\s.*share)'
+        '|(?P<net_use>net\\s.*use\\s)'
+        '|(?P<net_view>net\\s.*view)'
+        '|(?P<net_all>net\\s.*\\/all)'
+        '|(?P<wusa_kb>wusa.*kb)'
+        '|(?P<wusa_uninstall>wusa.*\\/uninstall)'
+        '|(?P<wusa_quiet>wusa.*\\/quiet)'
+        '|(?P<wusa_norestart>wusa.*\\/norestart)'
+        '|(?P<netsh_advfirewall>netsh.*advfirewall)'
+        '|(?P<wevutil_clear>wevtutil.*clear)'
+        '|(?P<wevtutil>wevtutil)'
+        '|(?P<netsh>netsh)'
+        '|(?P<nltest>nltest)'
+        '|(?P<nltest_server>nltest.*\\/server)'
+        '|(?P<nltest_user>nltest.*\\/user)'
+        '|(?P<systeminfo>systeminfo)'
+        '|(?P<chcp>chcp)'
+        '|(?P<tasklist>tasklist)'
+        '|(?P<tasklist_svcup_flag>tasklist.*\\s\\/[svcup]+)'
+        '|(?P<tasklist_fi>tasklist.*\\/fi)'
+        '|(?P<tasklist_status>tasklist.*STATUS)'
+        '|(?P<tasklist_u>tasklist.*\\/u)'
+        '|(?P<tasklist_password>tasklist.*\\/p)'
+        '|(?P<qwinsta>qwinsta)'
+        '|(?P<qwinsta_server>qwinsta.*\\/server)'
+        '|(?P<gsecdump_a>gsecdump.*\\-a)'
+        '|(?P<gsecdump>gsecdump)'
+        '|(?P<wce>wce\\s)'
+        '|(?P<wce_l>wce.*\\-l)'
+        '|(?P<wce_v>wce.*\\-v)'
+        '|(?P<sdelete>sdelete)'
+        '|(?P<sdelete_q>sdelete.*\\-q)'
+        '|(?P<gpresult>gpresult)'
+        '|(?P<gpresult_s>gpresult.*\\/s)'
+        '|(?P<gpresult_r>gpresult.*\\/r)'
+        '|(?P<KEYWORD_System_Text_Encoding>System\\.Text\\.Encoding)'
+        '|(?P<KEYWORD_GetBytes>GetBytes)'
+        '|(?P<KEYWORD_New_Object>New\\-Object)'
+        '|(?P<KEYWORD_WebClient>WebClient)'
+        '|(?P<KEYWORD_DownloadFile>DownloadFile)'
+        '|(?P<KEYWORD_DownloadString>DownloadString)'
+        '|(?P<KEYWORD_WinHttp>WinHttp)'
+        '|(?P<KEYWORD_slash_start>\\/start)'
+        '|(?P<KEYWORD_dash_interactive>\\/interactive)'
+        '|(?P<KEYWORD_dash_c>\\-c\\s)'
+        '|(?P<KEYWORD_slash_addfile>\\/addfile)'
+        '|(?P<KEYWORD_slash_create>\\/create)'
+        '|(?P<KEYWORD_http>http.{0,1}\\:\\/\\/)'
+        '|(?P<KEYWORD_dash_config>\\-config)'
+        '|(?P<KEYWORD_dash_urlcache>\\-urlcache)'
+        '|(?P<KEYWORD_dash_f>\\-f\\s)'
+        '|(?P<KEYWORD_dash_encode>\\-encode)'
+        '|(?P<KEYWORD_dash_decode>\\-decode)'
+        '|(?P<KEYWORD_dash_out>\\-out)'
+        '|(?P<KEYWORD_ni>\\/ni\\s)'
+        '|(?P<KEYWORD_s>\\/s\\s+)'
+        '|(?P<KEYWORD_exec>exec\\s+)'
+        '|(?P<KEYWORD_Processid>\\/Processid)'
+        '|(?P<KEYWORD_config>\\/config)'
+        '|(?P<KEYWORD_y>\\/y\\s+)'
+        '|(?P<KEYWORD_slash_d>\\/d\\s+)'
+        '|(?P<KEYWORD_slash_root>\\/root)'
+        '|(?P<KEYWORD_slash_V>\\/V\\s+)'
+        '|(?P<KEYWORD_slash_S>\\/S\\s+)'
+        '|(?P<KEYWORD_slash_L>\\/L\\s+)'
+        '|(?P<KEYWORD_slash_I>\\/I\\s+)'
+        '|(?P<KEYWORD_slash_p>\\/p\\s+)'
+        '|(?P<KEYWORD_slash_logon>\\/logon\\s+)'
+        '|(?P<KEYWORD_slash_exe>\\/exe\\s+)'
+        '|(?P<KEYWORD_slash_INJECTRUNNING>\\/INJECTRUNNING\\s+)'
+        '|(?P<KEYWORD_slash_skip>\\/skip\\s+)'
+        '|(?P<KEYWORD_slash_quiet>\\/quiet\\s+)'
+        '|(?P<KEYWORD_slash_output>\\/output\\s+)'
     ),
     (
-        r"(?P<nc_e_sh>[^\w]nc\s.*\-e.*[^\.]sh[^\w])"
-        r"|(?P<cat_passwd>cat\s.*\/etc\/passwd)"
-        r"|(?P<finger_file_base64>finger.*base64)"
-        r"|(?P<tcpdump_manipulation>tcpdump.*\-[\-lnw\s]{1,10})"
-        r"|(?P<rb_script>\.rb[\s\;\|\>\<]{1}|\.rb$)"
-        r"|(?P<vim_execute>vim.*\-c.*execute)"
-        r"|(?P<socat_tcp>socat.*tcp)"
-        r"|(?P<import_pty>import\s+.*pty)"
-        r"|(?P<docker_chroot>docker.*run.*chroot.*sh)"
-        r"|(?P<jrunscript_execute>jrunscript.*\-e)"
-        r"|(?P<proxytunnel_p>proxytunnel.*\-p)"
-        r"|(?P<nmap_O>nmap.*-O)"
-        r"|(?P<nc_listener_to_shell>[^\w]nc\s+\-[lnpv]+.*\-e.*sh[^\w])"
-        r"|(?P<arp_a>arp.*\-a)"
-        r"|(?P<nmap_sU>nmap.*-sU)"
-        r"|(?P<rview_execute_shell>rview.*\-c.*execute.*sh)"
-        r"|(?P<cpan_Fetch>cpan.*\!.*Fetch)"
-        r"|(?P<ln_shell>[^\w]ln\s.*\-s.*[^\.\w][ba]{0,2}sh[^\w])"
-        r"|(?P<rsync_aH>rsync.*\-[aH]{2})"
-        r"|(?P<ssh_proxy_command>ssh.*\-o.*ProxyCommand)"
-        r"|(?P<crontab_remove>crontab\s+\-r)"
-        r"|(?P<perl_shell>perl.{0,200}\-e.{1,200}sh)"
-        r"|(?P<node_shell>node.*\-e.*\/bin\/[ba]{0,2}sh[^\w])"
-        r"|(?P<xargs_exec_shell>xargs.*[\-Ix].*\-c.*exec.*sh)"
-        r"|(?P<boot_manipulation>boot.*vmlinuz)"
-        r"|(?P<gdb_python>gdb.*python)"
-        r"|(?P<python_pty>python.*pty)"
-        r"|(?P<openssl_shell>mkfifo.*sh.*openssl)"
-        r"|(?P<base32_decode>base32.*decode)"
-        r"|(?P<grep_user>grep.*\-i.*user)"
-        r"|(?P<exec_bin_sh>[^\w]exec[^\w].*\/bin\/[ba]{0,2}sh)"
-        r"|(?P<man_sh>man.*\!.*sh)"
-        r"|(?P<php_remote_shell>php.*\-r.*sock.*sh)"
-        r"|(?P<irb_download>irb.*download)"
-        r"|(?P<python_spawn2>python.*import.*spawn)"
+        '(?P<desktopimgdownldr_conn>desktopimgdownldr.*http)'
+        '|(?P<powershell_tcp_socket>New-Object.*Sockets.*TCPClient)'
+        '|(?P<certutil_downloader>certutil.*urlcache.*http)'
+        '|(?P<certutil_downloader_execute>certutil.*urlcache.*http.*InstallUtil)'
+        '|(?P<certutil_download_decode>certutil.*urlcache.*http.*decode)'
+        '|(?P<MSbuld_get_execute>MSBuil.*\\!MB.*autoresponse)'
+        '|(?P<MSbuld_get_execute_lc>msbuil.*\\!mb.*autoresponse)'
+        '|(?P<odbconf_regsvr>odbcconf[\\s\\w]+.*regsvr)'
+        '|(?P<regsvr32_dowload>regsvr32[\\s\\w\\/]+.*http)'
+        '|(?P<regasm_download>regasm.*[\\s\\w\\/]+)'
+        '|(?P<wmic_download>wmic.*os.*get.*http)'
+        '|(?P<rundll32_js_http_exec>rundll32.*javascript.*http)'
+        '|(?P<mshta_http>mshta.*http)'
+        '|(?P<mshta_vbscript>mshta.*vbscript)'
+        '|(?P<cscript_jscript>cscript.*jscript)'
+        '|(?P<mshta_hta_script>mshta.*\\.hta)'
+        '|(?P<cmd_k>cmd.*\\/k)'
+        '|(?P<exec_bypass>exec\\s+bypass)'
+        '|(?P<powershelll_execute_script>powershell.*\\-c)'
+        '|(?P<powershell_net_client>Object.*Net.*WebClient)'
+        '|(?P<powershell_net_client_credentials>Object.*Net.*WebClient.*Credentials)'
+        '|(?P<powershell_write_bytes>io\\.file.*WriteAllBytes)'
+        '|(?P<powershell_http_client>Object.*Net.*Http)'
+        '|(?P<call_bat_script_hppr>call.*bat.*http)'
+        '|(?P<webclientDownload_http>call.*webclientDownload.*http)'
+        '|(?P<XMLHTTPDownloadJS_http>call.*XMLHTTPDownloadJS.*http)'
+        '|(?P<winhhtpjs_http>call.*winhhtpjs.*http)'
+        '|(?P<bitsDownloader_http>call.*bitsDownloader.*http)'
+        '|(?P<bitsadmin_transfer_ttp>bitsadmin.*transfer.*http)'
+        '|(?P<bitsadmin_download_ttp>bitsadmin.*download.*http)'
+        '|(?P<powershell_invoke_web_request_sm>iwr.*http)'
+        '|(?P<powershell_invoke_web_request_sm_up>IWR.*http)'
+        '|(?P<powershell_invoke_web_request>Invoke\\-WebRequest.*http)'
+        '|(?P<powershell_sherlock>powershell.*herlock)'
+        '|(?P<juicy_potato>uicy.*otato.*\\-t\\s+\\*\\s+\\-p)'
+        '|(?P<rogue_potatp>ogue.*otato.*\\-r)'
+        '|(?P<powershell_sql_query>powershell.*SQL.*uery)'
+        '|(?P<dnscmd_config>dnscmd.*config)'
+        '|(?P<mklink_shadowcopy>mklink.*shadowcopy)'
+        '|(?P<diskshadow_list>diskshadow.*list)'
+        '|(?P<vssadmin_list>vssadmin.*list)'
+        '|(?P<rubeus_kerberoast>ubeus.*kerberoast)'
+        '|(?P<rubeus_domain>ubeus.*domain)'
+        '|(?P<rubeus_creduser>ubeus.*creduser)'
+        '|(?P<rubeus_credpassword>ubeus.*credpassword)'
+        '|(?P<get_netuser_spn>Get-NetUser.*[\\-\\w]{3,10})'
+        '|(?P<kerberoasting>erberoast)'
+        '|(?P<mimikatz_piece>imikatz)'
+        '|(?P<mimikatz_kerberos>imikatz.*kerberos)'
+        '|(?P<mimikatz_dump>imikatz.*dump)'
+        '|(?P<mimikatz_sekurlsa>imikatz.*sekurlsa)'
+        '|(?P<powershell_invoke_command_credentials>nvoke.*ommand.*redential)'
+        '|(?P<bloodhound_invoke>lood.*ound)'
+        '|(?P<bloodhound_username>lood.*ound.*sername)'
+        '|(?P<bloodhound_password>lood.*ound.*assword)'
+        '|(?P<sharphound_username>harp.*ound.*sername)'
+        '|(?P<sharphound_password>harp.*ound.*assword)'
+        '|(?P<sharpHound_invoke>harp.*ound)'
+        '|(?P<chisel_client>chisel.*client)'
+        '|(?P<wmic_create>wmic.*create)'
+        '|(?P<wmic_shadowcopy>wmic.*shadowcopy)'
+        '|(?P<reg_save_hklm>reg.*save.*hklm)'
+        '|(?P<procdump_process>rocdump.*\\-[\\-\\s\\w]+)'
+        '|(?P<powershell_backdoor>owershell.*ackdoor)'
+        '|(?P<powershell_add_acl>owershell.*Add\\-ObjectACL)'
+        '|(?P<SharpGPOAbuse_command>harp.*buse.*ommand)'
+        '|(?P<kerberos_golden>kerberos.*golden)'
+        '|(?P<rubeus_asktgt>ubeus.*asktgt)'
+        '|(?P<MS_RPRN_invoke>RPRN)'
+        '|(?P<powershell_new_ps_session_creds>ew\\-.*s.*ession.*dential)'
+        '|(?P<powershell_enter_ps_session_creds>nter\\-.*s.*ession.*dential)'
     ),
     (
-        r"(?P<whois_remote>whois.*\-h.*\-p)"
-        r"|(?P<ssh_R>ssh.*\-R)"
-        r"|(?P<java_shell>java.*\/bin\/[ba]{0,2}sh.*Socket)"
-        r"|(?P<nmap_sC>nmap.*-sC)"
-        r"|(?P<python_install_exec>import\s+os.*execl.*sh)"
-        r"|(?P<socat_tcp_connect>socat.*\-u.*tcp\-connect)"
-        r"|(?P<python_system_shell>python.*\-c.*system.*sh)"
-        r"|(?P<find_for_user>find.*\-user[^\w])"
-        r"|(?P<tar_udp>tar.*dev.*udp)"
-        r"|(?P<composer_script>composer.*run\-script)"
-        r"|(?P<gcc_shell_wrapper>gcc.*\-wrapper.*sh)"
-        r"|(?P<mysql_shell>mysql.*\-e.*\!.*sh)"
-        r"|(?P<ld_so_sh>ld.so.*\/bin\/sh)"
-        r"|(?P<crontab_edit>crontab\s+\-e)"
-        r"|(?P<awk_inet_tcp>awk.*inet.*tcp)"
-        r"|(?P<mail_shell>mail\(\).*sh)"
-        r"|(?P<ruby_shell>ruby.*\-e[^\w].*exec.*sh[^\w])"
-        r"|(?P<valgrind_shell>valgrind.{0,10}[^\.\w][ba]{0,2}sh)"
-        r"|(?P<route_add>route.*add.*net)"
-        r"|(?P<byebug_sh>system.*\/bin\/sh.*byebug)"
-        r"|(?P<node_fs_stream>fs\.createWriteStream)"
-        r"|(?P<openssl_salt>openssl.*passwd.*salt)"
-        r"|(?P<env_shell>env.*\/bin\/sh)"
-        r"|(?P<iptables_list>iptables.*\-L)"
-        r"|(?P<nice_sh>nice.*sh)"
-        r"|(?P<php_listener>php.*\-S)"
-        r"|(?P<ar_r>ar\s+r)"
-        r"|(?P<pipe_sh>\|\s{0,5}\w{0,3}sh)"
-        r"|(?P<pipe_bin_sh>\|\s{0,5}\/bin\/\w{0,3}sh)"
-        r"|(?P<kinsing>kinsing)"
-        r"|(?P<kinsing_tmp>\/tmp\/kdevtmp)"
+        '(?P<invoke_command_credential>nvoke.*ommand.*dential)'
+        '|(?P<powershell_system_credentials>bject.*ystem.*edential)'
+        '|(?P<powershell_invoke_wmimethod>nvoke.*mi.*ethod)'
+        '|(?P<powershell_wmi_execute_encoded>nvoke.*mi.*ethod.*\\-e)'
+        '|(?P<schtasks_s>schtasks.*\\/s)'
+        '|(?P<powershell_invoke_execution>IEX)'
+        '|(?P<powershell_invoke_execution_lc>iex)'
+        '|(?P<schtasks_schedule>schtasks.*\\/sc)'
+        '|(?P<schtasks_create>schtasks.*\\/create)'
+        '|(?P<kerberos_rc4>kerberos.*rc4)'
+        '|(?P<kerberos_krbtgt>kerberos.*krbtgt)'
+        '|(?P<NTLMHASH>NTLMHASH)'
+        '|(?P<rubeus_rc4>ubeus.*rc4)'
+        '|(?P<rubeus_aes>ubeus.*aes)'
+        '|(?P<powershell_token_manipulation>nvoke.*oken.*pulation)'
+        '|(?P<powershell_token_impersonate>nvoke.*oken.*pulation.*mpersonate)'
+        '|(?P<powershell_token_create_process>nvoke.*oken.*pulation.*reate.*rocess)'
+        '|(?P<tgsrepcrack>tgsrepcrack)'
+        '|(?P<python_tgsrepcrack>ython.*tgsrepcrack)'
+        '|(?P<KerberosRequestorSecurityToken>KerberosRequestorSecurityToken)'
+        '|(?P<DomainSPNTicket>DomainSPNTicket)'
+        '|(?P<powershell_get_domain_info>Get\\-Domain)'
+        '|(?P<powershell_Get_DomainComputer>Get\\-DomainComputer)'
+        '|(?P<powershell_Get_DomainUser>Get\\-DomainUser)'
+        '|(?P<powershell_InterestingDomainAcl>InterestingDomainAcl)'
+        '|(?P<powershell_spn>\\-SPN)'
+        '|(?P<powershell_Find_DomainUserLocation>ind\\-DomainUserLocation)'
+        '|(?P<powershell_Find_LocalAdminAccess>ind\\-LocalAdminAccess)'
+        '|(?P<powershell_AppLockerPolicy>AppLockerPolicy)'
+        '|(?P<powershell_select>owershell.*select)'
+        '|(?P<powershell_DomainObjectAcl>DomainObjectAcl)'
+        '|(?P<powershell_DomainGPOLocalGroup>DomainGPOLocalGroup)'
+        '|(?P<powershell_domaingpo>Get\\-DomainGPO)'
+        '|(?P<powershell_Get_DomainOU>Get\\-DomainOU)'
+        '|(?P<powershell_Find_DomainShare>Find\\-DomainShare)'
+        '|(?P<powershell_Get_DomainGroup>Get\\-DomainGroup)'
+        '|(?P<powershell_forest_trust>Get\\-ForestTrust)'
+        '|(?P<powershell_domain_trust>Get\\-DomainTrust)'
+        '|(?P<powershell_convert_to_base64>onvert.*64.*tring)'
+        '|(?P<powershell_encoding_get_bytes>ystem.*ncoding.*ytes)'
+        '|(?P<powershell_invoke_web_request_output_file>nvoke.*equest.*ut.*ile)'
+        '|(?P<powershell_web_client_download>ystem.*eb.*lient.*ownload)'
+        '|(?P<powershell_http_requests_open>in.*ttp.*equest.*open)'
+        '|(?P<powershell_http_requests_get>in.*ttp.*equest.*GET)'
+        '|(?P<powershell_http_requests_post>in.*ttp.*equest.*POST)'
+        '|(?P<powershell_assembly_get_type>Assembly\\.GetType)'
+        '|(?P<rundll_open>rundll.*penURL)'
+        '|(?P<wmic_node>wmic.*node)'
+        '|(?P<wmic_user>wmic.*user)'
+        '|(?P<wmic_password>wmic.*password)'
+        '|(?P<wmic_process>wmic.*process)'
+        '|(?P<wmic_call>wmic.*call)'
+        '|(?P<powershell_CreateInstance>CreateInstance)'
+        '|(?P<powershell_CreateInstance_MMC20>CreateInstance.*MMC20)'
+        '|(?P<powershell_CreateInstance_eshell>CreateInstance.*ExecuteShellCommand)'
+        '|(?P<psexec_user>psexec.*\\-u)'
+        '|(?P<psexec_password>psexec.*\\-p)'
+        '|(?P<C_share>C\\$)'
+        '|(?P<admin_share>ADMIN\\$)'
+        '|(?P<ipc_share>IPC\\$)'
+        '|(?P<msbuild_remote>MSBuild.*\\\\)'
+        '|(?P<msbuild_remote_lc>msbuild.*\\\\)'
+        '|(?P<schtasks_run>schtasks.*\\/run)'
+        '|(?P<schtasks_once>schtasks.*once)'
+        '|(?P<winrs_remote>winrs.*\\-r)'
+        '|(?P<winrs_user>winrs.*\\-u)'
+        '|(?P<winrs_password>winrs.*\\-p)'
+        '|(?P<sc_start>sc.*start)'
+        '|(?P<sc_start_remote>sc.*\\\\.*start)'
+        '|(?P<sc_remote>sc.*\\\\)'
+        '|(?P<ipconfig>ipconfig)'
+        '|(?P<powershell_ConPtyShell>ConPtyShell)'
+        '|(?P<lua_socket>lua.*socket)'
+        '|(?P<lua_tcp>lua.*tcp)'
+        '|(?P<ruby_rsocket>ruby.*\\-rsocket)'
+        '|(?P<ruby_execute>ruby.*\\-e\\s)'
+        '|(?P<ruby_open>ruby.*popen)'
+        '|(?P<python_connect>python.*connect)'
+        '|(?P<python_execute_string>ython.*\\-c)'
+        '|(?P<python_subprocess>ython.*subprocess)'
+        '|(?P<winrm_http>winrm.*http)'
+        '|(?P<pubprn_http>pubprn.*http)'
+        '|(?P<pubprn_script>pubprn.*script)'
+        '|(?P<wsl_exec>wsl.*exec)'
+        '|(?P<wsl_dev_tcp>wsl.*dev.*tcp)'
+        '|(?P<wsl_e>wsl.*\\-e)'
+        '|(?P<winword_http>winword.*http)'
+        '|(?P<squirrel_http>squirrel.*http)'
+        '|(?P<Update_http>Update.*http)'
+        '|(?P<Update_update>pdate.*update)'
+        '|(?P<Update_download>pdate.*download)'
+        '|(?P<squirrel_download>squirrel.*download)'
+        '|(?P<squirrel_update>squirrel.*update)'
+        '|(?P<powerpoint_http>owerpnt.*http)'
+        '|(?P<dxcap_c>xcap.*\\-c)'
+        '|(?P<excel_http>xcel.*http)'
+        '|(?P<bginfo_popup>bginfo.*popup)'
+        '|(?P<powershell_call>powershell)'
+        '|(?P<dll>\\.dll$)'
+        '|(?P<hta>\\.hta)'
+        '|(?P<dot_url>\\.url)'
+        '|(?P<inf_file>\\.inf)'
+        '|(?P<js_file>\\.js)'
+        '|(?P<vbs_file>\\.vbs)'
+        '|(?P<cs_file>\\.cs)'
+        '|(?P<powershell_file>\\.ps1)'
+        '|(?P<diantz_remote>diantz.*\\\\)'
     ),
     (
-        r"(?P<history_r>history.*\-r)"
-        r"|(?P<apt_get_bin_sh>apt-get.*\!\/bin\/[ba]{0,2}sh.*)"
-        r"|(?P<smbclient_shell>smbclient.*\!.*sh)"
-        r"|(?P<zsh_script>\.zsh[\s\;\|\>\<]{1}|\.zsh\"|\.zsh$)"
-        r"|(?P<ssh_D>ssh.*\-D)"
-        r"|(?P<php_system_shell>php\s+\-r.*system)"
-        r"|(?P<ftp_put>ftp.*[^\w]put[^\w])"
-        r"|(?P<ruby_file_manipulation>ruby.*\-e.*File)"
-        r"|(?P<nohup_shell>nohup.*sh.*\-c.*\<.*\>)"
-        r"|(?P<iptables_masquerade>iptables.*MASQUERADE)"
-        r"|(?P<cupsfilter_stream>cupsfilter.*\-i.*stream)"
-        r"|(?P<chroot_sh>chroot.*\/bin\/[ba]{0,2}sh)"
-        r"|(?P<gem_shell>gem.*\-e.*sh)"
-        r"|(?P<echo_shell_top>echo.*\-e.*sh.*>.*top)"
-        r"|(?P<bundler_shell>bundler.*\!.*sh)"
-        r"|(?P<nmap_shell>nmap.*\!.*sh[^\w])"
-        r"|(?P<python_shell>python.*\/bin\/.{0,2}sh)"
-        r"|(?P<bash_history>bash\_history)"
-        r"|(?P<ksh_tcp>ksh.*-c.*dev.*tcp)"
-        r"|(?P<netcat_listener>nc\s+\-l[npv]+)"
-        r"|(?P<rlogin_p>rlogin.*\-p)"
-        r"|(?P<irb_shell>irb.*exec.*sh)"
-        r"|(?P<more_sh>more.*\/bin\/[ba]{0,2}sh)"
-        r"|(?P<logsave_shell>logsave.*sh.*\-i)"
-        r"|(?P<cpio_shell>cpio.*sh.*\-F)"
-        r"|(?P<php_file_put>php.*\-r.*file\_put\_contents)"
-        r"|(?P<sftp_shell>sftp.*\!.*[^\w]{1}b{0,1}a{0,1}sh)"
-        r"|(?P<python_crypt>import.*crypt)"
-        r"|(?P<find_bash>find.*bin\/[ba]{0,2}sh)"
-        r"|(?P<time_sh>time\s.*\/bin\/[ba]{0,2}sh)"
-        r"|(?P<tar_curl_file>tar.*curl.*\-F)"
+        '(?P<KEYWORD_slash_sc>\\/sc\\s+)'
+        '|(?P<KEYWORD_slash_AlternateShellStartup>\\/AlternateShellStartup\\s+)'
+        '|(?P<KEYWORD_slash_Launch>\\/Launch\\s+)'
+        '|(?P<KEYWORD_slash_target>\\/target\\s+)'
+        '|(?P<KEYWORD_slash_UpdateDeploymentProvider>\\/UpdateDeploymentProvider\\s+)'
+        '|(?P<KEYWORD_slash_RunHandlerComServer>\\/RunHandlerComServer\\s+)'
+        '|(?P<KEYWORD_slash_nolicprompt>\\/nolicprompt\\s+)'
+        '|(?P<KEYWORD_slash_popup>\\/popup\\s+)'
+        '|(?P<KEYWORD_slash_node>\\/node\\s+)'
+        '|(?P<KEYWORD_slash_user>\\/user\\s+)'
+        '|(?P<KEYWORD_slash_password>\\/password\\s+)'
+        '|(?P<KEYWORD_slash_tn>\\/tn\\s+)'
+        '|(?P<KEYWORD_slash_delete>\\/delete\\s+)'
+        '|(?P<KEYWORD_slash_transfer>\\/transfer\\s+)'
+        '|(?P<KEYWORD_slash_download>\\/download\\s+)'
+        '|(?P<KEYWORD_slash_lockscreenurl>\\/lockscreenurl\\s+)'
+        '|(?P<KEYWORD_slash_nologo>\\/\\/nologo\\s+)'
+        '|(?P<KEYWORD_dash_path>\\-path)'
+        '|(?P<KEYWORD_dash_a>\\-a\\s)'
+        '|(?P<KEYWORD_dash_appvscript>\\-appvscript)'
+        '|(?P<KEYWORD_dash_dumpFull>\\-dumpFull)'
+        '|(?P<KEYWORD_dash_attach>\\-attach)'
+        '|(?P<KEYWORD_dash_noprofile>\\-noprofile)'
+        '|(?P<KEYWORD_dash_download>\\-download)'
+        '|(?P<KEYWORD_dash_update>\\-update)'
+        '|(?P<KEYWORD_dash_rsocket>\\-rsocket)'
+        '|(?P<KEYWORD_helper>helper\\s)'
+        '|(?P<KEYWORD_add>add\\s)'
+        '|(?P<KEYWORD_DllMain>DllMain)'
+        '|(?P<KEYWORD_NTLM>NTLM)'
+        '|(?P<KEYWORD_surfacecheck>surfacecheck)'
+        '|(?P<KEYWORD_process>process)'
+        '|(?P<KEYWORD_call>call\\s)'
+        '|(?P<KEYWORD_RunWizard>RunWizard)'
+        '|(?P<KEYWORD_advpack_dll>advpack\\.dll)'
+        '|(?P<KEYWORD_MiniDump>MiniDump)'
+        '|(?P<KEYWORD_OpenURL>OpenURL)'
+        '|(?P<KEYWORD_Mshtml_dll>Mshtml.dll)'
+        '|(?P<KEYWORD_ieframe_dll>ieframe.dll)'
+        '|(?P<KEYWORD_LaunchApplication>LaunchApplication)'
+        '|(?P<KEYWORD_pcwutl_dll>pcwutl.dll)'
+        '|(?P<KEYWORD_Control_RunDLL>Control\\_RunDLL)'
+        '|(?P<KEYWORD_shell32_dll>shell32\\.dll)'
+        '|(?P<KEYWORD_syssetup_dll>syssetup\\.dll)'
+        '|(?P<KEYWORD_SetupInfObjectInstallAction>SetupInfObjectInstallAction)'
+        '|(?P<KEYWORD_url_dll>url\\.dll)'
+        '|(?P<KEYWORD_zipfldr_dll>RouteTheCall)'
+        '|(?P<KEYWORD_lsass_exe>lsass\\.exe)'
+        '|(?P<KEYWORD_lsass>lsass)'
+        '|(?P<KEYWORD_LaunchForDeploy>LaunchForDeploy)'
+        '|(?P<KEYWORD_bash>bash)'
+        '|(?P<KEYWORD_comspec>comspec)'
+        '|(?P<KEYWORD_invoke>invoke)'
+        '|(?P<KEYWORD_Win32_Process>Win32\\_Process)'
+        '|(?P<KEYWORD_windir>windir)'
+        '|(?P<KEYWORD_lambda>lambda)'
+        '|(?P<KEYWORD_s2p_thread>s2p\\_thread)'
+        '|(?P<KEYWORD_socket>socket)'
+        '|(?P<KEYWORD_IEX>IEX\\s)'
+        '|(?P<KEYWORD_iex>iex\\s)'
+        '|(?P<KEYWORD_javascript>javascript)'
+        '|(?P<KEYWORD_WinHttpRequest>WinHttpRequest)'
+        '|(?P<KEYWORD_SharpHound>SharpHound)'
+        '|(?P<KEYWORD_Kerberos>Kerberos)'
+        '|(?P<KEYWORD_dash_CreateProcess>\\-CreateProcess)'
+        '|(?P<KEYWORD_shell>shell)'
+        '|(?P<KEYWORD_mimikatz>mimikatz)'
+        '|(?P<KEYWORD_krbtgt>krbtgt)'
+        '|(?P<KEYWORD_asktgt>asktgt)'
+        '|(?P<KEYWORD_procdump>procdump)'
+        '|(?P<KEYWORD_sekurlsa>sekurlsa)'
+        '|(?P<KEYWORD_shadowcopy>shadowcopy)'
+        '|(?P<KEYWORD_JuicyPotato>JuicyPotato)'
+        '|(?P<KEYWORD_Rubeus>Rubeus)'
+        '|(?P<KEYWORD_vssadmin>vssadmin)'
+        '|(?P<KEYWORD_RoguePotato>RoguePotato)'
+        '|(?P<KEYWORD_Sherlock>Sherlock)'
+        '|(?P<KEYWORD_Watson>Watson)'
+        '|(?P<KEYWORD_URi>\\-Uri)'
+        '|(?P<KEYWORD_dash_uri>\\-uri)'
+        '|(?P<KEYWORD_powershell_import>powershell\\-import)'
+        '|(?P<KEYWORD_myDownloadJob>myDownloadJob)'
+        '|(?P<KEYWORD_winhhtpjs>winhhtpjs)'
+        '|(?P<KEYWORD_XMLHTTPDownloadJS>XMLHTTPDownloadJS)'
+        '|(?P<KEYWORD_webclientDownload>webclientDownload)'
+        '|(?P<KEYWORD_Httpclient>Httpclient)'
+        '|(?P<KEYWORD_WriteAllBytes>WriteAllBytes)'
+        '|(?P<KEYWORD_CredentialCache>CredentialCache)'
+        '|(?P<KEYWORD_cscript>cscript)'
+        '|(?P<KEYWORD_mshta>mshta)'
+        '|(?P<KEYWORD_rundll32>rundll32)'
+        '|(?P<KEYWORD_TCPClient>TCPClient)'
+        '|(?P<KEYWORD_GetStream>GetStream)'
+        '|(?P<KEYWORD_ToBase64String>ToBase64String)'
+        '|(?P<reg_query>reg\\s.*query)'
+        '|(?P<KEYWORD_fsutil>fsutil)'
+        '|(?P<KEYWORD_dir>dir\\s)'
+        '|(?P<dir_a>dir\\s.*\\/a)'
+        '|(?P<dir_s>dir\\s.*\\/s)'
+        '|(?P<dir_b>dir\\s.*\\/b)'
+        '|(?P<KEYWORD_tree>tree\\s)'
+        '|(?P<tree_F>tree\\s.*\\/F)'
+        '|(?P<tree_A>tree\\s.*\\/A)'
+        '|(?P<systeminfo_S>systeminfo.*\\/S)'
+        '|(?P<KEYWORD_nslookup>nslookup)'
+        '|(?P<KEYWORD_ipconfig>ipconfig)'
+        '|(?P<ipconfig_all>ipconfig.*all)'
+        '|(?P<ipconfig_displaydns>ipconfig.*\\/displaydns)'
+        '|(?P<tftp>tftp)'
+        '|(?P<tftp_I>tftp.*\\-I)'
+        '|(?P<netsh_wlan>netsh.*wlan)'
+        '|(?P<netsh_firewall>netsh.*firewall)'
+        '|(?P<netsh_interface>netsh.*interface)'
+        '|(?P<runas>runas\\s)'
+        '|(?P<runas_user>runas\\s.*\\/user)'
+        '|(?P<KEYWORD_restart>restart)'
+        '|(?P<KEYWORD_lusrrngr>lusrrngr)'
+        '|(?P<KEYWORD_services>services)'
+        '|(?P<KEYWORD_taskmgr>taskmgr)'
+        '|(?P<KEYWORD_secpool>secpool)'
+        '|(?P<KEYWORD_slash_accepteula>\\/accepteula)'
+        '|(?P<wmic_list>wmic.*list)'
+        '|(?P<netsh_portproxy>netsh.*portproxy)'
+        '|(?P<netsh_v4tov4>netsh.*v4tov4)'
     ),
     (
-        r"(?P<restic_backup>restic.*backup)"
-        r"|(?P<nmap_Pn>nmap.*-Pn)"
-        r"|(?P<node_spawn_process>node.*\-e.*spawn)"
-        r"|(?P<gdb_python_ctypes>gdb.*python.*ctypes)"
-        r"|(?P<irb_exec>irb.*exec)"
-        r"|(?P<js_script>\.js[\s\;\|\>\<]{1}|\.js$)"
-        r"|(?P<xxd_c_p>xxd.*-p.*-c)"
-        r"|(?P<base64_decode>base64.*decode)"
-        r"|(?P<flock_sh>flock.*\-u.*sh)"
-        r"|(?P<nc_pipe_to_listener>[^\w^\d^\-^\_]nc[^\w^\d^\-^\_].*\-l.*\<)"
-        r"|(?P<rsync_shell>rsync.*\-e.*sh.*\<.*\>)"
-        r"|(?P<php_script>\.php[\s\;\|\>\<]{1}|\.php$)"
-        r"|(?P<masscan_port>masscan.*\-p)"
-        r"|(?P<cat_shadow>cat\s.*\/etc\/shadow)"
-        r"|(?P<vim_execute_shell>vim.*\-c.*execute.*sh)"
-        r"|(?P<perl_socket>perl.*\-e.*socket)"
-        r"|(?P<rvim_execute>rvim.*\-c.*execute)"
-        r"|(?P<bridge_b>bridge\s+\-b)"
-        r"|(?P<openvpn_shell>openvpn.*sh.*\-c)"
-        r"|(?P<socat_u>socat.*\-u)"
-        r"|(?P<sshuttle_r>sshuttle.*\-r)"
-        r"|(?P<hexdump_c>hexdump\s+\-C)"
-        r"|(?P<csh_script>\.csh[\s\;\|\>\<]{1}|\.csh\"|\.csh$)"
-        r"|(?P<dpkg_sh>dpkg.*\!.*sh)"
-        r"|(?P<import_socket>import\s+.*socket)"
-        r"|(?P<localhost_ref>localhost)"
-        r"|(?P<telnet_sh>telnet.*\/bin\/[ba]{0,2}sh)"
-        r"|(?P<arp_e>arp.*\-e)"
-        r"|(?P<exec_tcp>exec.*dev.*tcp)"
-        r"|(?P<cpan_server>cpan.*HTTP.*Server)"
-        r"|(?P<nmap_sV>nmap.*-sV)"
-        r"|(?P<python_pty_c>python.*\-c.*pty)"
-        r"|(?P<bin_bash_i_shell>\/bin\/[ba]{0,2}sh.{1,10}\-i[^\w])"
+        '(?P<desktopimgdownldr_conn>desktopimgdownldr.*http)'
+        '|(?P<powershell_tcp_socket>New-Object.*Sockets.*TCPClient)'
+        '|(?P<certutil_downloader>certutil.*urlcache.*http)'
+        '|(?P<certutil_downloader_execute>certutil.*urlcache.*http.*InstallUtil)'
+        '|(?P<certutil_download_decode>certutil.*urlcache.*http.*decode)'
+        '|(?P<msbuild_get_execute>MSBuil.*\\!MB.*autoresponse)'
+        '|(?P<msbuild_get_execute_lc>msbuil.*\\!mb.*autoresponse)'
+        '|(?P<odbconf_regsvr>odbcconf[\\s\\w]+.*regsvr)'
+        '|(?P<regsvr32_download>regsvr32[\\s\\w\\/]+.*http)'
+        '|(?P<regasm_download>regasm.*[\\s\\w\\/]+)'
+        '|(?P<wmic_download>wmic.*os.*get.*http)'
+        '|(?P<rundll32_js_http>rundll32.*javascript.*http)'
+        '|(?P<mshta_http>mshta.*http)'
+        '|(?P<mshta_vbscript>mshta.*vbscript)'
+        '|(?P<cscript_jscript>cscript.*jscript)'
+        '|(?P<mshta_hta_script>mshta.*\\.hta)'
+        '|(?P<cmd_k>cmd.*/k)'
+        '|(?P<exec_bypass>exec\\s+bypass)'
+        '|(?P<powershell_execute_script>powershell.*\\-c)'
+        '|(?P<powershell_net_client>Object.*Net.*WebClient)'
+        '|(?P<powershell_net_client_credentials>Object.*Net.*WebClient.*Credentials)'
+        '|(?P<powershell_write_bytes>io\\.file.*WriteAllBytes)'
+        '|(?P<powershell_http_client>Object.*Net.*Http)'
+        '|(?P<bitsadmin_transfer_http>bitsadmin.*transfer.*http)'
+        '|(?P<bitsadmin_download_http>bitsadmin.*download.*http)'
+        '|(?P<powershell_iwr_http>iwr.*http)'
+        '|(?P<powershell_iwr_http_up>IWR.*http)'
+        '|(?P<powershell_invoke_web_request>Invoke\\-WebRequest.*http)'
+        '|(?P<powershell_web_client_download>ystem.*eb.*lient.*ownload)'
+        '|(?P<powershell_http_requests_open>in.*ttp.*equest.*open)'
+        '|(?P<powershell_http_requests_get>in.*ttp.*equest.*GET)'
+        '|(?P<powershell_http_requests_post>in.*ttp.*equest.*POST)'
+        '|(?P<pubprn_http>pubprn.*http)'
+        '|(?P<pubprn_script>pubprn.*script)'
+        '|(?P<hh_http>HH.*http)'
+        '|(?P<ieexec_http>ieexec.*http)'
+        '|(?P<mpcmdrun_http>MpCmdRun.*http)'
+        '|(?P<mpcmdrun_downloadfile>MpCmdRun.*DownloadFile)'
+        '|(?P<ms_appinstaller_http>start.*appinstaller.*http)'
+        '|(?P<winword_http>winword.*http)'
+        '|(?P<squirrel_http>squirrel.*http)'
+        '|(?P<update_http>Update.*http)'
+        '|(?P<squirrel_download>squirrel.*download)'
+        '|(?P<powerpoint_http>owerpnt.*http)'
+        '|(?P<excel_http>excel.*http)'
+        '|(?P<DataSvcUtil_http>DataSvcUtil.*/uri)'
+        '|(?P<ConfigSecurityPolicy_http>onfig.*ecurity.*olicy.*http)'
+        '|(?P<cmstp_http>cmstp.*http)'
+        '|(?P<winrm_http>winrm.*http)'
+        '|(?P<wsl_exec>wsl.*exec)'
+        '|(?P<wsl_dev_tcp>wsl.*dev.*tcp)'
+        '|(?P<wsl_e>wsl.*\\-e)'
+        '|(?P<tftp_I>tftp.*\\-I)'
+        '|(?P<KEYWORD_http>http.{0,1}:\\/\\/)'
     ),
-
-    # Group 6: Modern GTFOBins & Cloud/Container Escape
     (
-        r"(?P<openssl_reverse_shell>openssl.*s_client.*-connect)"
-        r"|(?P<socat_reverse_shell>socat.*exec.*bash.*tcp)"
-        r"|(?P<container_chroot_escape>docker.*-v\s+\/:\/host.*chroot)"
-        r"|(?P<nsenter_host_escape>nsenter.*-t\s+1.*\/bin\/bash)"
-        r"|(?P<pipeline_exfil_shadow>(cat|tar).*(\/etc\/shadow|\/etc\/passwd).*curl)"
-        r"|(?P<awk_tcp_reverse>awk.*inet\/tcp\/.*getline)"
+        '(?P<powershell_sherlock>powershell.*herlock)'
+        '|(?P<juicy_potato>uicy.*otato.*\\-t\\s+\\*\\s+\\-p)'
+        '|(?P<rogue_potato>ogue.*otato.*\\-r)'
+        '|(?P<mimikatz_piece>imikatz)'
+        '|(?P<mimikatz_kerberos>imikatz.*kerberos)'
+        '|(?P<mimikatz_dump>imikatz.*dump)'
+        '|(?P<mimikatz_sekurlsa>imikatz.*sekurlsa)'
+        '|(?P<kerberoasting>erberoast)'
+        '|(?P<kerberos_golden>kerberos.*golden)'
+        '|(?P<kerberos_rc4>kerberos.*rc4)'
+        '|(?P<kerberos_krbtgt>kerberos.*krbtgt)'
+        '|(?P<rubeus_kerberoast>ubeus.*kerberoast)'
+        '|(?P<rubeus_domain>ubeus.*domain)'
+        '|(?P<rubeus_creduser>ubeus.*creduser)'
+        '|(?P<rubeus_credpassword>ubeus.*credpassword)'
+        '|(?P<rubeus_asktgt>ubeus.*asktgt)'
+        '|(?P<rubeus_rc4>ubeus.*rc4)'
+        '|(?P<rubeus_aes>ubeus.*aes)'
+        '|(?P<NTLMHASH>NTLMHASH)'
+        '|(?P<tgsrepcrack>tgsrepcrack)'
+        '|(?P<python_tgsrepcrack>ython.*tgsrepcrack)'
+        '|(?P<KerberosRequestorSecurityToken>KerberosRequestorSecurityToken)'
+        '|(?P<DomainSPNTicket>DomainSPNTicket)'
+        '|(?P<bloodhound_invoke>lood.*ound)'
+        '|(?P<sharphound_invoke>harp.*ound)'
+        '|(?P<procdump_process>rocdump.*\\-[\\-\\s\\w]+)'
+        '|(?P<reg_save_hklm>reg.*save.*hklm)'
+        '|(?P<powershell_invoke_command_credentials>nvoke.*ommand.*redential)'
+        '|(?P<invoke_command_credential>nvoke.*ommand.*dential)'
+        '|(?P<powershell_system_credentials>bject.*ystem.*edential)'
+        '|(?P<powershell_new_ps_session_creds>ew\\-.*s.*ession.*dential)'
+        '|(?P<powershell_enter_ps_session_creds>nter\\-.*s.*ession.*dential)'
+        '|(?P<powershell_token_manipulation>nvoke.*oken.*pulation)'
+        '|(?P<powershell_token_impersonate>nvoke.*oken.*pulation.*mpersonate)'
+        '|(?P<powershell_token_create_process>nvoke.*oken.*pulation.*reate.*rocess)'
+        '|(?P<MS_RPRN_invoke>RPRN)'
+        '|(?P<chisel_client>chisel.*client)'
+        '|(?P<psexec_user>psexec.*\\-u)'
+        '|(?P<psexec_password>psexec.*\\-p)'
+    ),
+    (
+        '(?P<powershell_sql_query>powershell.*SQL.*uery)'
+        '|(?P<get_netuser_spn>Get-NetUser.*[\\-\\w]{3,10})'
+        '|(?P<powershell_get_domain_info>Get\\-Domain)'
+        '|(?P<powershell_get_domain_computer>Get\\-DomainComputer)'
+        '|(?P<powershell_get_domain_user>Get\\-DomainUser)'
+        '|(?P<powershell_interesting_domain_acl>InterestingDomainAcl)'
+        '|(?P<powershell_spn>\\-SPN)'
+        '|(?P<powershell_find_domain_user_location>ind\\-DomainUserLocation)'
+        '|(?P<powershell_find_local_admin_access>ind\\-LocalAdminAccess)'
+        '|(?P<powershell_applocker_policy>AppLockerPolicy)'
+        '|(?P<powershell_domain_object_acl>DomainObjectAcl)'
+        '|(?P<powershell_domain_gpo_local_group>DomainGPOLocalGroup)'
+        '|(?P<powershell_domain_gpo>Get\\-DomainGPO)'
+        '|(?P<powershell_get_domain_ou>Get\\-DomainOU)'
+        '|(?P<powershell_find_domain_share>Find\\-DomainShare)'
+        '|(?P<powershell_get_domain_group>Get\\-DomainGroup)'
+        '|(?P<powershell_forest_trust>Get\\-ForestTrust)'
+        '|(?P<powershell_domain_trust>Get\\-DomainTrust)'
+        '|(?P<powershell_add_object_acl>owershell.*Add\\-ObjectACL)'
+        '|(?P<sharp_gpo_abuse>harp.*buse.*ommand)'
+        '|(?P<powershell_convert_to_base64>onvert.*64.*tring)'
+        '|(?P<powershell_encoding_get_bytes>ystem.*ncoding.*ytes)'
+        '|(?P<powershell_assembly_get_type>Assembly\\.GetType)'
+        '|(?P<powershell_invoke_wmimethod>nvoke.*mi.*ethod)'
+        '|(?P<powershell_wmi_execute_encoded>nvoke.*mi.*ethod.*\\-e)'
+        '|(?P<wmic_create>wmic.*create)'
+        '|(?P<wmic_shadowcopy>wmic.*shadowcopy)'
+        '|(?P<wmic_node>wmic.*node)'
+        '|(?P<wmic_process>wmic.*process)'
+        '|(?P<wmic_call>wmic.*call)'
+        '|(?P<wmic_user>wmic.*user)'
+        '|(?P<wmic_password>wmic.*password)'
+        '|(?P<wmic_list>wmic.*list)'
+        '|(?P<mklink_shadowcopy>mklink.*shadowcopy)'
+        '|(?P<diskshadow_list>diskshadow.*list)'
+        '|(?P<vssadmin_list>vssadmin.*list)'
+        '|(?P<powershell_backdoor>owershell.*ackdoor)'
+        '|(?P<powershell_select>owershell.*select)'
+        '|(?P<powershell_invoke_execution>IEX)'
+        '|(?P<powershell_invoke_execution_lc>iex)'
+        '|(?P<powershell_create_instance>CreateInstance)'
+        '|(?P<powershell_create_instance_mmc20>CreateInstance.*MMC20)'
+        '|(?P<powershell_create_instance_shell>CreateInstance.*ExecuteShellCommand)'
+    ),
+    (
+        '(?P<schtasks_s>schtasks.*/s)'
+        '|(?P<schtasks_schedule>schtasks.*/sc)'
+        '|(?P<schtasks_create>schtasks.*/create)'
+        '|(?P<schtasks_run>schtasks.*/run)'
+        '|(?P<schtasks_once>schtasks.*once)'
+        '|(?P<sc_start>sc.*start)'
+        '|(?P<sc_start_remote>sc.*\\\\\\\\.*start)'
+        '|(?P<sc_remote>sc.*\\\\\\\\)'
+        '|(?P<msbuild_remote>MSBuild.*\\\\\\\\)'
+        '|(?P<msbuild_remote_lc>msbuild.*\\\\\\\\)'
+        '|(?P<winrs_remote>winrs.*\\-r)'
+        '|(?P<winrs_user>winrs.*\\-u)'
+        '|(?P<winrs_password>winrs.*\\-p)'
+        '|(?P<diantz_remote>diantz.*\\\\\\\\)'
+        '|(?P<dnscmd_remote>dnscmd.*\\\\\\\\)'
+        '|(?P<dnscmd_config>dnscmd.*config)'
+        '|(?P<makecab_remote>makecab.*\\\\\\\\)'
+        '|(?P<c_share>C\\$)'
+        '|(?P<admin_share>ADMIN\\$)'
+        '|(?P<ipc_share>IPC\\$)'
+        '|(?P<netsh_advfirewall>netsh.*advfirewall)'
+        '|(?P<netsh_portproxy>netsh.*portproxy)'
+        '|(?P<netsh_v4tov4>netsh.*v4tov4)'
+        '|(?P<netsh_add_helper>netsh.*add.*helper)'
+        '|(?P<netsh_wlan>netsh.*wlan)'
+        '|(?P<netsh_firewall>netsh.*firewall)'
+        '|(?P<netsh_interface>netsh.*interface)'
+        '|(?P<nc_listener>nc.*\\-l[npv]+)'
+        '|(?P<nc_reverse_shell>nc.*\\-e.*cmd)'
+        '|(?P<nc_listener_to_shell>nc.*[\\-lnpv]+.*\\-e.*sh)'
+        '|(?P<wevutil_clear>wevtutil.*clear)'
+        '|(?P<runas_user>runas\\s.*\\/user)'
+        '|(?P<powershell_invoke_web_request_output_file>nvoke.*equest.*ut.*ile)'
+        '|(?P<certutil_decode>certutil.*decode)'
+        '|(?P<certutil_encode>certutil.*encode)'
+        '|(?P<bitsadmin_create>bitsadmin.*create)'
+        '|(?P<bitsadmin_addfile>bitsadmin.*addfile)'
+        '|(?P<esentutl_y>esentutl.*/y)'
+        '|(?P<explorer_root>explorer.*/root)'
+        '|(?P<findstr_v>findstr.*/V)'
+        '|(?P<ilasm_exe>ilasm.*/exe)'
+        '|(?P<mavinject_injectrunning>MavInject.*INJECTRUNNING)'
+        '|(?P<dxcap_c>xcap.*\\-c)'
+        '|(?P<bginfo_popup>bginfo.*popup)'
+        '|(?P<rundll_open>rundll.*penURL)'
+        '|(?P<net_user>net\\s.*user)'
+        '|(?P<net_localgroup>net\\s.*localgroup)'
+        '|(?P<net_group>net*\\sgroup)'
+        '|(?P<net_accounts>net\\s.*accounts)'
+        '|(?P<net_computer>net\\s.*computer)'
+        '|(?P<net_add>net\\s.*/add)'
+        '|(?P<net_share>net\\s.*share)'
+        '|(?P<net_use>net\\s.*use\\s)'
+        '|(?P<net_view>net\\s.*view)'
+        '|(?P<wusa_kb>wusa.*kb)'
+        '|(?P<wusa_uninstall>wusa.*/uninstall)'
+        '|(?P<reg_query>reg\\s.*query)'
+        '|(?P<ipconfig_all>ipconfig.*all)'
+        '|(?P<tasklist_status>tasklist.*STATUS)'
+        '|(?P<tasklist_fi>tasklist.*/fi)'
+        '|(?P<qwinsta_server>qwinsta.*/server)'
+        '|(?P<gpresult_s>gpresult.*/s)'
+        '|(?P<systeminfo_s>systeminfo.*/S)'
+        '|(?P<KEYWORD_New_Object>New\\-Object)'
+        '|(?P<KEYWORD_WebClient>WebClient)'
+        '|(?P<KEYWORD_DownloadFile>DownloadFile)'
+        '|(?P<KEYWORD_DownloadString>DownloadString)'
+        '|(?P<KEYWORD_WinHttp>WinHttp)'
+        '|(?P<KEYWORD_WinHttpRequest>WinHttpRequest)'
+        '|(?P<KEYWORD_TCPClient>TCPClient)'
+        '|(?P<KEYWORD_GetStream>GetStream)'
+        '|(?P<KEYWORD_WriteAllBytes>WriteAllBytes)'
+        '|(?P<KEYWORD_ToBase64String>ToBase64String)'
+        '|(?P<KEYWORD_javascript>javascript)'
+        '|(?P<KEYWORD_mimikatz>mimikatz)'
+        '|(?P<KEYWORD_sekurlsa>sekurlsa)'
+        '|(?P<KEYWORD_shadowcopy>shadowcopy)'
+        '|(?P<KEYWORD_krbtgt>krbtgt)'
+        '|(?P<KEYWORD_Rubeus>Rubeus)'
+        '|(?P<KEYWORD_SharpHound>SharpHound)'
+        '|(?P<KEYWORD_vssadmin>vssadmin)'
+        '|(?P<KEYWORD_JuicyPotato>JuicyPotato)'
+        '|(?P<KEYWORD_RoguePotato>RoguePotato)'
+        '|(?P<KEYWORD_shell>shell)'
+        '|(?P<KEYWORD_invoke>invoke)'
+        '|(?P<KEYWORD_socket>socket)'
+        '|(?P<KEYWORD_bash>bash)'
+        '|(?P<dll_extension>\\.dll$)'
+        '|(?P<hta_extension>\\.hta)'
+        '|(?P<ps1_file>\\.ps1)'
+        '|(?P<vbs_file>\\.vbs)'
+        '|(?P<js_file>\\.js)'
+    ),
+    (
+        '(?P<curl_download_execute>curl.*(-o|-O).*http)'
+        '|(?P<curl_exfiltration>curl.*(-F|-d|--data).*http)'
+        '|(?P<tar_unc_extract>tar.*(-xf|-xvf).*\\\\\\\\)'
+        '|(?P<conhost_headless>conhost.*--headless)'
+        '|(?P<comsvcs_lsass_dump>rundll32.*comsvcs.*(MiniDump|#24))'
+        '|(?P<shadowcopy_delete>vssadmin.*delete\\s+shadows)'
+        '|(?P<wbadmin_delete_catalog>wbadmin.*delete\\s+catalog)'
+        '|(?P<bcdedit_recovery_disable>bcdedit.*recoveryenabled\\s+no)'
+        '|(?P<mpcmdrun_remove_defs>mpcmdrun.*-RemoveDefinitions)'
+        '|(?P<ssh_reverse_tunnel>ssh.*-R.*(\\d+:localhost|\\d+:127\\.0\\.0\\.1))'
+        '|(?P<winget_manifest_download>winget.*install.*--manifest.*http)'
     ),
 ]

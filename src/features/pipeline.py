@@ -4,7 +4,7 @@ pipeline.py
 Feature extraction pipeline for command strings.
 
 Sequentially extracts:
-  1. CMD deobfuscation (Windows carrot stripping)
+  1. Bounded Windows shell analysis views (original text is preserved)
   2. IP address labels
   3. Sensitive path labels
   4. Known binary labels (LOLBins / GTFOBins)
@@ -17,7 +17,7 @@ Classes:
 - LinuxFeaturePipeline
 """
 
-from src.preprocessing.normalizer import deobfuscate_cmd, extract_ip_labels
+from src.preprocessing.normalizer import windows_analysis_views, extract_ip_labels
 from src.features.label_generators import RegexLabelGenerator, KeywordLabelGenerator
 from src.features.similarity import SimilarityMatcher
 from src.features.rules_constants import (
@@ -43,7 +43,7 @@ class WindowsFeaturePipeline:
         self._path_gen = KeywordLabelGenerator("PATH", WINDOWS_PATHS, tokenize=False, platform="windows")
         self._cmd_gen = KeywordLabelGenerator("COMMAND", WINDOWS_COMMANDS, tokenize=True, platform="windows")
         self._kw_gen = KeywordLabelGenerator("KEYWORD", WINDOWS_KEYWORDS, tokenize=True, platform="windows")
-        self._regex_gen = RegexLabelGenerator(WINDOWS_REGEX_LIST)
+        self._regex_gen = RegexLabelGenerator(WINDOWS_REGEX_LIST, platform="windows")
         self._similarity = SimilarityMatcher(corpus_path, platform="windows")
 
     def __call__(self, command: str, training: bool = False) -> list:
@@ -57,17 +57,16 @@ class WindowsFeaturePipeline:
         Returns:
             List of unique feature labels.
         """
-        command = deobfuscate_cmd(str(command))
-
         labels: list = []
-        labels.extend(self._ip_extractor(command))
-        labels.extend(self._path_gen(command))
-        labels.extend(self._cmd_gen(command))
-        labels.extend(self._kw_gen(command))
-        labels.extend(self._regex_gen(command))
+        for view in windows_analysis_views(command):
+            labels.extend(self._ip_extractor(view))
+            labels.extend(self._path_gen(view))
+            labels.extend(self._cmd_gen(view))
+            labels.extend(self._kw_gen(view))
+            labels.extend(self._regex_gen(view))
 
-        if not training and self._similarity.is_similar(command):
-            labels.append(LABEL_LOOKS_LIKE_KNOWN_LOL)
+            if not training and self._similarity.is_similar(view):
+                labels.append(LABEL_LOOKS_LIKE_KNOWN_LOL)
 
         return list(dict.fromkeys(labels))
 
@@ -86,7 +85,7 @@ class LinuxFeaturePipeline:
         self._path_gen = KeywordLabelGenerator("PATH", LINUX_PATHS, tokenize=False, platform="linux")
         self._cmd_gen = KeywordLabelGenerator("COMMAND", LINUX_COMMANDS, tokenize=True, platform="linux")
         self._kw_gen = KeywordLabelGenerator("KEYWORD", LINUX_KEYWORDS, tokenize=True, platform="linux")
-        self._regex_gen = RegexLabelGenerator(LINUX_REGEX_LIST)
+        self._regex_gen = RegexLabelGenerator(LINUX_REGEX_LIST, platform="linux")
         self._similarity = SimilarityMatcher(corpus_path, platform="linux")
 
     def __call__(self, command: str, training: bool = False) -> list:
